@@ -796,4 +796,30 @@ window.addEventListener("load",()=>{
  entry.insertAdjacentElement("afterend",w);
  const badge=document.getElementById("bereiaBuildBadge");if(badge)badge.textContent="BEREIA • V12";
 });
+</script><style id="bereiaV13Styles">
+.bereia-extra-books{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:12px}.bereia-extra-book{padding:11px;border:1px solid #342e21;border-radius:12px;background:#121212;color:#e3d5ae;text-align:left;font:600 12px system-ui}.bereia-extra-book small{display:block;color:#929292;font:10px/1.4 system-ui;margin-top:3px;font-weight:400}.bereia-library-reader{margin-top:12px;padding:13px;border:1px solid #3c3424;border-radius:14px;background:#101010}.bereia-library-reader h3{margin:0 0 6px;color:#dfc479;font:700 17px system-ui}.bereia-library-reader p{margin:5px 0;color:#aaa;font:12px/1.5 system-ui}
+</style>
+<script id="bereiaV13Books">
+window.BEREIA_CATHOLIC_BOOKS=[
+ ["Tobias","Deuterocanônico"],["Judite","Deuterocanônico"],["Sabedoria","Deuterocanônico"],["Eclesiástico (Sirácida)","Deuterocanônico"],["Baruc","Deuterocanônico"],["1 Macabeus","Deuterocanônico"],["2 Macabeus","Deuterocanônico"],["Adições a Ester","Adições deuterocanônicas"],["Adições a Daniel","Susana; Bel e o Dragão; Oração/Cântico dos três jovens"]
+];
+window.BEREIA_ANCIENT_BOOKS=[
+ ["1 Enoque","Canônico na tradição ortodoxa etíope; literatura judaica antiga em outras tradições."],["Jubileus","Recepção canônica na tradição etíope; literatura do Segundo Templo."],["1 Esdras","Recepção varia entre tradições ortodoxas."],["Oração de Manassés","Presente em algumas coleções e tradições."],["Salmo 151","Presente na Septuaginta e em tradições ortodoxas."],["3 Macabeus","Recebido em algumas tradições ortodoxas."],["4 Macabeus","Frequentemente tratado como apêndice em tradições específicas."],["Salmos de Salomão","Literatura judaica antiga; não canônica no protestantismo/catolicismo romano."]
+];
+function bereiaExtraBooks(mode){
+ const a=mode==="catholic"?BEREIA_CATHOLIC_BOOKS:BEREIA_ANCIENT_BOOKS;
+ return '<div class="bereia-extra-books">'+a.map((x,i)=>'<button class="bereia-extra-book" onclick="bereiaOpenExtraBook(\''+mode+'\','+i+')">'+x[0]+'<small>'+x[1]+'</small></button>').join("")+'</div>';
+}
+function bereiaOpenExtraBook(mode,i){
+ const a=mode==="catholic"?BEREIA_CATHOLIC_BOOKS:BEREIA_ANCIENT_BOOKS,x=a[i],box=document.getElementById("bereiaStudyPanel");if(!x||!box)return;
+ box.innerHTML='<div class="bereia-library-reader"><h3>'+x[0]+'</h3><p>'+x[1]+'</p><p><b>Status do texto:</b> catálogo habilitado. O texto integral será disponibilizado somente a partir de edição com licença compatível, preservando atribuição e tradição canônica.</p></div>'+bereiaExtraBooks(mode);box.classList.add("show");box.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+const _setLibraryV13=window.bereiaSetLibrary;
+window.bereiaSetLibrary=function(mode){
+ if(typeof _setLibraryV13==="function")_setLibraryV13(mode);
+ const box=document.getElementById("bereiaStudyPanel");
+ if(mode==="catholic"&&box){box.innerHTML='<h3>Livros adicionais do cânon católico</h3><p>Selecione um livro.</p>'+bereiaExtraBooks("catholic");box.classList.add("show")}
+ if(mode==="ancient"&&box){box.innerHTML='<h3>Apócrifos e Literatura Bíblica Antiga</h3><p>Selecione uma obra. A recepção canônica é indicada individualmente.</p>'+bereiaExtraBooks("ancient");box.classList.add("show")}
+};
+window.addEventListener("load",()=>{const badge=document.getElementById("bereiaBuildBadge");if(badge)badge.textContent="BEREIA • V13"});
 </script></body></html>
