@@ -672,4 +672,27 @@ function bereiaCanonBookName(book){const b=String(book||"").trim();if(typeof BER
 window.selectBereiaVerse=function(el){if(bereiaSelected.el)bereiaSelected.el.classList.remove("bereiaSelectedVerse");el.classList.add("bereiaSelectedVerse");const n=el.dataset.verse||el.querySelector(".vn,.verse-num")?.textContent?.trim()||"";const clone=el.cloneNode(true);clone.querySelector(".vn,.verse-num")?.remove();const txt=(el.querySelector(".vt,.verse-text")?.textContent||clone.textContent||"").trim();const book=bereiaCurrentBookName(),chapter=document.getElementById("bibleChapter")?.value||"";bereiaSelected={el,verse:n,text:txt,ref:book+" "+chapter+":"+n,book,chapter};const t=document.getElementById("deepSelectionText");if(t)t.textContent=bereiaSelected.ref;document.getElementById("bereiaDeepBar")?.classList.add("show")};
 const bereiaFetchGreekBase=window.bereiaFetchGreek;if(typeof bereiaFetchGreekBase==="function"){window.bereiaFetchGreek=async function(book,chapter,verse){return bereiaFetchGreekBase(bereiaCanonBookName(book),chapter,verse)}}
 window.addEventListener("load",()=>{const b=document.getElementById("bibleBook"),ch=document.getElementById("bibleChapter");[b,ch].filter(Boolean).forEach(x=>x.addEventListener("change",()=>document.getElementById("bereiaDeepBar")?.classList.remove("show")));const badge=document.createElement("div");badge.id="bereiaBuildBadge";badge.textContent="BEREIA • V7";document.body.appendChild(badge)});
+</script><style id="bereiaV8Styles">
+#bereiaStudyTools{max-width:980px;margin:18px auto 90px;padding:0 14px}.bst-title{font:700 13px system-ui;letter-spacing:.12em;color:#c9a85b;margin:0 0 10px}.bst-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.bst-card{background:linear-gradient(145deg,#171717,#101010);border:1px solid #302b21;border-radius:16px;padding:15px;color:#eee;cursor:pointer;text-align:left}.bst-card b{display:block;font:700 15px system-ui;margin-bottom:4px}.bst-card span{font:12px/1.45 system-ui;color:#aaa}.bst-panel{display:none;margin-top:12px;background:#111;border:1px solid #342d20;border-radius:16px;padding:16px;color:#ddd}.bst-panel.show{display:block}.bst-panel h3{color:#d8b967;margin:0 0 8px;font:700 18px system-ui}.bst-panel p{font:13px/1.6 system-ui;color:#bbb;margin:7px 0}.bst-tag{display:inline-block;border:1px solid #4b4028;border-radius:999px;padding:5px 8px;margin:3px;font:11px system-ui;color:#d8c18a}@media(min-width:760px){.bst-grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+<script id="bereiaV8StudyLayers">
+const BEREIA_STUDY_LAYERS={
+ maps:{title:"Mapas bíblicos",body:"Mapas entram como apoio à passagem: cidades, regiões, rotas, viagens e deslocamentos. O objetivo é localizar o texto sem substituir a leitura bíblica.",tags:["Rotas","Cidades","Regiões","Viagens"]},
+ geography:{title:"Geografia bíblica",body:"Contexto físico da passagem: relevo, desertos, rios, mares, distâncias e regiões históricas. Dados geográficos devem ser apresentados como contexto verificável.",tags:["Israel","Judeia","Galileia","Mesopotâmia"]},
+ archaeology:{title:"Arqueologia bíblica",body:"Achados, inscrições, sítios e manuscritos relacionados ao contexto bíblico serão apresentados com fonte e grau de certeza, separando evidência, interpretação e hipótese.",tags:["Sítios","Inscrições","Manuscritos","Evidências"]},
+ apocrypha:{title:"Apócrifos e deuterocanônicos",body:"Biblioteca complementar, separada dos 66 livros. O BEREIA indicará a tradição/cânon em que cada obra é recebida e não apresentará esses textos como se houvesse um único cânon compartilhado por todas as tradições.",tags:["Deuterocanônicos","Apócrifos","Cânones","Contexto"]}
+};
+function bereiaToggleLayer(k){
+ const box=document.getElementById("bereiaStudyPanel"),d=BEREIA_STUDY_LAYERS[k]; if(!box||!d)return;
+ box.innerHTML="<h3>"+d.title+"</h3><p>"+d.body+"</p><div>"+d.tags.map(x=>'<span class="bst-tag">'+x+"</span>").join("")+"</div>";
+ box.classList.add("show"); box.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+window.addEventListener("load",()=>{
+ if(document.getElementById("bereiaStudyTools"))return;
+ const entry=document.getElementById("bereiaSimpleEntry"); if(!entry)return;
+ const s=document.createElement("section");s.id="bereiaStudyTools";
+ s.innerHTML='<div class="bst-title">APROFUNDAMENTO BÍBLICO</div><div class="bst-grid"><button class="bst-card" onclick="bereiaToggleLayer(\'maps\')"><b>🗺️ Mapas</b><span>Locais, rotas e viagens bíblicas.</span></button><button class="bst-card" onclick="bereiaToggleLayer(\'geography\')"><b>🌍 Geografia</b><span>Regiões e contexto físico.</span></button><button class="bst-card" onclick="bereiaToggleLayer(\'archaeology\')"><b>🏺 Arqueologia</b><span>Achados e evidências com fontes.</span></button><button class="bst-card" onclick="bereiaToggleLayer(\'apocrypha\')"><b>📜 Apócrifos</b><span>Biblioteca complementar e cânones.</span></button></div><div id="bereiaStudyPanel" class="bst-panel"></div>';
+ entry.insertAdjacentElement("afterend",s);
+ const badge=document.getElementById("bereiaBuildBadge");if(badge)badge.textContent="BEREIA • V8";
+});
 </script></body></html>
