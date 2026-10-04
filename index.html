@@ -1,1 +1,675 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>BEREIA — Bíblia, Estudos e Pesquisa Bíblica</title><style>
+:root{--bg:#0b0d10;--panel:#12151a;--panel2:#181c22;--line:#292e36;--text:#f5f1e8;--muted:#a9a59c;--gold:#d7b56d;--gold2:#8f7139;--green:#7eb99a;--danger:#cf817d;--r:18px}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.app{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:250px;background:#0e1115;border-right:1px solid var(--line);padding:26px 16px;z-index:5}.brand{font-family:Georgia,serif;font-size:29px;letter-spacing:4px;color:var(--gold);margin:0 12px 4px}.tag{font-size:11px;color:var(--muted);margin:0 12px 28px}.nav button,.bottom button{all:unset;cursor:pointer}.nav button{display:flex;width:100%;gap:12px;align-items:center;padding:13px 14px;margin:4px 0;border-radius:12px;color:#cbc7bd}.nav button.active,.nav button:hover{background:var(--panel2);color:var(--gold)}.nav .sep{height:1px;background:var(--line);margin:18px 10px}.main{margin-left:250px;min-height:100vh;padding:34px 4vw 90px}.screen{display:none;max-width:1200px;margin:auto}.screen.active{display:block}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--gold)}h1{font:500 clamp(30px,4vw,52px) Georgia,serif;margin:8px 0 10px}h2{font:500 25px Georgia,serif}.lead{color:var(--muted);max-width:720px;line-height:1.65}.hero{padding:38px;border:1px solid var(--line);border-radius:28px;background:linear-gradient(135deg,#181a1d,#101317);position:relative;overflow:hidden}.hero:after{content:'Β';position:absolute;right:30px;top:-25px;font:180px Georgia;color:#d7b56d0c}.verse{font:24px/1.55 Georgia,serif;max-width:800px;margin:24px 0 10px}.ref{color:var(--gold);font-size:13px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:11px 16px;border-radius:12px;cursor:pointer}.btn.primary{background:var(--gold);color:#17130c;border-color:var(--gold);font-weight:700}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px;cursor:pointer}.card:hover{border-color:#725f3b}.card .icon{font-size:24px}.card h3{margin:12px 0 7px}.card p{color:var(--muted);font-size:13px;line-height:1.5}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.select,.search,.input,.textarea{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px}.search{flex:1;min-width:230px}.reader{max-width:850px;background:#101318;border:1px solid var(--line);border-radius:22px;padding:clamp(22px,4vw,48px)}.reader h2{color:var(--gold)}.v{font:19px/1.85 Georgia,serif;padding:7px 8px;border-radius:8px;cursor:pointer}.v:hover,.v.selected{background:#d7b56d13}.vn{font:11px system-ui;color:var(--gold);vertical-align:super;margin-right:5px}.tabs{display:flex;gap:8px;overflow:auto;margin:18px 0}.tab{white-space:nowrap}.studybox{padding:24px;background:var(--panel);border:1px solid var(--line);border-radius:18px;min-height:180px}.studybox p{color:#d5d1c8;line-height:1.7}.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px}.translation{padding:22px;background:var(--panel);border:1px solid var(--line);border-radius:18px}.translation small{color:var(--gold)}.translation p{font:18px/1.65 Georgia}.badge{display:inline-block;font-size:10px;border:1px solid var(--line);border-radius:99px;padding:5px 8px;color:var(--muted)}.wordrow{display:grid;grid-template-columns:1.2fr 1fr 1fr 2fr;gap:8px;padding:13px;border-bottom:1px solid var(--line)}.wordrow.head{color:var(--gold);font-size:11px;text-transform:uppercase}.timeline{border-left:2px solid var(--gold2);margin:30px 15px;padding-left:26px}.event{margin:0 0 28px;position:relative}.event:before{content:'';position:absolute;left:-33px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--gold)}.event small{color:var(--gold)}.progress{height:7px;background:#252a31;border-radius:9px;overflow:hidden}.progress span{display:block;height:100%;background:var(--gold)}.note{width:100%;min-height:110px}.bottom{display:none}.toast{position:fixed;right:22px;bottom:22px;background:#222831;border:1px solid var(--line);padding:12px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:.2s;z-index:10}.toast.show{opacity:1}.locked{opacity:.62}.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:16px}.kicker{color:var(--gold);font-size:12px}.mission{background:linear-gradient(145deg,#1a1711,#111418)}
+@media(max-width:900px){.sidebar{display:none}.main{margin:0;padding:22px 16px 100px}.grid{grid-template-columns:1fr 1fr}.compare{grid-template-columns:1fr}.bottom{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;bottom:0;left:0;right:0;background:#0e1115eb;backdrop-filter:blur(14px);border-top:1px solid var(--line);z-index:9;padding:7px 4px calc(7px + env(safe-area-inset-bottom))}.bottom button{text-align:center;color:var(--muted);font-size:10px;padding:7px 2px}.bottom button span{display:block;font-size:20px;margin-bottom:3px}.bottom button.active{color:var(--gold)}}@media(max-width:580px){.grid{grid-template-columns:1fr}.hero{padding:25px}.wordrow{grid-template-columns:1fr 1fr}.wordrow span:nth-child(4){grid-column:1/-1}.verse{font-size:21px}}
+
+.readerNav{max-width:850px;display:flex;justify-content:space-between;align-items:center;gap:10px;margin:12px 0}.readerNav>div{text-align:center}.readerNav small{display:block;color:var(--muted);margin-top:4px}.loadingBible{text-align:center;padding:55px 15px;color:var(--muted)}.spinner{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--gold);border-radius:50%;margin:auto;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.verseDock{max-width:850px;margin-top:14px;padding:14px 18px;background:#171b20;border:1px solid var(--line);border-radius:16px;display:flex;align-items:center;justify-content:space-between;gap:12px}.verseDock small{display:block;color:var(--gold);font-size:9px;letter-spacing:1px}.verseDock .actions{margin:0}.sourceNote{max-width:850px;margin-top:14px;color:var(--muted);font-size:11px;line-height:1.55}.readerError{padding:30px;text-align:center}.readerError h3{color:var(--gold)}@media(max-width:650px){.readerNav{display:grid;grid-template-columns:1fr 1fr}.readerNav>div{grid-column:1/-1;grid-row:1}.verseDock{align-items:flex-start;flex-direction:column}.verseDock .actions{width:100%}.verseDock .btn{flex:1}.reader .v{font-size:20px;padding:10px 6px}}
+
+/* BEREIA 2.0 — leitura e ecossistema */
+.reader{max-width:1000px}.verseGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.v{display:flex;align-items:flex-start;gap:10px;background:#171b20;border:1px solid #242a32;border-radius:13px;padding:13px 14px!important;font:16.5px/1.55 Georgia,serif;min-height:62px;transition:.18s}.v:hover,.v.selected{border-color:#8f7139;background:#1d1b17}.vn{flex:0 0 30px;width:30px;height:30px;display:grid;place-items:center;border-radius:9px;background:#0f1216;border:1px solid #3a3222;color:var(--gold);font:600 12px system-ui;vertical-align:initial;margin:0}.verseText{flex:1}.moduleGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.module{background:#11151a;border:1px solid var(--line);border-radius:16px;padding:16px}.module b{display:block;color:var(--gold);margin:8px 0}.module p{font-size:12px;color:var(--muted);line-height:1.5}.studyPath{display:flex;gap:10px;overflow:auto;padding:3px 0 10px}.studyStep{min-width:190px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}.studyStep small{color:var(--gold)}.mapShell{display:grid;grid-template-columns:1.4fr .8fr;gap:16px}.mapCanvas{position:relative;min-height:510px;background:radial-gradient(circle at 45% 45%,#1c2426,#101418 68%);border:1px solid var(--line);border-radius:22px;overflow:hidden}.mapCanvas svg{width:100%;height:510px}.mapPlace{cursor:pointer}.mapPlace circle{fill:var(--gold)}.mapPlace text{fill:#f5f1e8;font:12px system-ui}.route{fill:none;stroke:#d7b56d;stroke-width:3;stroke-dasharray:7 7;opacity:.75}.mapInfo{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:22px}.filterChips{display:flex;gap:8px;overflow:auto;margin:15px 0}.chip{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:9px 13px;white-space:nowrap;cursor:pointer}.chip.active{color:#17130c;background:var(--gold);border-color:var(--gold)}.libraryRow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.statusDot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:6px}.statusDot.wait{background:var(--gold)}.quickStudy{margin-top:18px;padding:18px;border:1px solid var(--line);border-radius:18px;background:#101419}.quickStudy h3{margin-top:0}.featureTag{font-size:10px;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}.mapLegend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin-top:10px}
+@media(max-width:900px){.moduleGrid{grid-template-columns:repeat(2,1fr)}.mapShell{grid-template-columns:1fr}.libraryRow{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.verseGrid{grid-template-columns:1fr}.reader{padding:18px!important}.v{font-size:16.5px!important;min-height:auto}.moduleGrid,.libraryRow{grid-template-columns:1fr 1fr}.mapCanvas,.mapCanvas svg{min-height:390px;height:390px}}
+@media(max-width:430px){.moduleGrid,.libraryRow{grid-template-columns:1fr}}
+
+.backbar{display:flex;align-items:center;gap:10px;margin-bottom:18px}.backbtn{border:1px solid var(--line);background:#11151a;color:var(--gold);width:42px;height:42px;border-radius:13px;font-size:20px;cursor:pointer}.studyVerseCard{background:linear-gradient(145deg,#171b20,#101318);border:1px solid #3a3222;border-radius:20px;padding:20px;margin:16px 0}.studyVerseCard .svref{color:var(--gold);font-size:12px;letter-spacing:.08em;text-transform:uppercase}.studyVerseCard .svtext{font:21px/1.6 Georgia,serif;margin:12px 0}.studyVerseCard .actions{margin-top:12px}.lexWord{cursor:pointer}.lexWord:hover{background:#1b2027}.dailyCard{margin-top:22px;background:linear-gradient(135deg,#1a1711,#111418);border:1px solid #3a3222;border-radius:22px;padding:24px}.dailyCard .verse{font-size:21px;margin:12px 0}.dailyTools{display:flex;gap:8px;flex-wrap:wrap}.originBanner{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:10px 0 18px}.originBadge{padding:7px 10px;border-radius:999px;border:1px solid #3a3222;color:var(--gold);font-size:11px}
+
+/* BEREIA 3.3 — portal de pesquisa + atlas visual */
+.globalSearchBox{background:linear-gradient(145deg,#171a1f,#101216);border:1px solid #2b3038;border-radius:22px;padding:18px;margin:14px 0 22px}.globalSearchBox .searchline{display:flex;gap:10px;flex-wrap:wrap}.globalSearchBox input{flex:1;min-width:230px;background:#0b0d10;border:1px solid #343a43;color:#f2eee4;border-radius:14px;padding:15px 16px;font-size:16px}.searchCats{display:flex;gap:8px;overflow:auto;padding:12px 0 2px}.searchCats button{white-space:nowrap;background:#15181d;color:#c8cbd0;border:1px solid #303640;border-radius:999px;padding:9px 13px}.searchCats button.active{color:#d9b76b;border-color:#6f5b31;background:#201b12}.resultGroup{margin:18px 0}.resultGroup h3{margin:0 0 10px;color:#d9b76b}.resultCard{background:#15181d;border:1px solid #2b3038;border-radius:16px;padding:14px;margin:8px 0;cursor:pointer}.resultCard small{color:#9da4ad}.versionHub{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}.versionCard{background:#15181d;border:1px solid #2b3038;border-radius:18px;padding:16px}.versionCard.active{border-color:#7b6437;box-shadow:inset 0 0 0 1px #7b6437}.mapGallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:18px 0}.realMapCard{background:#14171b;border:1px solid #2b3038;border-radius:20px;overflow:hidden}.realMapCard img{width:100%;height:260px;object-fit:cover;display:block;background:#20242a}.realMapCard .mapBody{padding:14px}.realMapCard h3{margin:2px 0 7px}.realMapCard p{color:#aeb4bc;font-size:14px}.mapLicense{font-size:11px;color:#838b95}.mapFallback{min-height:220px;display:grid;place-items:center;padding:25px;text-align:center;background:linear-gradient(135deg,#25313a,#162129);color:#d9b76b}.portalHero{background:radial-gradient(circle at 80% 0,#2b2416 0,transparent 36%),#111419;border:1px solid #2c3138;border-radius:24px;padding:22px;margin-bottom:18px}.portalHero h1{margin-bottom:6px}.quickTerms{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.quickTerms button{background:#171b20;border:1px solid #303740;color:#d8dbe0;border-radius:12px;padding:8px 11px}.compareControls{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.compareControls select{background:#111419;color:#eee;border:1px solid #343a43;border-radius:12px;padding:11px}.atlasImageHero{border-radius:22px;overflow:hidden;border:1px solid #343a43;margin:16px 0;background:#111}.atlasImageHero img{width:100%;max-height:560px;object-fit:contain;display:block;background:#e8e0cf}.atlasImageHero .caption{padding:12px 14px;background:#111419;color:#b7bdc5;font-size:13px}@media(max-width:640px){.realMapCard img{height:230px}.globalSearchBox{padding:14px}.portalHero{padding:17px}}
+
+.canonHero{margin-top:20px;padding:22px;border:1px solid #2a2925;border-radius:20px;background:linear-gradient(135deg,#151513,#0c0c0b)}.canonTabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.canonTabs button{border:1px solid #33322d;background:#151513;color:#d9d5ca;padding:9px 12px;border-radius:999px}.canonTabs button.active{border-color:#c7a95b;color:#e7c76f}.canonGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.canonBook{padding:14px;border:1px solid #292823;border-radius:14px;background:#11110f;cursor:pointer}.canonBook b{color:#e1c16b;display:block;margin-bottom:5px}.canonBook small{color:#8d897f}.engineFallback{font-size:12px;color:#9f9a8e;margin-top:8px}
+
+/* BEREIA SITE V1 */
+.siteTop{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 0 22px;margin-bottom:8px;border-bottom:1px solid var(--line)}.siteTop .wordmark{font:700 24px Georgia,serif;letter-spacing:4px;color:var(--gold)}.siteTop .siteLinks{display:flex;gap:10px;flex-wrap:wrap}.siteTop button{background:transparent;border:0;color:var(--muted);font-weight:700;cursor:pointer}.siteTop button:hover{color:var(--gold)}.portalSearch{display:flex;gap:10px;margin:20px 0 4px}.portalSearch input{flex:1;min-width:0;background:#0c0f13;border:1px solid var(--line);color:var(--text);border-radius:14px;padding:15px 16px;font-size:15px}.portalSearch button{border:0;border-radius:14px;padding:0 18px;background:var(--gold);color:#17130b;font-weight:900;cursor:pointer}.dailyVisual{position:relative;overflow:hidden;min-height:330px;border-radius:24px;background-size:cover;background-position:center;display:flex;align-items:flex-end;margin:24px 0;border:1px solid #3b3324}.dailyVisual:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,6,8,.08),rgba(4,6,8,.92))}.dailyInner{position:relative;z-index:1;padding:30px;max-width:760px}.dailyInner .verse{font:700 clamp(24px,4vw,40px)/1.18 Georgia,serif;margin:10px 0}.portalGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.portalCard{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;cursor:pointer}.portalCard:hover{border-color:var(--gold2);transform:translateY(-1px)}.portalCard b{display:block;color:var(--gold);margin-bottom:7px}.siteFooter{margin-top:34px;padding:24px 0 80px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}.siteFooter strong{color:var(--gold)}@media(max-width:850px){.siteTop .siteLinks{display:none}.portalGrid{grid-template-columns:1fr 1fr}.dailyVisual{min-height:390px}.dailyInner{padding:22px}}@media(max-width:480px){.portalGrid{grid-template-columns:1fr}.portalSearch{flex-direction:column}.portalSearch button{padding:14px}.dailyVisual{min-height:420px}}
+</style>
+<style>
+.atlasHero{background:linear-gradient(135deg,#173347,#244d5d 38%,#6f6039 39%,#8c7547 70%,#385d3c);border:1px solid #53624f;border-radius:24px;padding:18px;overflow:hidden}.atlasMap{position:relative;min-height:430px;border-radius:18px;background:radial-gradient(circle at 30% 30%,#7194a0 0 20%,transparent 21%),linear-gradient(145deg,#39748d 0 35%,#d4b875 36% 58%,#879a5a 59% 75%,#b9975b 76%);box-shadow:inset 0 0 60px #0005;overflow:hidden}.atlasMap:before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(25deg,transparent 0 18px,#ffffff08 19px 20px);pointer-events:none}.seaLabel,.regionLabel{position:absolute;font:italic 15px Georgia;color:#e9f3f6;text-shadow:0 1px 4px #000}.regionLabel{color:#2b2115;font-weight:bold;font-style:normal}.pin{position:absolute;transform:translate(-50%,-50%);border:0;background:#251b12;color:#ffe5a5;border-radius:50%;width:18px;height:18px;box-shadow:0 0 0 4px #f2c96d55;cursor:pointer}.pin span{position:absolute;left:16px;top:-4px;white-space:nowrap;color:#fff;font:12px system-ui;text-shadow:0 2px 4px #000}.atlasGrid{display:grid;grid-template-columns:2fr 1fr;gap:16px}.topicGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.topicCard{padding:16px;border-radius:15px;background:var(--panel);border:1px solid var(--line);cursor:pointer}.topicCard b{display:block;color:var(--gold);margin-bottom:6px}.dossier{margin:18px 0;padding:22px;border:1px solid #675634;border-radius:20px;background:linear-gradient(145deg,#171711,#11151a)}.dossierHead{display:flex;justify-content:space-between;gap:12px;align-items:center}.evidence{display:inline-block;padding:4px 8px;border-radius:99px;font-size:10px;background:#27382e;color:#aee0bb}.atlasList{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.atlasItem{padding:16px;border:1px solid var(--line);border-radius:14px;background:#11161a}.atlasItem small{color:var(--gold)}
+@media(max-width:800px){.atlasGrid{grid-template-columns:1fr}.topicGrid{grid-template-columns:1fr 1fr}.atlasList{grid-template-columns:1fr}.atlasMap{min-height:390px}}
+
+/* BEREIA 3.3 — portal de pesquisa + atlas visual */
+.globalSearchBox{background:linear-gradient(145deg,#171a1f,#101216);border:1px solid #2b3038;border-radius:22px;padding:18px;margin:14px 0 22px}.globalSearchBox .searchline{display:flex;gap:10px;flex-wrap:wrap}.globalSearchBox input{flex:1;min-width:230px;background:#0b0d10;border:1px solid #343a43;color:#f2eee4;border-radius:14px;padding:15px 16px;font-size:16px}.searchCats{display:flex;gap:8px;overflow:auto;padding:12px 0 2px}.searchCats button{white-space:nowrap;background:#15181d;color:#c8cbd0;border:1px solid #303640;border-radius:999px;padding:9px 13px}.searchCats button.active{color:#d9b76b;border-color:#6f5b31;background:#201b12}.resultGroup{margin:18px 0}.resultGroup h3{margin:0 0 10px;color:#d9b76b}.resultCard{background:#15181d;border:1px solid #2b3038;border-radius:16px;padding:14px;margin:8px 0;cursor:pointer}.resultCard small{color:#9da4ad}.versionHub{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}.versionCard{background:#15181d;border:1px solid #2b3038;border-radius:18px;padding:16px}.versionCard.active{border-color:#7b6437;box-shadow:inset 0 0 0 1px #7b6437}.mapGallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:18px 0}.realMapCard{background:#14171b;border:1px solid #2b3038;border-radius:20px;overflow:hidden}.realMapCard img{width:100%;height:260px;object-fit:cover;display:block;background:#20242a}.realMapCard .mapBody{padding:14px}.realMapCard h3{margin:2px 0 7px}.realMapCard p{color:#aeb4bc;font-size:14px}.mapLicense{font-size:11px;color:#838b95}.mapFallback{min-height:220px;display:grid;place-items:center;padding:25px;text-align:center;background:linear-gradient(135deg,#25313a,#162129);color:#d9b76b}.portalHero{background:radial-gradient(circle at 80% 0,#2b2416 0,transparent 36%),#111419;border:1px solid #2c3138;border-radius:24px;padding:22px;margin-bottom:18px}.portalHero h1{margin-bottom:6px}.quickTerms{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.quickTerms button{background:#171b20;border:1px solid #303740;color:#d8dbe0;border-radius:12px;padding:8px 11px}.compareControls{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.compareControls select{background:#111419;color:#eee;border:1px solid #343a43;border-radius:12px;padding:11px}.atlasImageHero{border-radius:22px;overflow:hidden;border:1px solid #343a43;margin:16px 0;background:#111}.atlasImageHero img{width:100%;max-height:560px;object-fit:contain;display:block;background:#e8e0cf}.atlasImageHero .caption{padding:12px 14px;background:#111419;color:#b7bdc5;font-size:13px}@media(max-width:640px){.realMapCard img{height:230px}.globalSearchBox{padding:14px}.portalHero{padding:17px}}
+
+.canonHero{margin-top:20px;padding:22px;border:1px solid #2a2925;border-radius:20px;background:linear-gradient(135deg,#151513,#0c0c0b)}.canonTabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.canonTabs button{border:1px solid #33322d;background:#151513;color:#d9d5ca;padding:9px 12px;border-radius:999px}.canonTabs button.active{border-color:#c7a95b;color:#e7c76f}.canonGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}.canonBook{padding:14px;border:1px solid #292823;border-radius:14px;background:#11110f;cursor:pointer}.canonBook b{color:#e1c16b;display:block;margin-bottom:5px}.canonBook small{color:#8d897f}.engineFallback{font-size:12px;color:#9f9a8e;margin-top:8px}
+
+/* BEREIA SITE V1 */
+.siteTop{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 0 22px;margin-bottom:8px;border-bottom:1px solid var(--line)}.siteTop .wordmark{font:700 24px Georgia,serif;letter-spacing:4px;color:var(--gold)}.siteTop .siteLinks{display:flex;gap:10px;flex-wrap:wrap}.siteTop button{background:transparent;border:0;color:var(--muted);font-weight:700;cursor:pointer}.siteTop button:hover{color:var(--gold)}.portalSearch{display:flex;gap:10px;margin:20px 0 4px}.portalSearch input{flex:1;min-width:0;background:#0c0f13;border:1px solid var(--line);color:var(--text);border-radius:14px;padding:15px 16px;font-size:15px}.portalSearch button{border:0;border-radius:14px;padding:0 18px;background:var(--gold);color:#17130b;font-weight:900;cursor:pointer}.dailyVisual{position:relative;overflow:hidden;min-height:330px;border-radius:24px;background-size:cover;background-position:center;display:flex;align-items:flex-end;margin:24px 0;border:1px solid #3b3324}.dailyVisual:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,6,8,.08),rgba(4,6,8,.92))}.dailyInner{position:relative;z-index:1;padding:30px;max-width:760px}.dailyInner .verse{font:700 clamp(24px,4vw,40px)/1.18 Georgia,serif;margin:10px 0}.portalGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.portalCard{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;cursor:pointer}.portalCard:hover{border-color:var(--gold2);transform:translateY(-1px)}.portalCard b{display:block;color:var(--gold);margin-bottom:7px}.siteFooter{margin-top:34px;padding:24px 0 80px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}.siteFooter strong{color:var(--gold)}@media(max-width:850px){.siteTop .siteLinks{display:none}.portalGrid{grid-template-columns:1fr 1fr}.dailyVisual{min-height:390px}.dailyInner{padding:22px}}@media(max-width:480px){.portalGrid{grid-template-columns:1fr}.portalSearch{flex-direction:column}.portalSearch button{padding:14px}.dailyVisual{min-height:420px}}
+</style>
+<style id="dailyShareStyles">
+.dailyVisual{cursor:pointer}
+.dailyArtModal{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;padding:18px;overflow:auto}
+.dailyArtModal.open{display:flex}
+.dailyArtShell{width:min(100%,470px);margin:auto}
+.dailyArtTop{display:flex;justify-content:space-between;align-items:center;margin:0 0 10px;color:#e9d39b}
+.dailyArtClose{width:42px;height:42px;border-radius:50%;border:1px solid #3b3f46;background:#15181d;color:#fff;font-size:22px;cursor:pointer}
+.dailyArtPreview{position:relative;width:100%;aspect-ratio:4/5;border-radius:26px;overflow:hidden;background:#111 center/cover no-repeat;border:1px solid #51452d;box-shadow:0 24px 80px rgba(0,0,0,.45)}
+.dailyArtPreview:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 12%,rgba(0,0,0,.30) 48%,rgba(0,0,0,.92) 100%)}
+.dailyArtCopy{position:absolute;z-index:2;left:28px;right:28px;bottom:26px;color:white}
+.dailyArtBrand{font-size:12px;letter-spacing:4px;color:#e8c76f;font-weight:800;margin-bottom:15px}
+.dailyArtVerse{font:700 clamp(24px,7vw,35px)/1.17 Georgia,serif;text-shadow:0 2px 14px rgba(0,0,0,.65)}
+.dailyArtRef{margin-top:14px;color:#ead28f;font-size:17px}
+.dailyArtSignature{border-top:1px solid rgba(255,255,255,.25);margin-top:18px;padding-top:12px;font-size:11px;line-height:1.45;color:#eee}
+.dailyArtSignature b{color:#e8c76f;letter-spacing:2px}
+.dailyArtActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.dailyArtActions button{border:1px solid #383d45;border-radius:15px;padding:14px 12px;background:#171b20;color:#fff;font-weight:800;cursor:pointer}
+.dailyArtActions .primary{background:#e1bd63;color:#17130b;border-color:#e1bd63}
+.dailyArtHint{font-size:11px;color:#9da3ab;text-align:center;margin-top:10px;line-height:1.4}
+@media(max-width:420px){.dailyArtModal{padding:10px}.dailyArtCopy{left:22px;right:22px;bottom:22px}}
+</style>
+
+
+<style id="bereiaPathsStyle">
+.bereiaPaths{padding:34px 0 112px}
+.pathsHead{margin-bottom:20px}.pathsHead .eyebrow{font-size:11px;letter-spacing:2.5px;color:#d8b761;font-weight:800}
+.pathsHead h2{font:700 34px/1.1 Georgia,serif;margin:8px 0;color:#f4f1ea}.pathsHead p{color:#9ea3aa;margin:0;line-height:1.5}
+.pathHero{display:flex;align-items:center;gap:17px;padding:20px;border:1px solid #51452d;background:linear-gradient(135deg,#191813,#11151a);border-radius:22px;margin:20px 0 12px;cursor:pointer}
+.pathHero .pathIcon{width:54px;height:54px;display:grid;place-items:center;border-radius:16px;background:#e0bd66;color:#17130b;font-size:25px;flex:none}
+.pathText{flex:1}.pathText small,.pathCard small,.worldTop small{display:block;color:#d8b761;font-size:9px;letter-spacing:1.5px;font-weight:800;margin-bottom:4px}
+.pathText h3{margin:0 0 4px;font-size:20px;color:#fff}.pathText p{margin:0;color:#a9adb2;font-size:13px}.pathArrow{font-size:32px;color:#d8b761}
+.pathGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pathCard{appearance:none;text-align:left;border:1px solid #2d3239;background:#12161b;border-radius:18px;padding:17px;color:#fff;display:grid;grid-template-columns:36px 1fr 15px;gap:10px;align-items:start;cursor:pointer;min-height:126px}
+.pathCard .pathIcon{font-size:22px;color:#dfbd66}.pathCard b{display:block;font-size:15px;line-height:1.2;margin:2px 0 7px}.pathCard em{display:block;color:#979da4;font-size:11px;line-height:1.35;font-style:normal}.pathCard i{font-style:normal;color:#cdb264;font-size:24px}
+.worldDrawer{display:none;margin-top:12px;border:1px solid #3a4048;background:#0e1216;border-radius:22px;padding:18px}.worldDrawer.open{display:block}
+.worldTop{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:13px}.worldTop h3{margin:2px 0;color:#fff;font-size:18px}.worldTop button{width:36px;height:36px;border-radius:50%;border:1px solid #343941;background:#171b20;color:#fff;font-size:21px}
+.worldGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.worldGrid button{border:1px solid #292e35;background:#15191e;border-radius:14px;padding:13px;text-align:left;color:#fff}.worldGrid span{font-size:19px;display:block;margin-bottom:7px}.worldGrid b{display:block;font-size:13px}.worldGrid small{display:block;color:#92989f;font-size:10px;margin-top:4px;line-height:1.3}
+@media(max-width:380px){.pathGrid{grid-template-columns:1fr}.pathCard{min-height:auto}.worldGrid{grid-template-columns:1fr}}
+</style>
+
+
+<style id="functionalV3Styles">
+/* A Mensagem do Dia permanece como capa visual prioritária */
+#dailyVisual,.dailyVisual{display:block!important;visibility:visible!important;opacity:1!important;min-height:430px!important;margin-top:16px!important}
+.coreBereia{padding:28px 0 8px}
+.coreTitle small{color:#d9b861;font-size:10px;letter-spacing:2px;font-weight:800}.coreTitle h2{font:700 27px/1.12 Georgia,serif;color:#f4f1e9;margin:7px 0 16px}
+.coreGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.coreGrid button{border:1px solid #30353c;background:#12161b;border-radius:17px;color:#fff;text-align:left;padding:15px;min-height:105px;cursor:pointer}
+.coreGrid span{display:block;color:#dfbd66;font-weight:800;font-size:20px;margin-bottom:9px}.coreGrid b{display:block;font-size:14px;margin-bottom:5px}.coreGrid small{display:block;color:#959ba2;font-size:10px;line-height:1.3}
+.sourceNote{margin-top:10px;padding:11px 13px;border-radius:12px;background:#0e1216;color:#747b83;font-size:10px;line-height:1.4;border:1px solid #242a30}
+@media(max-width:380px){.coreGrid{grid-template-columns:1fr 1fr}}
+</style>
+
+
+<style id="v4OriginalMaps">
+.origOnlyIntro,.atlasSearchV4{margin:12px 0 18px;padding:18px;border:1px solid #3c4148;border-radius:20px;background:#11161b;color:#fff}
+.origOnlyIntro small,.atlasSearchV4>small{color:#dbb95f;font-size:10px;letter-spacing:2px;font-weight:800}
+.origOnlyIntro h2,.atlasSearchV4 h2{font:700 27px Georgia,serif;margin:7px 0 9px}.origOnlyIntro p{font-size:12px;line-height:1.55;color:#9ea4aa;margin:0}
+.atlasSearchRow{display:flex;gap:7px;margin:13px 0 9px}.atlasSearchRow input{min-width:0;flex:1;background:#0c1014;color:#fff;border:1px solid #363c43;border-radius:13px;padding:13px}.atlasSearchRow button{border:0;border-radius:13px;padding:0 14px;background:#dbb95f;color:#17130b;font-weight:800}
+.atlasQuick{display:flex;gap:6px;flex-wrap:wrap}.atlasQuick button{border:1px solid #343a41;background:#171c21;color:#ddd;border-radius:999px;padding:7px 10px;font-size:10px}
+.atlasSearchResult{margin-top:11px;padding:12px;border-radius:12px;background:#0c1014;color:#9ba1a7;font-size:11px;line-height:1.45}
+.atlasSearchResult a{color:#e2c46f;font-weight:800;text-decoration:none}
+</style>
+
+
+<style id="restoredDailyCover">
+.bereiaDailyCover{position:relative;display:flex;align-items:flex-end;min-height:540px;width:min(100% - 20px,980px);margin:10px auto 26px;border-radius:28px;overflow:hidden;background:center/cover no-repeat #14191e;cursor:pointer;box-shadow:0 18px 60px rgba(0,0,0,.32)}
+.bdcShade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.22) 45%,rgba(0,0,0,.92))}
+.bdcContent{position:relative;z-index:1;padding:34px 24px 29px;width:100%}.bdcLabel{color:#e3c36b;letter-spacing:2.5px;font-size:10px;font-weight:900;margin-bottom:13px}
+.bdcText{font:700 clamp(29px,8vw,46px)/1.1 Georgia,serif;color:#fff;max-width:760px;text-shadow:0 3px 22px rgba(0,0,0,.72)}.bdcRef{color:#e5c86f;font-size:17px;margin-top:14px}
+.bdcActions{display:flex;gap:9px;flex-wrap:wrap;margin-top:21px}.bdcActions button{border:1px solid rgba(255,255,255,.28);background:rgba(13,16,19,.72);color:#fff;border-radius:14px;padding:12px 15px;font-weight:800}.bdcActions button:first-child{background:#dfbd66;color:#17130b;border-color:#dfbd66}
+@media(max-width:500px){.bereiaDailyCover{min-height:520px;width:calc(100% - 16px);border-radius:24px}.bdcContent{padding:28px 20px 25px}}
+</style>
+
+
+<style id="bereiaSimpleMode">
+/* MODO BEREIA SIMPLES: capa + Bíblia */
+.bereiaPaths,.coreBereia,#bereiaAssistantButton,#bereiaAssistant,
+.worldDrawer,.pathGrid,.pathHero,.bottomNav,.bottom-nav,nav.bottom,
+[data-page="discover"],[data-page="library"],[data-page="plans"],
+#atlasSearchResult,.atlasSearchV4{display:none!important}
+
+/* Hide legacy home content after the daily cover, then explicitly show our single action */
+#bereiaSimpleEntry{display:block!important;width:min(100% - 24px,980px);margin:0 auto 110px}
+.simpleBibleCard{display:flex;align-items:center;gap:16px;width:100%;border:1px solid #51452d;background:linear-gradient(135deg,#191813,#11151a);border-radius:23px;padding:21px;color:#fff;text-align:left;cursor:pointer}
+.simpleBibleIcon{width:58px;height:58px;border-radius:17px;background:#e0bd66;display:grid;place-items:center;font-size:27px;flex:none}
+.simpleBibleCopy{flex:1}.simpleBibleCopy small{display:block;color:#dfbd66;font-size:10px;letter-spacing:2px;font-weight:900;margin-bottom:5px}.simpleBibleCopy b{display:block;font-size:22px;margin-bottom:5px}.simpleBibleCopy span{display:block;color:#9fa4aa;font-size:12px;line-height:1.4}.simpleBibleArrow{font-size:34px;color:#dfbd66}
+#simpleBackHome{position:fixed;left:13px;top:13px;z-index:9000;display:none;border:1px solid #3a4047;background:rgba(13,17,21,.94);color:#fff;border-radius:999px;padding:10px 13px;font-weight:800}
+body.simpleBibleOpen #simpleBackHome{display:block}
+body.simpleBibleOpen #bereiaDailyCover,body.simpleBibleOpen #bereiaSimpleEntry{display:none!important}
+
+/* selected verse + aprofundar */
+.v.bereiaSelectedVerse,.verse.bereiaSelectedVerse,[data-verse].bereiaSelectedVerse{outline:2px solid #dfbd66!important;background:rgba(223,189,102,.10)!important;border-radius:12px!important}
+#bereiaDeepBar{position:fixed;left:12px;right:12px;bottom:16px;z-index:9500;display:none;max-width:620px;margin:auto;background:#11161b;border:1px solid #51452d;border-radius:18px;padding:10px;box-shadow:0 18px 55px rgba(0,0,0,.55)}
+#bereiaDeepBar.show{display:flex;gap:9px;align-items:center}
+.deepSelection{min-width:0;flex:1;color:#aaa;font-size:10px;line-height:1.3}.deepSelection b{display:block;color:#fff;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#bereiaDeepBtn{border:0;border-radius:13px;background:#dfbd66;color:#17130b;padding:13px 16px;font-weight:900}
+#bereiaOriginalModal{display:none;position:fixed;inset:0;z-index:99999;background:#0b0f12;color:#fff;overflow:auto}
+#bereiaOriginalModal.open{display:block}.bomWrap{width:min(100% - 28px,760px);margin:0 auto;padding:18px 0 60px}
+.bomHead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}.bomHead button{width:42px;height:42px;border-radius:50%;border:1px solid #373d44;background:#171c21;color:#fff;font-size:22px}
+.bomKicker{color:#dfbd66;font-size:10px;letter-spacing:2px;font-weight:900}.bomTitle{font:700 30px Georgia,serif;margin:5px 0}.bomVerse{padding:16px;border:1px solid #343a41;background:#11161b;border-radius:16px;color:#d8dadd;line-height:1.55;margin-bottom:14px}
+.bomLang{padding:13px 15px;border-radius:14px;background:#191812;border:1px solid #51452d;color:#e5c66e;margin-bottom:12px;font-size:12px}
+.bomNotice{padding:15px;border-radius:14px;background:#10151a;border:1px solid #2d333a;color:#9da3aa;font-size:12px;line-height:1.5}
+.bomWords{display:grid;gap:8px;margin-top:13px}.bomWord{padding:14px;border-radius:14px;border:1px solid #30363d;background:#12171c}.bomWord .original{font-size:27px;color:#fff}.bomWord .translit{color:#dfbd66;font-size:12px;margin:4px 0}.bomWord .meaning{color:#a7adb3;font-size:12px}
+</style>
+
+
+<style id="bereiaV6OriginalEngineStyle">
+.bomStatus{display:flex;align-items:center;gap:9px;padding:12px 14px;margin-bottom:10px;border-radius:13px;background:#10151a;border:1px solid #2d333a;color:#aab0b6;font-size:11px}
+.bomStatus i{width:8px;height:8px;border-radius:50%;background:#dfbd66;display:inline-block}
+.bomSource{margin:14px 0;color:#727a82;font-size:9px;line-height:1.45}
+.bomWord{padding:16px!important}.bomWord .original{font-size:30px!important;line-height:1.25}.bomWord .translit{font-size:12px!important;color:#dfbd66!important;margin-top:5px!important}
+.bomWord .lemmaLine{font-size:10px;color:#7f878e;margin-top:5px}.bomWord .meaning{margin-top:10px!important;color:#e1e3e5!important;line-height:1.5!important}
+.bomWord .contextSense{margin-top:8px;padding-top:8px;border-top:1px solid #293038;color:#9ea5ab;font-size:11px;line-height:1.5}
+.bomWord b{color:#dfbd66}
+</style>
+
+</head><body>
+<section id="bereiaDailyCover" class="bereiaDailyCover" onclick="openDailyArt(event)">
+ <div class="bdcShade"></div>
+ <div class="bdcContent">
+  <div class="bdcLabel">MENSAGEM DO DIA</div>
+  <div id="bdcText" class="bdcText">“A tua palavra é lâmpada para os meus pés e luz para o meu caminho.”</div>
+  <div id="bdcRef" class="bdcRef">Salmos 119:105</div>
+  <div class="bdcActions">
+   <button onclick="event.stopPropagation();openDailyVerse()">Ler passagem</button>
+   <button onclick="event.stopPropagation();openDailyArt(event)">Compartilhar imagem</button>
+  </div>
+ </div>
+</section>
+<div id="bereiaSimpleEntry">
+ <button class="simpleBibleCard" onclick="openSimpleBible()">
+  <span class="simpleBibleIcon">📖</span>
+  <span class="simpleBibleCopy"><small>LEITURA E ESTUDO</small><b>Quero ler a Bíblia</b><span>Escolha um livro, capítulo e versículo.</span></span>
+  <span class="simpleBibleArrow">›</span>
+ </button>
+</div>
+<button id="simpleBackHome" onclick="simpleHome()">← Início</button>
+
+<div id="bereiaDeepBar">
+ <div class="deepSelection"><span>VERSÍCULO SELECIONADO</span><b id="deepSelectionText">Selecione um versículo</b></div>
+ <button id="bereiaDeepBtn" onclick="openOriginalStudy()">Aprofundar</button>
+</div>
+
+<div id="bereiaOriginalModal">
+ <div class="bomWrap">
+  <div class="bomHead"><div><div class="bomKicker">APROFUNDAR</div><div class="bomTitle" id="bomTitle">Texto original</div></div><button onclick="closeOriginalStudy()">×</button></div>
+  <div class="bomVerse" id="bomVerse"></div>
+  <div class="bomLang" id="bomLang"></div>
+  <div id="bomStatus" class="bomStatus"><i></i><span>Preparando o texto original…</span></div>
+<div id="bomWords" class="bomWords"></div>
+<div id="bomSource" class="bomSource">Fontes linguísticas: Open Scriptures Hebrew Bible / Westminster Leningrad Codex (AT) e SBLGNT + MorphGNT (NT). O BEREIA preserva a atribuição das fontes abertas.</div>
+  <div class="bomNotice" id="bomNotice">O BEREIA não inventa palavras do texto original. Quando os dados lexicais verificáveis não estiverem carregados para este versículo, esta tela informa isso claramente.</div>
+ </div>
+</div>
+
+<div class="app"><aside class="sidebar"><div class="brand">BEREIA</div><div class="tag">Conheça. Viva. Compartilhe.</div><nav class="nav" id="desktopNav"></nav></aside><main class="main">
+
+
+<section class="coreBereia" id="coreBereia">
+  <div class="coreTitle"><small>NÚCLEO DO BEREIA</small><h2>Simples para ler. Profundo para estudar.</h2></div>
+  <div class="coreGrid">
+    <button onclick="go('bible')"><span>📖</span><b>Bíblia</b><small>Leia livro e capítulo</small></button>
+    <button onclick="go('compare')"><span>⇄</span><b>Comparar</b><small>Compare textos disponíveis</small></button>
+    <button onclick="go('originals')"><span>א Ω</span><b>Hebraico & Grego</b><small>Texto original e estudo lexical</small></button>
+    <button onclick="go('atlas')"><span>🗺</span><b>Mapas</b><small>Lugares e rotas bíblicas</small></button>
+    <button onclick="go('search')"><span>⌕</span><b>Pesquisar</b><small>Passagens, palavras e lugares</small></button>
+    <button onclick="go('originals')"><span>✦</span><b>Originais</b><small>Palavras do original e significados</small></button>
+  </div>
+  <div class="sourceNote">O BEREIA só mostra como conteúdo de estudo aquilo que possui fonte real ou integração disponível.</div>
+</section>
+<section class="bereiaPaths" id="bereiaPaths">
+  <div class="pathsHead">
+    <span class="eyebrow">POR ONDE VOCÊ QUER COMEÇAR?</span>
+    <h2>Explore o BEREIA</h2>
+    <p>Escolha um caminho. O BEREIA organiza o restante para você.</p>
+  </div>
+
+  <div class="pathHero pathBible" onclick="go('bible')">
+    <div class="pathIcon">📖</div>
+    <div class="pathText"><small>LEITURA</small><h3>Quero ler a Bíblia</h3><p>Escolha o livro e o capítulo e comece a leitura.</p></div>
+    <div class="pathArrow">›</div>
+  </div>
+
+  <div class="pathGrid">
+    <button class="pathCard" onclick="go('originals')">
+      <span class="pathIcon">✦</span><span><small>APROFUNDAR</small><b>Estudar uma passagem</b><em>Contexto, referências e Dossiê da Passagem.</em></span><i>›</i>
+    </button>
+    <button class="pathCard" onclick="go('mission')">
+      <span class="pathIcon">✝</span><span><small>COMEÇAR PELA FÉ</small><b>Conhecer Jesus</b><em>Quem é Jesus e os fundamentos da caminhada cristã.</em></span><i>›</i>
+    </button>
+    <button class="pathCard" onclick="go('plans')">
+      <span class="pathIcon">✓</span><span><small>CAMINHADA</small><b>Planos de estudo</b><em>Planos guiados para aprender passo a passo.</em></span><i>›</i>
+    </button>
+    <button class="pathCard pathWorld" onclick="openBiblicalWorld()">
+      <span class="pathIcon">🌍</span><span><small>CONTEXTO</small><b>Conhecer o mundo bíblico</b><em>História, arqueologia, geografia, mapas e cronologia.</em></span><i>›</i>
+    </button>
+    <button class="pathCard" onclick="go('library')">
+      <span class="pathIcon">▤</span><span><small>ACERVO</small><b>Biblioteca BEREIA</b><em>Bíblias, textos antigos e materiais de estudo.</em></span><i>›</i>
+    </button>
+    <button class="pathCard" onclick="go('search')">
+      <span class="pathIcon">⌕</span><span><small>ENCONTRAR</small><b>Pesquisar no BEREIA</b><em>Passagens, pessoas, lugares, temas e estudos.</em></span><i>›</i>
+    </button>
+  </div>
+
+  <div class="worldDrawer" id="worldDrawer">
+    <div class="worldTop"><div><small>MUNDO BÍBLICO</small><h3>Veja a Bíblia no seu contexto</h3></div><button onclick="closeBiblicalWorld()">×</button></div>
+    <div class="worldGrid">
+      
+      
+      <button onclick="go('geography');closeBiblicalWorld()"><span>⌖</span><b>Geografia</b><small>Lugares e regiões bíblicas</small></button>
+      <button onclick="go('atlas');closeBiblicalWorld()"><span>🗺</span><b>Atlas e Mapas</b><small>Rotas, cidades e territórios</small></button>
+      <button onclick="go('timeline');closeBiblicalWorld()"><span>↔</span><b>Cronologia</b><small>Acontecimentos no tempo</small></button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="bible"><div class="eyebrow">Leitor bíblico completo • motor real</div><h1>Bíblia</h1><p class="lead">Leia de Gênesis a Apocalipse, capítulo por capítulo e versículo por versículo. O BEREIA guarda sua última leitura e mantém em cache os capítulos já abertos.</p><div class="toolbar"><select id="bibleVersion" class="select" onchange="loadChapter(true)"><option value="almeida-livre">Almeida 1819</option><option value="kjv">King James 1769</option></select><select id="bibleBook" class="select" onchange="bookChanged()"></select><select id="bibleChapter" class="select" onchange="loadChapter(true)"></select><button class="btn" onclick="openReference()">Ir para referência</button></div><div class="readerNav"><button class="btn" onclick="prevChapter()">← Capítulo anterior</button><div><b id="readingTitle">Carregando…</b><small id="engineStatus">Bible Engine</small></div><button class="btn" onclick="nextChapter()">Próximo capítulo →</button></div><article class="reader" id="bibleReader"><div class="loadingBible"><div class="spinner"></div><p>Carregando as Escrituras…</p></div></article><div class="verseDock" id="verseDock"><div><small>VERSÍCULO SELECIONADO</small><b id="selectedRef">Nenhum</b></div><div class="actions"><button class="btn primary" onclick="deepStudySelected()">Originais</button><button class="btn" onclick="favoriteSelected()">☆ Favoritar</button><button class="btn" onclick="compareSelected()">Comparar</button></div></div><div class="sourceNote"><b>BEREIA:</b> leitura bíblica integrada. Informações técnicas das edições e fontes estão em Créditos e Fontes.</div></section>
+<section class="screen" id="study"><div class="backbar"><button class="backbtn" onclick="goBack()" aria-label="Voltar">←</button><span class="eyebrow">Central de estudo • BEREIA</span></div><h1>Estudar</h1><p class="lead">Escolha uma passagem e avance por camadas. O objetivo é observar primeiro, entender o contexto e só depois interpretar e aplicar.</p><div class="studyVerseCard" id="studyVerseCard"><div class="svref" id="studyVerseRef">Selecione um versículo</div><div class="svtext" id="studyVerseText">Abra a Bíblia, toque em um versículo e escolha Aprofundar.</div><div class="actions"><button class="btn primary" onclick="readSelectedInChapter()">Ler no capítulo</button><button class="btn" onclick="openOriginalsSelected()">Hebraico / Grego</button><button class="btn" onclick="moveStudyVerse(-1)">‹ Anterior</button><button class="btn" onclick="moveStudyVerse(1)">Próximo ›</button></div></div><div class="dossier"><div class="dossierHead"><div><div class="eyebrow">Palavras do original e significados</div><h2 style="margin:6px 0">Investigue sem sair do texto</h2></div><span class="evidence">conteúdo contextual</span></div><p class="lead">A passagem selecionada conecta leitura, contexto histórico, arqueologia, geografia, pessoas, lugares, cronologia, originais e referências.</p><div class="topicGrid"><div class="topicCard" onclick="studyTopic('História')"><b>🏺 História</b><span>Período, povos e acontecimentos.</span></div><div class="topicCard" onclick="studyTopic('Arqueologia')"><b>⛏ Arqueologia</b><span>Sítios, inscrições e evidências.</span></div><div class="topicCard" onclick="go('maps')"><b>🗺 Geografia</b><span>Locais, regiões, distâncias e rotas.</span></div><div class="topicCard" onclick="go('timeline')"><b>⌛ Cronologia</b><span>Onde a passagem se encaixa no tempo.</span></div><div class="topicCard" onclick="openOriginalsSelected()"><b>א Ω Originais</b><span>Hebraico ou grego conforme o texto.</span></div><div class="topicCard" onclick="studyTopic('Pessoas')"><b>♙ Pessoas</b><span>Personagens ligados à passagem.</span></div><div class="topicCard" onclick="studyTopic('Lugares')"><b>⌖ Lugares</b><span>Cidades e regiões mencionadas.</span></div><div class="topicCard" onclick="studyTopic('Referências')"><b>⇄ Referências</b><span>Conexões com outras passagens.</span></div></div><div class="studyPath"><div class="studyStep"><small>01 • OBSERVAR</small><h3>O que o texto diz?</h3><p>Palavras repetidas, personagens, ações e estrutura.</p></div><div class="studyStep"><small>02 • CONTEXTO</small><h3>Onde ele se encaixa?</h3><p>Livro, autor, destinatários, gênero e contexto histórico.</p></div><div class="studyStep"><small>03 • INVESTIGAR</small><h3>Compare e aprofunde</h3><p>Originais, traduções, referências e geografia.</p></div><div class="studyStep"><small>04 • APLICAR</small><h3>Como viver o texto?</h3><p>Registre conclusões e aplicações sem tirar o verso do contexto.</p></div></div><div class="tabs" id="studyTabs"></div><div class="studybox" id="studyContent"></div><h2>Ferramentas de investigação</h2><div class="moduleGrid"><div class="module" onclick="go('originals')"><span>א Ω</span><b>Hebraico & Grego</b><p>Texto original, transliteração e camada lexical.</p></div><div class="module" onclick="go('compare')"><span>⇄</span><b>Comparar traduções</b><p>Compare as edições disponíveis no BEREIA.</p></div><div class="module" onclick="go('timeline')"><span>⌛</span><b>Cronologia</b><p>Localize eventos e períodos bíblicos.</p></div><div class="module" onclick="go('maps')"><span>⌖</span><b>Mapas & jornadas</b><p>Explore lugares e rotas ligados às Escrituras.</p></div><div class="module" onclick="go('library')"><span>▦</span><b>Biblioteca</b><p>Textos antigos, história e acervo de apoio.</p></div><div class="module"><span>↗</span><b>Referências cruzadas</b><p>Estrutura pronta para relacionar passagens paralelas.</p></div><div class="module"><span>G/H</span><b>Strong & Léxico</b><p>Conector preparado para índices lexicais verificáveis.</p></div><div class="module" onclick="go('me')"><span>✎</span><b>Caderno BEREIA</b><p>Guarde observações, favoritos e progresso.</p></div></div></section>
+<section class="screen" id="compare"><div class="backbar"><button class="backbtn" onclick="goBack()">←</button><span class="eyebrow">Traduções & comparação</span></div><h1>Comparar versões</h1><div class="versionHub"><div class="versionCard active"><small>PORTUGUÊS</small><h3>Almeida 1819</h3><p>Integrada ao leitor e às ferramentas de estudo.</p></div><div class="versionCard"><small>ENGLISH</small><h3>King James 1769</h3><p>Disponível para leitura e comparação.</p></div></div><div class="compareControls"><select><option>Almeida 1819</option><option>King James</option></select><span style="align-self:center;color:#777">⇄</span><select><option>King James</option><option>Almeida 1819</option></select><button class="btn primary" onclick="compareSelected()">Comparar passagem atual</button></div><p class="lead">Compare a passagem selecionada nas edições disponíveis no BEREIA.</p><div class="compare"><div class="translation"><small>ALMEIDA • fonte pública</small><p>No princípio era o Verbo, e o Verbo estava com Deus, e o Verbo era Deus.</p></div><div class="translation"><small>KING JAMES • fonte pública</small><p>In the beginning was the Word, and the Word was with God, and the Word was God.</p></div></div></section>
+<section class="screen" id="originals">
+<div class="origOnlyIntro">
+ <small>ESTUDO DO TEXTO ORIGINAL</small>
+ <h2>Palavra por palavra</h2>
+ <p>Escolha um versículo. No Antigo Testamento, o BEREIA mostra o hebraico; no Novo Testamento, o grego. Toque em uma palavra para ver lema, transliteração e significado quando os dados estiverem disponíveis.</p>
+</div>
+<div class="backbar"><button class="backbtn" onclick="goBack()" aria-label="Voltar">←</button><span class="eyebrow">Línguas bíblicas</span></div><h1>Texto original</h1><div class="originBanner"><p class="lead" id="originalLead">Selecione um versículo para abrir a camada de idioma original.</p><span class="originBadge" id="originLanguage">Original</span></div><div class="reader" id="originalReader"><div class="studyVerseCard"><div class="svref">Como usar</div><div class="svtext">Na Bíblia, selecione um versículo e toque em Aprofundar ou Hebraico / Grego.</div></div><div class="wordrow head"><span>Palavra</span><span>Translit.</span><span>Strong</span><span>Sentido</span></div><div id="lexicalRows"><div class="wordrow"><span>—</span><span>—</span><span>—</span><span>A camada lexical será carregada a partir de fonte verificável.</span></div></div></div></section>
+<section class="screen" id="discover"><div class="portalHero"><div class="eyebrow">Pesquisa global • BEREIA</div><h1>O que você quer investigar?</h1><p class="lead">Pesquise uma passagem, palavra, pessoa, lugar, povo, tema ou acontecimento. O BEREIA organiza o resultado por tipo de estudo.</p><div class="globalSearchBox"><div class="searchline"><input id="searchInput" placeholder="Ex.: Jericó, João 3:16, Paulo, graça, Templo de Salomão..."><button class="btn primary" onclick="doPortalSearch()">Pesquisar</button></div><div class="searchCats"><button class="active">Tudo</button><button>Bíblia</button><button>Estudos</button><button>História</button><button>Arqueologia</button><button>Mapas</button><button>Pessoas</button><button>Lugares</button></div><div class="quickTerms"><button onclick="portalTerm('Jericó')">Jericó</button><button onclick="portalTerm('Êxodo')">Êxodo</button><button onclick="portalTerm('Jerusalém')">Jerusalém</button><button onclick="portalTerm('Paulo')">Paulo</button><button onclick="portalTerm('Mar Morto')">Mar Morto</button></div></div></div><div id="portalResults"><div class="grid"><div class="card" onclick="portalTerm('Jesus')"><h3>✦ Jesus</h3><p>Passagens, lugares, contexto e mapas.</p></div><div class="card" onclick="portalTerm('Jerusalém')"><h3>⌖ Jerusalém</h3><p>História, geografia e textos relacionados.</p></div><div class="card" onclick="portalTerm('Êxodo')"><h3>🏺 Êxodo</h3><p>Texto, Egito, deserto, arqueologia e rotas.</p></div><div class="card" onclick="go('maps')"><h3>🗺 Atlas Bíblico</h3><p>Mapas visuais do mundo das Escrituras.</p></div></div></div></section>
+<section class="screen" id="library"><div class="eyebrow">Acervo • fontes e licenças transparentes</div><h1>Biblioteca BEREIA</h1><p class="lead">O acervo separa claramente o que já pode ser integrado do que depende de autorização editorial.</p><div class="libraryRow"><div class="card"><span class="statusDot"></span><b>Almeida 1819</b><p>Texto bíblico público integrado ao Bible Engine.</p></div><div class="card"><span class="statusDot"></span><b>King James</b><p>Versão pública disponível no leitor.</p></div><div class="card"><span class="statusDot wait"></span><b>NVI • NAA • ARA • NTLH</b><p>Conectores reservados para conteúdo licenciado.</p></div><div class="card" onclick="go('originals')"><h3>✡ Bíblia Hebraica</h3><p>Área de hebraico, tradução, morfologia e léxico.</p></div><div class="card" onclick="go('originals')"><h3>Ω Novo Testamento Grego</h3><p>Texto grego, transliteração e índices lexicais.</p></div><div class="card" onclick="openCanons()"><h3>📜 Textos Antigos & Cânones</h3><p>Deuterocanônicos, tradições ortodoxas, etíope e outros textos antigos, organizados sem misturar os cânones.</p></div><div class="card"><h3>🇪🇹 Tradição Etíope</h3><p>Catálogo contextual do cânon etíope e seus livros.</p></div><div class="card"><h3>🏺 História dos Hebreus</h3><p>Espaço para obras históricas de domínio público ou autorizadas.</p></div><div class="card"><h3>⛪ História da Igreja</h3><p>Pais da Igreja, concílios, movimentos e biografias.</p></div><div class="card"><h3>📚 Bíblias de estudo</h3><p>Notas editoriais somente com licença ou autorização.</p></div><div class="card"><h3>🧭 Atlas bíblico</h3><p>Mapas, rotas e lugares ligados a passagens.</p></div><div class="card"><h3>⌛ Bíblia cronológica</h3><p>Leitura e estudo organizados por eventos e períodos.</p></div></div></section>
+<section class="screen" id="canons"><div class="backbar"><button class="backbtn" onclick="goBack()">←</button><span class="eyebrow">Biblioteca • tradições e cânones</span></div><h1>Textos Antigos & Cânones</h1><p class="lead">Explore coleções históricas separadas pela tradição que as recebe. O BEREIA não trata todas como uma única categoria e identifica o contexto de cada obra.</p><div class="canonHero"><div class="eyebrow">Navegação por coleção</div><div class="canonTabs" id="canonTabs"><button class="active" onclick="renderCanon('catolico',this)">Católico / Deuterocanônicos</button><button onclick="renderCanon('ortodoxo',this)">Ortodoxos</button><button onclick="renderCanon('etiope',this)">Etíope</button><button onclick="renderCanon('antigos',this)">Apócrifos / Pseudepígrafos</button></div><div class="canonGrid" id="canonGrid"></div></div><div class="card" style="margin-top:14px"><h3>Como o BEREIA apresenta essas obras</h3><p>Quando houver texto aberto/licenciado, o leitor poderá abrir capítulos e versículos. Quando a obra estiver apenas catalogada, o BEREIA mostrará contexto, tradição, período, idioma e fontes — sem inventar texto ou classificação.</p></div></section><section class="screen" id="timeline"><div class="eyebrow">História bíblica</div><h1>Cronologia</h1><p class="lead">Navegue pelos grandes períodos e abra a Bíblia, os mapas e os estudos a partir do contexto histórico.</p><div class="filterChips"><button class="chip active">Todos</button><button class="chip">Antigo Testamento</button><button class="chip">Intertestamentário</button><button class="chip">Novo Testamento</button><button class="chip">Igreja Primitiva</button></div><div class="timeline"><div class="event"><small>ORIGENS & PATRIARCAS</small><h3>Abraão, Isaque e Jacó</h3><p class="lead">Narrativas patriarcais, promessas, alianças e formação da família de Israel.</p></div><div class="event"><small>ÊXODO & DESERTO</small><h3>Moisés, aliança e peregrinação</h3><p class="lead">Libertação do Egito, Sinai, tabernáculo e caminhada no deserto.</p></div><div class="event"><small>CONQUISTA & JUÍZES</small><h3>Entrada em Canaã</h3><p class="lead">Josué e o período tribal narrado em Juízes.</p></div><div class="event"><small>MONARQUIA</small><h3>Saul, Davi, Salomão e os reinos divididos</h3><p class="lead">Reino unido, divisão e ministério profético.</p></div><div class="event"><small>EXÍLIO & RETORNO</small><h3>Babilônia e período persa</h3><p class="lead">Exílio, retorno, reconstrução e reorganização da comunidade.</p></div><div class="event"><small>SEGUNDO TEMPLO</small><h3>Período intertestamentário</h3><p class="lead">Contexto histórico entre os testamentos; módulo preparado para biblioteca histórica.</p></div><div class="event"><small>NOVO TESTAMENTO</small><h3>Jesus e a Igreja Primitiva</h3><p class="lead">Evangelhos, Atos, expansão missionária e comunidades apostólicas.</p></div></div></section>
+<section class="screen" id="maps"><div class="backbar"><button class="backbtn" onclick="goBack()">←</button><span class="eyebrow">Atlas bíblico • mapas visuais</span></div><h1>Atlas BEREIA</h1><p class="lead">Mapas reais e históricos para enxergar o mundo do texto. Toque em um mapa para ampliar e depois use o dossiê para ligar geografia, história e passagem bíblica.</p><div class="filterChips"><button class="chip active" onclick="filterRealMaps(this,'todos')">Todos</button><button class="chip" onclick="filterRealMaps(this,'jesus')">Jesus</button><button class="chip" onclick="filterRealMaps(this,'nt')">Novo Testamento</button><button class="chip" onclick="filterRealMaps(this,'exodo')">Êxodo</button><button class="chip" onclick="filterRealMaps(this,'paulo')">Paulo</button></div><div class="atlasImageHero"><img id="mainAtlasImg" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Holy_sites_of_Jesus_in_Palestine.svg" alt="Mapa da Terra Santa e locais associados a Jesus" onerror="this.style.display='none';this.nextElementSibling.innerHTML='Mapa indisponível nesta conexão. Toque em outro mapa ou tente novamente online.'"><div class="caption" id="mainAtlasCaption">Terra Santa — locais associados ao ministério de Jesus • mapa CC0</div></div><div class="mapGallery" id="realMapGallery"><div class="realMapCard" data-mapcat="jesus"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Holy_sites_of_Jesus_in_Palestine.svg" alt="Locais de Jesus"><div class="mapBody"><small>EVANGELHOS</small><h3>Locais ligados a Jesus</h3><p>Galileia, Samaria, Judeia e lugares relacionados às narrativas dos Evangelhos.</p><div class="mapLicense">CC0 • Wikimedia Commons</div><button class="btn primary" onclick="selectRealMap(this)">Ver mapa</button></div></div><div class="realMapCard" data-mapcat="jesus nt"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Ministry_of_Jesus-es.svg" alt="Ministério de Jesus"><div class="mapBody"><small>EVANGELHOS</small><h3>Ministério de Jesus</h3><p>Mapa topográfico detalhado do sul do Levante no período do ministério.</p><div class="mapLicense">CC BY-SA 4.0 • DEGA MD / Wikimedia Commons</div><button class="btn primary" onclick="selectRealMap(this)">Ver mapa</button></div></div><div class="realMapCard" data-mapcat="nt paulo"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/1771_Bonne_Map_of_the_New_Testament_Lands%2C_w-_Holy_Land_and_Jerusalem_-_Geographicus_-_NewTestament-bonne-1771.jpg" alt="Terras do Novo Testamento"><div class="mapBody"><small>NOVO TESTAMENTO</small><h3>Mundo do Novo Testamento</h3><p>Mediterrâneo oriental, Ásia Menor, Egito, Palestina e regiões citadas no NT.</p><div class="mapLicense">Domínio público • mapa histórico de 1771</div><button class="btn primary" onclick="selectRealMap(this)">Ver mapa</button></div></div><div class="realMapCard" data-mapcat="exodo"><img loading="lazy" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Rawson%2C_A.L._Map_of_Sinai_Peninsula._1873.jpg" alt="Sinai e terras bíblicas"><div class="mapBody"><small>PENTATEUCO</small><h3>Sinai e terras bíblicas</h3><p>Mapa histórico com Sinai, Palestina e referências a jornadas bíblicas.</p><div class="mapLicense">Mapa histórico • Wikimedia Commons</div><button class="btn primary" onclick="selectRealMap(this)">Ver mapa</button></div></div></div><h2>Explorar por estudo</h2><div class="atlasList"><div class="atlasItem" onclick="studyTopic('Patriarcas')"><small>PENTATEUCO</small><h3>Patriarcas</h3><p>Ur, Harã, Canaã e Egito.</p></div><div class="atlasItem" onclick="studyTopic('Êxodo')"><small>PENTATEUCO</small><h3>Êxodo e deserto</h3><p>Egito, Sinai e aproximação de Canaã.</p></div><div class="atlasItem" onclick="studyTopic('Doze tribos')"><small>HISTÓRICOS</small><h3>Doze tribos</h3><p>Territórios e cidades.</p></div><div class="atlasItem" onclick="studyTopic('Reino dividido')"><small>MONARQUIA</small><h3>Reino dividido</h3><p>Israel, Judá e vizinhos.</p></div><div class="atlasItem" onclick="studyTopic('Ministério de Jesus')"><small>EVANGELHOS</small><h3>Ministério de Jesus</h3><p>Galileia, Samaria, Judeia e Jerusalém.</p></div><div class="atlasItem" onclick="studyTopic('Viagens de Paulo')"><small>ATOS</small><h3>Viagens de Paulo</h3><p>Ásia Menor, Grécia e Roma.</p></div></div><div class="sourceNote"><b>Fontes:</b> mapas abertos ou em domínio público. Quando uma rota ou localização bíblica for debatida, o BEREIA deve apresentar a incerteza e as principais propostas, não uma localização hipotética como fato.</div></section>
+<section class="screen" id="mission"><div class="eyebrow">Formação • Missão</div><h1>Caminho do Discípulo</h1><p class="lead">Uma jornada progressiva para conhecer o evangelho, criar fundamentos, aprender a estudar e compartilhar a Palavra.</p><div class="grid"><div class="card"><span class="kicker">ETAPA 1 • 7 ESTUDOS</span><h3>Conheça Jesus</h3><p>Identidade, Reino, cruz, ressurreição e chamado ao discipulado.</p><div class="progress"><span style="width:28%"></span></div></div><div class="card"><span class="kicker">ETAPA 2 • 8 ESTUDOS</span><h3>Fundamentos da fé</h3><p>Graça, fé, arrependimento, nova vida e esperança.</p><div class="progress"><span style="width:0%"></span></div></div><div class="card"><span class="kicker">ETAPA 3 • 6 ESTUDOS</span><h3>Como estudar a Bíblia</h3><p>Contexto, gênero, observação, referências e aplicação responsável.</p></div><div class="card"><span class="kicker">ETAPA 4 • 7 ESTUDOS</span><h3>Vida com Deus</h3><p>Oração, comunhão, serviço, caráter e maturidade.</p></div><div class="card"><span class="kicker">ETAPA 5 • 5 ESTUDOS</span><h3>Compartilhe</h3><p>Como organizar um estudo e explicar a mensagem bíblica com clareza.</p></div><div class="card" onclick="go('bible')"><span class="kicker">PLANO DE LEITURA</span><h3>Bíblia inteira</h3><p>Estrutura para acompanhar capítulos lidos de Gênesis a Apocalipse.</p></div></div></section>
+<section class="screen" id="me"><div class="eyebrow">Área pessoal</div><h1>Meu BEREIA</h1><div class="grid"><div class="card"><h3>★ Favoritos</h3><p id="favCount">0 passagens salvas</p></div><div class="card"><h3>▰ Marcações</h3><p>Organize textos por cores e temas.</p></div><div class="card"><h3>✓ Planos</h3><p>1 plano em andamento.</p></div></div><h2>Caderno de estudo</h2><textarea class="textarea note" id="note" placeholder="Escreva suas observações..."></textarea><div class="actions"><button class="btn primary" onclick="saveNote()">Salvar anotação</button></div></section>
+
+<section class="screen" id="credits"><div class="backbar"><button class="backbtn" onclick="goBack()">←</button><span class="eyebrow">Transparência</span></div><h1>Créditos e Fontes</h1><p class="lead">Esta área reúne as informações técnicas que não precisam aparecer durante a leitura.</p><div class="grid"><div class="card"><h3>Almeida 1819</h3><p>Edição histórica integrada ao motor de leitura do BEREIA.</p></div><div class="card"><h3>King James 1769</h3><p>Edição histórica em inglês integrada para leitura e comparação.</p></div><div class="card"><h3>Atlas BEREIA</h3><p>Mapas históricos e materiais cartográficos reutilizáveis são identificados individualmente no Atlas com sua respectiva atribuição.</p></div></div><div class="sourceNote">O BEREIA não incorpora traduções ou materiais editoriais protegidos sem uma fonte autorizada para esse uso.</div></section>
+</main><nav class="bottom" id="mobileNav"></nav><div class="toast" id="toast"></div></div><script>
+const mainNav=[['home','⌂','Início'],['bible','▤','Bíblia'],['study','⌕','Estudar'],['discover','✦','Descobrir'],['me','◉','Meu BEREIA']];const extra=[['compare','⇄','Comparar'],['originals','א','Originais'],['library','▦','Biblioteca'],['canons','📜','Cânones'],['timeline','⌛','Cronologia'],['maps','⌖','Mapas'],['mission','✧','Missão'],['credits','ⓘ','Créditos']];
+function renderNav(){desktopNav.innerHTML=mainNav.map(n=>`<button data-go="${n[0]}"><span>${n[1]}</span>${n[2]}</button>`).join('')+'<div class="sep"></div>'+extra.map(n=>`<button data-go="${n[0]}"><span>${n[1]}</span>${n[2]}</button>`).join('');mobileNav.innerHTML=mainNav.map(n=>`<button data-go="${n[0]}"><span>${n[1]}</span>${n[2]}</button>`).join('');document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));setActive('home')}
+let navHistory=[];function currentScreen(){return document.querySelector('.screen.active')?.id||'home'}function go(id,remember=true){const cur=currentScreen();if(remember&&cur!==id)navHistory.push(cur);document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));(document.getElementById(id)||home).classList.add('active');setActive(id);if(id==='study')renderStudyVerse();if(id==='originals')renderOriginals();scrollTo({top:0,behavior:'smooth'});location.hash=id}function goBack(){const prev=navHistory.pop()||'home';go(prev,false)}
+function setActive(id){document.querySelectorAll('[data-go]').forEach(b=>b.classList.toggle('active',b.dataset.go===id))}
+const study={Observação:'O que o texto realmente diz? Identifique palavras repetidas, personagens, ações, contrastes, conectivos e estrutura antes de concluir o significado.',Contexto:'Leia os parágrafos anteriores e posteriores. Depois considere autor, destinatários, gênero literário e situação histórica.',Referências:'Conecte a passagem a textos paralelos e temas relacionados. Esta área será alimentada pelo índice de referências cruzadas do Bible Engine.',História:'Consulte o cenário histórico e cultural apenas quando ele ajudar a compreender o texto, mantendo a distinção entre Escritura e reconstrução histórica.',Interpretações:'Organize interpretações documentadas por tradição/fonte, mostrando convergências e divergências sem apresentar opinião como se fosse o próprio texto.',Aplicação:'Depois da observação e interpretação, registre princípios e possíveis aplicações pessoais, comunitárias e missionais.'};
+function renderTabs(){studyTabs.innerHTML=Object.keys(study).map((k,i)=>`<button class="btn tab ${i?'':'primary'}" onclick="studyTab('${k}',this)">${k}</button>`).join('');studyContent.innerHTML=`<h2>Observação</h2><p>${study.Observação}</p>`}function studyTab(k,b){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('primary'));b.classList.add('primary');studyContent.innerHTML=`<h2>${k}</h2><p>${study[k]}</p>`}
+function pickVerse(el,ref){document.querySelectorAll('.v').forEach(v=>v.classList.remove('selected'));el.classList.add('selected');localStorage.setItem('bereia:lastVerse',ref);toast(ref+' selecionado')}
+function favorite(){if(typeof favoriteSelected==='function'&&requireSelected())return favoriteSelected();let n=+(localStorage.getItem('bereia:favs')||0)+1;localStorage.setItem('bereia:favs',n);updateFav();toast('Passagem adicionada aos favoritos')}
+function updateFav(){let n=+(localStorage.getItem('bereia:favs')||0);favCount.textContent=n+' passagem'+(n===1?'':'s')+' salva'+(n===1?'':'s')}
+function saveNote(){localStorage.setItem('bereia:note',note.value);toast('Anotação salva neste dispositivo')}
+function doSearch(){let q=searchInput.value.trim();if(!q)return toast('Digite algo para pesquisar');searchResults.innerHTML=`<div class="card"><div class="eyebrow">Pesquisa</div><h3>${q}</h3><p>O mecanismo visual está pronto. Na integração com o Bible Engine, esta busca consultará versículos, temas, pessoas, lugares e biblioteca em uma única pesquisa.</p></div>`}
+function toast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),1800)}
+const BIBLE_API='https://api.midvash.com/v1';
+const bibleBooks=[
+['Gen','Gênesis',50],['Exod','Êxodo',40],['Lev','Levítico',27],['Num','Números',36],['Deut','Deuteronômio',34],['Josh','Josué',24],['Judg','Juízes',21],['Ruth','Rute',4],['1Sam','1 Samuel',31],['2Sam','2 Samuel',24],['1Kgs','1 Reis',22],['2Kgs','2 Reis',25],['1Chr','1 Crônicas',29],['2Chr','2 Crônicas',36],['Ezra','Esdras',10],['Neh','Neemias',13],['Esth','Ester',10],['Job','Jó',42],['Ps','Salmos',150],['Prov','Provérbios',31],['Eccl','Eclesiastes',12],['Song','Cânticos',8],['Isa','Isaías',66],['Jer','Jeremias',52],['Lam','Lamentações',5],['Ezek','Ezequiel',48],['Dan','Daniel',12],['Hos','Oséias',14],['Joel','Joel',3],['Amos','Amós',9],['Obad','Obadias',1],['Jonah','Jonas',4],['Mic','Miquéias',7],['Nah','Naum',3],['Hab','Habacuque',3],['Zeph','Sofonias',3],['Hag','Ageu',2],['Zech','Zacarias',14],['Mal','Malaquias',4],['Matt','Mateus',28],['Mark','Marcos',16],['Luke','Lucas',24],['John','João',21],['Acts','Atos',28],['Rom','Romanos',16],['1Cor','1 Coríntios',16],['2Cor','2 Coríntios',13],['Gal','Gálatas',6],['Eph','Efésios',6],['Phil','Filipenses',4],['Col','Colossenses',4],['1Thess','1 Tessalonicenses',5],['2Thess','2 Tessalonicenses',3],['1Tim','1 Timóteo',6],['2Tim','2 Timóteo',4],['Titus','Tito',3],['Phlm','Filemom',1],['Heb','Hebreus',13],['Jas','Tiago',5],['1Pet','1 Pedro',5],['2Pet','2 Pedro',3],['1John','1 João',5],['2John','2 João',1],['3John','3 João',1],['Jude','Judas',1],['Rev','Apocalipse',22]];
+let currentVerses=[],selectedVerse=null;
+function initBible(){bibleBook.innerHTML=bibleBooks.map((b,i)=>`<option value="${i}">${b[1]}</option>`).join('');let saved={};try{saved=JSON.parse(localStorage.getItem('bereia:reading')||'{}')}catch(e){};bibleVersion.value=saved.version||'almeida-livre';bibleBook.value=Number.isInteger(saved.book)?saved.book:42;renderChapterOptions(saved.chapter||1);loadChapter(false)}
+function renderChapterOptions(ch=1){const b=bibleBooks[+bibleBook.value];bibleChapter.innerHTML=Array.from({length:b[2]},(_,i)=>`<option value="${i+1}">Capítulo ${i+1}</option>`).join('');bibleChapter.value=Math.min(Math.max(+ch||1,1),b[2])}
+function bookChanged(){renderChapterOptions(1);loadChapter(true)}
+function cleanVerseText(x){if(x==null)return '';if(typeof x==='string'||typeof x==='number')return String(x).trim();if(Array.isArray(x))return x.map(cleanVerseText).filter(Boolean).join(' ').trim();if(typeof x==='object'){for(const k of ['text','content','value','verseText','verse_text','body']){const t=cleanVerseText(x[k]);if(t)return t}if(x.verse&&typeof x.verse==='object'){const t=cleanVerseText(x.verse);if(t)return t}}return ''}
+function normalizeChapter(payload){let d=payload;if(d&&d.data!==undefined)d=d.data;let vs=[];if(Array.isArray(d))vs=d;else if(d&&typeof d==='object'){vs=d.verses||d.chapter?.verses||d.data?.verses||d.chapter||[];if(!Array.isArray(vs)&&vs&&typeof vs==='object')vs=Object.entries(vs).map(([n,v])=>({number:+n,...(typeof v==='object'?v:{text:v})}))}return (Array.isArray(vs)?vs:[]).map((v,i)=>({number:+(v?.number||v?.verse||v?.id||i+1),text:cleanVerseText(v)})).filter(v=>v.number)}
+function validVerses(vs){return Array.isArray(vs)&&vs.length>0&&vs.some(v=>String(v.text||'').trim().length>0)}
+async function fetchChapterFromSources(version,osis,ch){
+ const apiBook=osis.toLowerCase();
+ const attempts=[
+  async()=>{const r=await fetch(`${BIBLE_API}/${encodeURIComponent(version)}/${encodeURIComponent(apiBook)}/${ch}`,{headers:{Accept:'application/json'},cache:'no-store'});if(!r.ok)throw new Error('API '+r.status);return normalizeChapter(await r.json())},
+  async()=>{const r=await fetch(`${BIBLE_API}/${encodeURIComponent(version)}/${encodeURIComponent(osis)}/${ch}`,{headers:{Accept:'application/json'},cache:'no-store'});if(!r.ok)throw new Error('API OSIS '+r.status);return normalizeChapter(await r.json())},
+  async()=>{const lang=version==='kjv'?'en':'pt';const r=await fetch(`https://raw.githubusercontent.com/midvash/bible-data/main/versions/${lang}/${encodeURIComponent(version)}/books/${encodeURIComponent(osis)}.json`,{cache:'no-store'});if(!r.ok)throw new Error('RAW '+r.status);const d=await r.json();const c=(d.chapters||[])[ch-1];if(!c)throw new Error('Capítulo ausente');return (c.verses||[]).map((v,i)=>({number:+(v.number||i+1),text:cleanVerseText(v)}))}
+ ];
+ let last;for(const fn of attempts){try{const vs=await fn();if(validVerses(vs))return vs}catch(e){last=e}}throw last||new Error('Nenhuma fonte respondeu');
+}
+async function loadChapter(userAction=false){if(!bibleBook||!bibleChapter)return;const bi=+bibleBook.value,b=bibleBooks[bi],ch=+bibleChapter.value,version=bibleVersion.value;selectedVerse=null;selectedRef.textContent='Nenhum';readingTitle.textContent=`${b[1]} ${ch}`;engineStatus.textContent='Carregando…';bibleReader.innerHTML='<div class="loadingBible"><div class="spinner"></div><p>Carregando as Escrituras…</p></div>';localStorage.setItem('bereia:reading',JSON.stringify({version,book:bi,chapter:ch}));const key=`bereia:bible:v4:${version}:${b[0]}:${ch}`;let verses=null;try{const cached=localStorage.getItem(key);if(cached){verses=JSON.parse(cached);if(!validVerses(verses)){localStorage.removeItem(key);verses=null}}}catch(e){localStorage.removeItem(key);verses=null}try{if(!validVerses(verses)){verses=await fetchChapterFromSources(version,b[0],ch);try{localStorage.setItem(key,JSON.stringify(verses))}catch(e){}}currentVerses=verses;renderBibleVerses(b,ch,verses);engineStatus.textContent=`${version==='almeida-livre'?'Almeida 1819':'King James 1769'} • ${verses.length} versículos • texto carregado`;if(userAction)setTimeout(()=>bibleReader.scrollIntoView({behavior:'smooth',block:'start'}),80);return verses}catch(err){currentVerses=[];engineStatus.textContent='Falha nas fontes';bibleReader.innerHTML=`<div class="readerError"><h3>Não foi possível carregar ${escapeHtml(b[1])} ${ch}.</h3><p class="lead">O BEREIA tentou a API principal e a fonte de dados por livro. Verifique a conexão e tente novamente.</p><div class="engineFallback">Identificador: ${escapeHtml(b[0])} • versão: ${escapeHtml(version)}</div><button class="btn primary" onclick="loadChapter(true)">Tentar novamente</button></div>`;return []}}
+function renderBibleVerses(book,ch,verses){bibleReader.innerHTML=`<h2>${book[1]} ${ch}</h2><div class="verseGrid">`+verses.map(v=>`<div class="v" data-verse="${v.number}" onclick="selectRealVerse(this,${v.number})"><span class="vn">${v.number}</span><span class="verseText">${escapeHtml(v.text)}</span></div>`).join('')+`</div>`}
+function escapeHtml(x){return String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function selectRealVerse(el,n){document.querySelectorAll('#bibleReader .v').forEach(v=>v.classList.remove('selected'));el.classList.add('selected');const b=bibleBooks[+bibleBook.value],ch=+bibleChapter.value,v=currentVerses.find(x=>+x.number===+n);selectedVerse={bookIndex:+bibleBook.value,book:b[1],osis:b[0],chapter:ch,verse:n,text:v?.text||'',version:bibleVersion.value};const ref=`${b[1]} ${ch}:${n}`;selectedRef.textContent=ref;localStorage.setItem('bereia:lastVerse',JSON.stringify(selectedVerse));toast(ref+' selecionado')}
+function moveChapter(delta){let bi=+bibleBook.value,ch=+bibleChapter.value+delta;if(ch<1){if(bi===0)return toast('Você está no início da Bíblia');bi--;ch=bibleBooks[bi][2]}else if(ch>bibleBooks[bi][2]){if(bi===bibleBooks.length-1)return toast('Você chegou ao fim da Bíblia');bi++;ch=1}bibleBook.value=bi;renderChapterOptions(ch);loadChapter(true)}
+function prevChapter(){moveChapter(-1)}function nextChapter(){moveChapter(1)}
+function openReference(){const raw=prompt('Digite uma referência, por exemplo: João 3, Salmos 23 ou Gênesis 1:1');if(!raw)return;const q=raw.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');let found=-1;for(let i=0;i<bibleBooks.length;i++){const nm=bibleBooks[i][1].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');if(q.startsWith(nm)){found=i;break}}if(found<0)return toast('Livro não reconhecido');const nm=bibleBooks[found][1].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');const rest=q.slice(nm.length).trim();const m=rest.match(/(\d+)(?:\s*[:.,]\s*(\d+))?/);const ch=m?+m[1]:1;const vs=m&&m[2]?+m[2]:null;if(ch<1||ch>bibleBooks[found][2])return toast('Capítulo inválido');bibleBook.value=found;renderChapterOptions(ch);loadChapter(true).then(()=>{if(vs){const el=document.querySelector(`#bibleReader .v[data-verse="${vs}"]`);if(el){selectRealVerse(el,vs);el.scrollIntoView({behavior:'smooth',block:'center'})}}})}
+function requireSelected(){if(selectedVerse)return selectedVerse;try{return JSON.parse(localStorage.getItem('bereia:lastVerse')||'null')}catch(e){return null}}
+function deepStudySelected(){const v=requireSelected();if(!v)return toast('Selecione um versículo primeiro');go('originals');renderStudyVerse()}function renderStudyVerse(){const v=requireSelected();if(!v)return;const r=document.getElementById('studyVerseRef'),t=document.getElementById('studyVerseText');if(r)r.textContent=`${v.book} ${v.chapter}:${v.verse}`;if(t)t.textContent=v.text||'Texto não carregado.'}function readSelectedInChapter(){const v=requireSelected();if(!v)return toast('Selecione um versículo primeiro');bibleBook.value=v.bookIndex;renderChapterOptions(v.chapter);bibleChapter.value=v.chapter;go('bible');loadChapter(false).then(()=>{const el=document.querySelector(`#bibleReader .v[data-verse="${v.verse}"]`);if(el){selectRealVerse(el,v.verse);el.scrollIntoView({behavior:'smooth',block:'center'})}})}function openOriginalsSelected(){const v=requireSelected();if(!v)return toast('Selecione um versículo primeiro');go('originals');renderOriginals()}function renderOriginals(){const v=requireSelected();const lead=document.getElementById('originalLead'),lang=document.getElementById('originLanguage'),rows=document.getElementById('lexicalRows');if(!lead||!lang||!rows)return;if(!v){lead.textContent='Selecione um versículo para abrir a camada de idioma original.';return}const isOT=v.bookIndex<39;lead.textContent=`${v.book} ${v.chapter}:${v.verse} • ${v.text}`;lang.textContent=isOT?'Hebraico • Antigo Testamento':'Grego • Novo Testamento';rows.innerHTML=`<div class="wordrow"><span>${isOT?'עברית':'Ελληνικά'}</span><span>—</span><span>—</span><span>O versículo foi identificado. A análise palavra por palavra será vinculada a uma base lexical verificável; não exibimos dados inventados.</span></div>`}async function moveStudyVerse(delta){const v=requireSelected();if(!v)return;let n=+v.verse+delta;if(n<1)return toast('Primeiro versículo do capítulo');let verse=currentVerses.find(x=>+x.number===n);if(+bibleBook.value!==v.bookIndex||+bibleChapter.value!==v.chapter||!verse){bibleBook.value=v.bookIndex;renderChapterOptions(v.chapter);bibleChapter.value=v.chapter;await loadChapter(false);verse=currentVerses.find(x=>+x.number===n)}if(!verse)return toast('Fim do capítulo');selectedVerse={...v,verse:n,text:verse.text};localStorage.setItem('bereia:lastVerse',JSON.stringify(selectedVerse));renderStudyVerse()}
+function compareSelected(){const v=requireSelected();if(!v)return toast('Selecione um versículo primeiro');go('compare');loadComparison(v)}
+async function loadComparison(v){const box=document.querySelector('#compare .compare');box.innerHTML=`<div class="translation"><small>${v.version==='almeida-livre'?'ALMEIDA 1819':'KING JAMES 1769'}</small><p>${escapeHtml(v.text)}</p></div><div class="translation"><small>CARREGANDO COMPARAÇÃO…</small><p>Buscando versão pública.</p></div>`;const other=v.version==='kjv'?'almeida-livre':'kjv';try{const res=await fetch(`${BIBLE_API}/${other}/${v.osis}/${v.chapter}/${v.verse}`);const d=await res.json();let x=d?.data??d;let text=x?.text||x?.verse?.text||x?.content||'';box.innerHTML=`<div class="translation"><small>${v.version==='almeida-livre'?'ALMEIDA 1819':'KING JAMES 1769'}</small><p>${escapeHtml(v.text)}</p></div><div class="translation"><small>${other==='kjv'?'KING JAMES 1769':'ALMEIDA 1819'}</small><p>${escapeHtml(text||'Texto não disponível.')}</p></div>`}catch(e){box.children[1].querySelector('p').textContent='Não foi possível carregar a comparação agora.'}}
+function favoriteSelected(){const v=requireSelected();if(!v)return toast('Selecione um versículo primeiro');let favs=[];try{favs=JSON.parse(localStorage.getItem('bereia:favorites')||'[]')}catch(e){};const id=`${v.version}:${v.osis}:${v.chapter}:${v.verse}`;if(!favs.some(x=>x.id===id))favs.push({id,...v});localStorage.setItem('bereia:favorites',JSON.stringify(favs));localStorage.setItem('bereia:favs',String(favs.length));updateFav();toast('Versículo salvo nos favoritos')}
+
+
+const DAILY=[
+{ref:'Salmos 119:105',text:'Lâmpada para os meus pés é tua palavra, e luz para o meu caminho.',book:19,chapter:119,verse:105,img:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80'},
+{ref:'Provérbios 3:5',text:'Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento.',book:20,chapter:3,verse:5,img:'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=80'},
+{ref:'Isaías 40:31',text:'Os que esperam no Senhor renovarão as suas forças.',book:23,chapter:40,verse:31,img:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80'},
+{ref:'Mateus 11:28',text:'Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei.',book:40,chapter:11,verse:28,img:'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80'},
+{ref:'João 8:12',text:'Eu sou a luz do mundo; quem me segue não andará em trevas.',book:43,chapter:8,verse:12,img:'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1400&q=80'},
+{ref:'Filipenses 4:6',text:'Não estejais inquietos por coisa alguma; antes, em tudo, sejam os vossos pedidos conhecidos diante de Deus.',book:50,chapter:4,verse:6,img:'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1400&q=80'},
+{ref:'Hebreus 11:1',text:'A fé é o firme fundamento das coisas que se esperam e a prova das coisas que se não veem.',book:58,chapter:11,verse:1,img:'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1400&q=80'}];
+let dailyCurrent=null;function initDaily(){const now=new Date(),start=new Date(now.getFullYear(),0,0),day=Math.floor((now-start)/86400000),d=DAILY[day%DAILY.length];dailyCurrent=d;const m=document.getElementById('dailyMessage'),r=document.getElementById('dailyRef'),v=document.getElementById('dailyVisual');if(m)m.textContent='“'+d.text+'”';if(r)r.textContent=d.ref;if(v)v.style.backgroundImage=`url("${d.img}")`}
+function homeSearch(){const q=document.getElementById('homeGlobalSearch')?.value.trim();go('discover');setTimeout(()=>{const i=document.querySelector('#discover input');if(i&&q){i.value=q;i.dispatchEvent(new Event('input',{bubbles:true}))}},80)}
+function openDailyVerse(){const d=dailyCurrent||DAILY[0];bibleBook.value=d.book;renderChapterOptions(d.chapter);bibleChapter.value=d.chapter;go('bible');loadChapter(false).then(()=>{const el=document.querySelector('#bibleReader .v[data-verse="'+d.verse+'"]');if(el){selectRealVerse(el,d.verse);el.scrollIntoView({behavior:'smooth',block:'center'})}})}
+
+function bereiaSiteUrl(){
+  if(location.protocol==='http:'||location.protocol==='https:') return location.href.split('#')[0].split('?')[0];
+  return '';
+}
+function openDailyArt(ev){
+  if(ev&&ev.stopPropagation)ev.stopPropagation();
+  const d=dailyCurrent||DAILY[0], modal=document.getElementById('dailyArtModal');
+  document.getElementById('dailyArtVerse').textContent='“'+d.text+'”';
+  document.getElementById('dailyArtRef').textContent=d.ref;
+  document.getElementById('dailyArtPreview').style.backgroundImage=`url("${d.img}")`;
+  document.getElementById('dailyArtSite').textContent=bereiaSiteUrl()||'Site oficial BEREIA';
+  modal.classList.add('open'); document.body.style.overflow='hidden';
+}
+function closeDailyArt(){document.getElementById('dailyArtModal')?.classList.remove('open');document.body.style.overflow=''}
+function wrapCanvasText(ctx,text,x,y,maxWidth,lineHeight,maxLines){
+  const words=text.split(/\s+/);let line='',lines=[];
+  for(const word of words){const test=line?line+' '+word:word;if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=word}else line=test}
+  if(line)lines.push(line);
+  if(lines.length>maxLines){lines=lines.slice(0,maxLines);let last=lines[maxLines-1];while(ctx.measureText(last+'…').width>maxWidth&&last.length>1)last=last.slice(0,-1);lines[maxLines-1]=last+'…'}
+  lines.forEach((l,i)=>ctx.fillText(l,x,y+i*lineHeight));
+  return y+lines.length*lineHeight;
+}
+async function makeDailyImage(){
+  const d=dailyCurrent||DAILY[0], W=1080,H=1350,canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#11151a';ctx.fillRect(0,0,W,H);
+  try{
+    const img=new Image();img.crossOrigin='anonymous';
+    await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=d.img});
+    const scale=Math.max(W/img.width,H/img.height),dw=img.width*scale,dh=img.height*scale;
+    ctx.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);
+  }catch(e){
+    const g=ctx.createLinearGradient(0,0,W,H);g.addColorStop(0,'#24313a');g.addColorStop(1,'#0c0f13');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  }
+  const grad=ctx.createLinearGradient(0,220,0,H);grad.addColorStop(0,'rgba(0,0,0,.04)');grad.addColorStop(.48,'rgba(0,0,0,.30)');grad.addColorStop(1,'rgba(0,0,0,.94)');ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+  const left=82,max=W-164;
+  ctx.fillStyle='#e8c76f';ctx.font='700 28px Arial';ctx.letterSpacing='7px';ctx.fillText('BEREIA',left,730);
+  ctx.fillStyle='#fff';ctx.font='700 58px Georgia';let y=wrapCanvasText(ctx,'“'+d.text+'”',left,805,max,69,6);
+  ctx.fillStyle='#ead28f';ctx.font='36px Arial';ctx.fillText(d.ref,left,y+24);
+  const lineY=H-170;ctx.strokeStyle='rgba(255,255,255,.30)';ctx.beginPath();ctx.moveTo(left,lineY);ctx.lineTo(W-left,lineY);ctx.stroke();
+  ctx.fillStyle='#e8c76f';ctx.font='700 25px Arial';ctx.fillText('BEREIA',left,lineY+45);
+  ctx.fillStyle='#f1f1f1';ctx.font='23px Arial';ctx.fillText('Conheça a Palavra. Viva a Palavra. Compartilhe a Palavra.',left,lineY+82);
+  const site=bereiaSiteUrl();if(site){ctx.fillStyle='#d8d8d8';ctx.font='20px Arial';ctx.fillText(site,left,lineY+116)}
+  return await new Promise(resolve=>canvas.toBlob(resolve,'image/png',.96));
+}
+async function shareDailyImage(){
+  const d=dailyCurrent||DAILY[0];toast('Preparando a imagem…');
+  const blob=await makeDailyImage();if(!blob)return toast('Não foi possível gerar a imagem');
+  const file=new File([blob],'BEREIA-Mensagem-do-Dia.png',{type:'image/png'});
+  const url=bereiaSiteUrl(), text=`BEREIA • ${d.ref}${url?'\n'+url:''}`;
+  try{
+    if(navigator.canShare&&navigator.canShare({files:[file]})&&navigator.share){
+      await navigator.share({title:'BEREIA • Mensagem do Dia',text,files:[file]});return;
+    }
+  }catch(e){if(e?.name==='AbortError')return}
+  downloadDailyBlob(blob); if(url)navigator.clipboard?.writeText(url);
+  toast(url?'Imagem salva e link do site copiado':'Imagem salva');
+}
+function downloadDailyBlob(blob){
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='BEREIA-Mensagem-do-Dia.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500)
+}
+async function saveDailyImage(){toast('Gerando imagem…');const blob=await makeDailyImage();if(blob){downloadDailyBlob(blob);toast('Imagem pronta para compartilhar')}}
+function shareDaily(){openDailyArt()}
+function mapPlace(title,desc,region){document.getElementById('mapTitle').textContent=title;document.getElementById('mapDesc').textContent=desc;document.getElementById('mapRegion').textContent=region;toast(title+' selecionado')}
+function setMapRoute(btn,type){document.querySelectorAll('#maps .chip').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const p=document.getElementById('routePath');if(!p)return;const routes={paulo:'M115 170 Q210 105 300 155 T485 180 T555 260',jesus:'M330 330 Q300 280 315 245 T350 215',exodo:'M555 410 Q470 385 410 360 T330 330'};p.setAttribute('d',routes[type]||routes.paulo);const labels={paulo:'Rota missionária selecionada',jesus:'Ministério de Jesus selecionado',exodo:'Rota do Êxodo selecionada'};toast(labels[type])}
+
+const canonCollections={
+ catolico:[['Tobias','Deuterocanônico'],['Judite','Deuterocanônico'],['Sabedoria','Deuterocanônico'],['Eclesiástico / Sirácida','Deuterocanônico'],['Baruque','Deuterocanônico'],['1 Macabeus','Deuterocanônico'],['2 Macabeus','Deuterocanônico'],['Adições a Ester','Tradição textual'],['Adições a Daniel','Tradição textual']],
+ ortodoxo:[['1 Esdras','Presente em algumas tradições ortodoxas'],['3 Macabeus','Tradição ortodoxa'],['Salmo 151','Tradição ortodoxa'],['Oração de Manassés','Recepção varia por tradição'],['4 Macabeus','Apêndice em algumas edições']],
+ etiope:[['1 Enoque','Cânon etíope'],['Jubileus','Cânon etíope'],['1–3 Meqabyan','Tradição etíope; distintos dos Macabeus gregos'],['Livros adicionais do cânon etíope','Catálogo em preparação']],
+ antigos:[['1 Enoque','Literatura judaica antiga; também canônico na tradição etíope'],['Jubileus','Literatura do Segundo Templo; também canônico na tradição etíope'],['Testamentos dos Doze Patriarcas','Pseudepígrafo'],['Salmos de Salomão','Literatura judaica antiga'],['Odes / outros textos antigos','Catálogo histórico em expansão']]
+};
+function openCanons(){go('canons');renderCanon('catolico')}
+function renderCanon(key,btn){if(btn){document.querySelectorAll('#canonTabs button').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}const g=document.getElementById('canonGrid');if(!g)return;g.innerHTML=(canonCollections[key]||[]).map(x=>`<div class="canonBook" onclick="toast('${x[0].replace(/'/g,"\'")} • catálogo em preparação')"><b>${x[0]}</b><small>${x[1]}</small></div>`).join('')}
+
+renderNav();initDaily();renderTabs();updateFav();note.value=localStorage.getItem('bereia:note')||'';initBible();renderCanon('catolico');if(location.hash)go(location.hash.slice(1));
+
+function atlasPlace(name,region,desc){document.getElementById('atlasTitle').textContent=name;document.getElementById('atlasRegion').textContent=region;document.getElementById('atlasDesc').textContent=desc}function atlasLayer(btn,key){document.querySelectorAll('#maps .chip').forEach(x=>x.classList.remove('active'));btn.classList.add('active');const labels={jesus:['Ministério de Jesus','Galileia, Samaria e Judeia'],paulo:['Viagens de Paulo','Mediterrâneo oriental e Roma'],exodo:['Êxodo','Egito, Sinai e Canaã'],patriarcas:['Patriarcas','Mesopotâmia, Canaã e Egito'],reinos:['Reinos de Israel e Judá','Levante antigo'],exilio:['Exílio','Judá, Babilônia e Pérsia']};const v=labels[key];document.getElementById('atlasTitle').textContent=v[0];document.getElementById('atlasRegion').textContent=v[1];document.getElementById('atlasDesc').textContent='Camada selecionada. Na evolução online, esta visualização receberá rotas, sítios arqueológicos, relevo e referências bíblicas conectadas.'}function studyTopic(topic){toast('Abrindo '+topic+' no dossiê da passagem');go('discover');const q=document.querySelector('#discover input');if(q){q.value=topic;q.focus()}}
+
+function portalTerm(term){document.getElementById('searchInput').value=term;doPortalSearch()}
+function doPortalSearch(){const q=(document.getElementById('searchInput').value||'').trim();if(!q)return;const el=document.getElementById('portalResults');const safe=q.replace(/[<>]/g,'');el.innerHTML=`<div class="resultGroup"><h3>Resultados para “${safe}”</h3><div class="resultCard" onclick="go('bible')"><small>BÍBLIA</small><b> Pesquisar nas Escrituras</b><p>Abra o leitor e localize referências e ocorrências relacionadas a ${safe}.</p></div><div class="resultCard" onclick="studyTopic('${safe.replace(/'/g,"\'")}')"><small>ESTUDO & HISTÓRIA</small><b> Dossiê: ${safe}</b><p>Contexto histórico, pessoas, povos e acontecimentos relacionados.</p></div><div class="resultCard" onclick="studyTopic('Arqueologia: ${safe.replace(/'/g,"\'")}')"><small>ARQUEOLOGIA</small><b> Evidências e sítios</b><p>Área preparada para fontes arqueológicas verificadas, distinguindo evidência de hipótese.</p></div><div class="resultCard" onclick="go('maps')"><small>GEOGRAFIA & MAPAS</small><b> Ver no Atlas BEREIA</b><p>Mapas e lugares relacionados ao tema pesquisado.</p></div></div>`;}
+function filterRealMaps(btn,cat){document.querySelectorAll('#maps .chip').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.realMapCard').forEach(c=>{c.style.display=(cat==='todos'||(c.dataset.mapcat||'').includes(cat))?'block':'none'})}
+function selectRealMap(btn){const card=btn.closest('.realMapCard'),img=card.querySelector('img'),title=card.querySelector('h3').textContent,main=document.getElementById('mainAtlasImg');main.style.display='block';main.src=img.src;main.alt=img.alt;document.getElementById('mainAtlasCaption').textContent=title+' • '+card.querySelector('.mapLicense').textContent;document.querySelector('.atlasImageHero').scrollIntoView({behavior:'smooth',block:'start'})}
+</script>
+<div class="dailyArtModal" id="dailyArtModal" onclick="if(event.target===this)closeDailyArt()">
+  <div class="dailyArtShell">
+    <div class="dailyArtTop"><strong>Mensagem do Dia</strong><button class="dailyArtClose" onclick="closeDailyArt()" aria-label="Fechar">×</button></div>
+    <div class="dailyArtPreview" id="dailyArtPreview">
+      <div class="dailyArtCopy">
+        <div class="dailyArtBrand">BEREIA</div>
+        <div class="dailyArtVerse" id="dailyArtVerse"></div>
+        <div class="dailyArtRef" id="dailyArtRef"></div>
+        <div class="dailyArtSignature"><b>BEREIA</b><br>Conheça a Palavra. Viva a Palavra. Compartilhe a Palavra.<br><span id="dailyArtSite">Site oficial BEREIA</span></div>
+      </div>
+    </div>
+    <div class="dailyArtActions">
+      <button class="primary" onclick="shareDailyImage()">Compartilhar imagem</button>
+      <button onclick="saveDailyImage()">Salvar imagem</button>
+    </div>
+    <div class="dailyArtHint">No site publicado, o link do BEREIA acompanha a imagem no compartilhamento.</div>
+  </div>
+</div>
+
+
+<script id="bereiaPathsJs">
+function openBiblicalWorld(){const x=document.getElementById('worldDrawer');if(x){x.classList.add('open');setTimeout(()=>x.scrollIntoView({behavior:'smooth',block:'nearest'}),50)}}
+function closeBiblicalWorld(){document.getElementById('worldDrawer')?.classList.remove('open')}
+</script>
+
+
+<div id="bereiaAssistantButton" onclick="openBereiaAssistant()" title="Assistente BEREIA">✦</div>
+<div id="bereiaAssistant" class="bereiaAssistant">
+ <div class="baHead"><div><small>ASSISTENTE BEREIA</small><b>O que você quer estudar?</b></div><button onclick="closeBereiaAssistant()">×</button></div>
+ <p>Eu levo você diretamente à ferramenta certa do BEREIA.</p>
+ <div class="baActions">
+  <button onclick="go('search');closeBereiaAssistant()">⌕ Buscar uma passagem ou tema</button>
+  <button onclick="go('originals');closeBereiaAssistant()">א Ω Ver Hebraico / Grego</button>
+  <button onclick="go('atlas');closeBereiaAssistant()">🗺 Procurar um lugar bíblico</button>
+  <button onclick="go('originals');closeBereiaAssistant()">✦ Hebraico / Grego do versículo</button>
+ </div>
+</div>
+<style>
+#bereiaAssistantButton{position:fixed;right:17px;bottom:84px;z-index:8000;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#dfbd66;color:#17130b;font-size:23px;font-weight:900;box-shadow:0 10px 35px rgba(0,0,0,.4);cursor:pointer}
+.bereiaAssistant{display:none;position:fixed;z-index:8001;right:14px;left:14px;bottom:78px;max-width:430px;margin:auto;background:#11161b;border:1px solid #4a402b;border-radius:22px;padding:17px;color:#fff;box-shadow:0 24px 80px #000}
+.bereiaAssistant.open{display:block}.baHead{display:flex;justify-content:space-between;align-items:center}.baHead small{display:block;color:#d9b861;font-size:9px;letter-spacing:1.5px}.baHead b{font-size:17px}.baHead button{border:0;background:#252a30;color:#fff;border-radius:50%;width:35px;height:35px;font-size:20px}.bereiaAssistant p{color:#969ca3;font-size:12px}.baActions{display:grid;gap:7px}.baActions button{border:1px solid #30363d;background:#171c21;color:#fff;border-radius:13px;padding:13px;text-align:left;font-weight:700}
+</style>
+<script>
+function openBereiaAssistant(){document.getElementById('bereiaAssistant')?.classList.add('open')}
+function closeBereiaAssistant(){document.getElementById('bereiaAssistant')?.classList.remove('open')}
+</script>
+
+
+<script id="v4AtlasSearch">
+const BEREIA_PLACES={
+ "jerusalém":{lat:31.778,lon:35.235,label:"Jerusalém"},
+ "jerusalem":{lat:31.778,lon:35.235,label:"Jerusalém"},
+ "jericó":{lat:31.871,lon:35.444,label:"Jericó"},
+ "jerico":{lat:31.871,lon:35.444,label:"Jericó"},
+ "belém":{lat:31.705,lon:35.202,label:"Belém"},
+ "belem":{lat:31.705,lon:35.202,label:"Belém"},
+ "nazaré":{lat:32.700,lon:35.303,label:"Nazaré"},
+ "nazare":{lat:32.700,lon:35.303,label:"Nazaré"},
+ "corinto":{lat:37.906,lon:22.879,label:"Corinto"},
+ "éfeso":{lat:37.940,lon:27.341,label:"Éfeso"},
+ "efeso":{lat:37.940,lon:27.341,label:"Éfeso"}
+};
+function atlasQuick(q){const i=document.getElementById('atlasPlaceQuery');if(i)i.value=q;searchAtlasPlace()}
+function searchAtlasPlace(){
+ const raw=(document.getElementById('atlasPlaceQuery')?.value||'').trim(),key=raw.toLocaleLowerCase('pt-BR'),p=BEREIA_PLACES[key],box=document.getElementById('atlasSearchResult');
+ if(!raw){if(box)box.textContent='Digite um lugar bíblico.';return}
+ if(p){
+   const osm=`https://www.openstreetmap.org/?mlat=${p.lat}&mlon=${p.lon}#map=10/${p.lat}/${p.lon}`;
+   box.innerHTML=`<b>${p.label}</b><br>Localização geográfica disponível. <a href="${osm}" target="_blank" rel="noopener">Abrir mapa interativo ↗</a>`;
+ }else{
+   const q=encodeURIComponent(raw+' biblical place');
+   box.innerHTML=`Ainda não temos "${raw}" no índice local. <a href="https://www.openbible.info/geo/" target="_blank" rel="noopener">Pesquisar no atlas bíblico aberto ↗</a>`;
+ }
+}
+</script>
+
+
+<script id="restoredDailyCoverJs">
+const BEREIA_DAILY_FALLBACK=[
+ {text:"A tua palavra é lâmpada para os meus pés e luz para o meu caminho.",ref:"Salmos 119:105",img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=85",book:"Salmos",chapter:119,verse:105},
+ {text:"O Senhor é o meu pastor; nada me faltará.",ref:"Salmos 23:1",img:"https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1600&q=85",book:"Salmos",chapter:23,verse:1},
+ {text:"Confia no Senhor de todo o teu coração.",ref:"Provérbios 3:5",img:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=85",book:"Provérbios",chapter:3,verse:5}
+];
+window.addEventListener("load",()=>{
+ const list=(typeof DAILY!=="undefined"&&Array.isArray(DAILY)&&DAILY.length)?DAILY:BEREIA_DAILY_FALLBACK;
+ const d=list[Math.abs(Math.floor(Date.now()/86400000))%list.length];
+ window.dailyCurrent=d;
+ const c=document.getElementById("bereiaDailyCover"),t=document.getElementById("bdcText"),r=document.getElementById("bdcRef");
+ if(c&&d.img)c.style.backgroundImage=`url("${d.img}")`;if(t)t.textContent="“"+d.text+"”";if(r)r.textContent=d.ref;
+});
+</script>
+
+
+<script id="bereiaSimpleLogic">
+let bereiaSelected={el:null,verse:null,text:"",ref:"",book:"",chapter:null};
+
+function openSimpleBible(){
+ document.body.classList.add("simpleBibleOpen");
+ if(typeof go==="function") go("bible");
+ setTimeout(bindBereiaVerses,250);
+}
+function simpleHome(){
+ document.body.classList.remove("simpleBibleOpen");
+ document.getElementById("bereiaDeepBar")?.classList.remove("show");
+ if(typeof go==="function") try{go("home")}catch(e){}
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function bindBereiaVerses(){
+ const reader=document.getElementById("bibleReader")||document;
+ reader.querySelectorAll(".v,.verse,[data-verse]").forEach(el=>{
+   if(el.dataset.bereiaBound)return;el.dataset.bereiaBound="1";
+   el.addEventListener("click",()=>selectBereiaVerse(el));
+ });
+}
+function selectBereiaVerse(el){
+ if(bereiaSelected.el)bereiaSelected.el.classList.remove("bereiaSelectedVerse");
+ el.classList.add("bereiaSelectedVerse");
+ const n=el.dataset.verse||el.querySelector(".vn,.verse-num")?.textContent?.trim()||"";
+ const text=(el.querySelector(".vt,.verse-text")?.textContent||el.textContent||"").trim();
+ const book=document.getElementById("bibleBook")?.value||"";
+ const chapter=document.getElementById("bibleChapter")?.value||"";
+ bereiaSelected={el,verse:n,text,ref:[book,chapter+(n?":"+n:"")].filter(Boolean).join(" "),book,chapter};
+ document.getElementById("deepSelectionText").textContent=bereiaSelected.ref||("Versículo "+n);
+ document.getElementById("bereiaDeepBar").classList.add("show");
+}
+const OT_BOOKS=["Gênesis","Genesis","Êxodo","Exodo","Levítico","Levitico","Números","Numeros","Deuteronômio","Deuteronomio","Josué","Josue","Juízes","Juizes","Rute","1 Samuel","2 Samuel","1 Reis","2 Reis","1 Crônicas","1 Cronicas","2 Crônicas","2 Cronicas","Esdras","Neemias","Ester","Jó","Jo","Salmos","Provérbios","Proverbios","Eclesiastes","Cânticos","Canticos","Isaías","Isaias","Jeremias","Lamentações","Lamentacoes","Ezequiel","Daniel","Oséias","Oseias","Joel","Amós","Amos","Obadias","Jonas","Miquéias","Miqueias","Naum","Habacuque","Sofonias","Ageu","Zacarias","Malaquias"];
+function originalLanguage(book,chapter){
+ const b=(book||"").toLowerCase(),c=Number(chapter||0);
+ if(b.includes("daniel")&&c>=2&&c<=7)return "Aramaico bíblico";
+ if(b.includes("esdras")&&c>=4&&c<=7)return "Aramaico bíblico";
+ return OT_BOOKS.some(x=>x.toLowerCase()===b)?"Hebraico bíblico":"Grego koiné";
+}
+function openOriginalStudy(){
+ if(!bereiaSelected.el)return;
+ const lang=originalLanguage(bereiaSelected.book,bereiaSelected.chapter);
+ document.getElementById("bomTitle").textContent=bereiaSelected.ref||"Texto original";
+ document.getElementById("bomVerse").textContent=bereiaSelected.text;
+ document.getElementById("bomLang").textContent="Idioma-base: "+lang;
+ const words=document.getElementById("bomWords");words.innerHTML="";
+ // Reuse only verified lexical data already present in the app, if available.
+ const available=(window.BEREIA_LEXICON&&bereiaSelected.ref&&window.BEREIA_LEXICON[bereiaSelected.ref])||[];
+ if(available.length){
+   available.forEach(w=>{const d=document.createElement("div");d.className="bomWord";d.innerHTML=`<div class="original">${w.original||""}</div><div class="translit">${w.transliteration||w.translit||""}</div><div class="meaning">${w.meaning||""}</div>`;words.appendChild(d)});
+   document.getElementById("bomNotice").style.display="none";
+ }else{
+   document.getElementById("bomNotice").style.display="block";
+   document.getElementById("bomNotice").textContent=`Os dados palavra por palavra em ${lang} ainda não estão carregados para este versículo. O BEREIA não exibirá conteúdo inventado.`;
+ }
+ document.getElementById("bereiaOriginalModal").classList.add("open");
+}
+function closeOriginalStudy(){document.getElementById("bereiaOriginalModal").classList.remove("open")}
+
+// Rebind after chapter changes / asynchronous rendering.
+const bereiaObserver=new MutationObserver(()=>bindBereiaVerses());
+window.addEventListener("load",()=>{const r=document.getElementById("bibleReader");if(r)bereiaObserver.observe(r,{childList:true,subtree:true});bindBereiaVerses()});
+</script>
+
+
+<script id="bereiaV6OriginalEngine">
+const BEREIA_BOOK_CODES={
+ "Mateus":"Mt","Marcos":"Mk","Lucas":"Lk","João":"Jn","Joao":"Jn","Atos":"Ac","Romanos":"Ro",
+ "1 Coríntios":"1Co","1 Corintios":"1Co","2 Coríntios":"2Co","2 Corintios":"2Co","Gálatas":"Ga","Galatas":"Ga",
+ "Efésios":"Eph","Efesios":"Eph","Filipenses":"Php","Colossenses":"Col","1 Tessalonicenses":"1Th","2 Tessalonicenses":"2Th",
+ "1 Timóteo":"1Ti","1 Timoteo":"1Ti","2 Timóteo":"2Ti","2 Timoteo":"2Ti","Tito":"Tit","Filemom":"Phm","Hebreus":"Heb",
+ "Tiago":"Jas","1 Pedro":"1Pe","2 Pedro":"2Pe","1 João":"1Jn","1 Joao":"1Jn","2 João":"2Jn","2 Joao":"2Jn",
+ "3 João":"3Jn","3 Joao":"3Jn","Judas":"Jud","Apocalipse":"Re"
+};
+const BEREIA_MORPH_FILES={
+ Mt:"61-Mt-morphgnt.txt",Mk:"62-Mk-morphgnt.txt",Lk:"63-Lk-morphgnt.txt",Jn:"64-Jn-morphgnt.txt",
+ Ac:"65-Ac-morphgnt.txt",Ro:"66-Ro-morphgnt.txt","1Co":"67-1Co-morphgnt.txt","2Co":"68-2Co-morphgnt.txt",
+ Ga:"69-Ga-morphgnt.txt",Eph:"70-Eph-morphgnt.txt",Php:"71-Php-morphgnt.txt",Col:"72-Col-morphgnt.txt",
+ "1Th":"73-1Th-morphgnt.txt","2Th":"74-2Th-morphgnt.txt","1Ti":"75-1Ti-morphgnt.txt","2Ti":"76-2Ti-morphgnt.txt",
+ Tit:"77-Tit-morphgnt.txt",Phm:"78-Phm-morphgnt.txt",Heb:"79-Heb-morphgnt.txt",Jas:"80-Jas-morphgnt.txt",
+ "1Pe":"81-1Pe-morphgnt.txt","2Pe":"82-2Pe-morphgnt.txt","1Jn":"83-1Jn-morphgnt.txt","2Jn":"84-2Jn-morphgnt.txt",
+ "3Jn":"85-3Jn-morphgnt.txt",Jud:"86-Jud-morphgnt.txt",Re:"87-Re-morphgnt.txt"
+};
+const BEREIA_GREEK_GLOSSES={
+ "θεός":"Deus","κύριος":"Senhor; mestre","Ἰησοῦς":"Jesus","Χριστός":"Cristo; Messias; Ungido",
+ "λόγος":"palavra; mensagem; discurso","ἀγάπη":"amor","ἀγαπάω":"amar; demonstrar amor","πίστις":"fé; confiança; fidelidade",
+ "πιστεύω":"crer; confiar","ζωή":"vida","κόσμος":"mundo; humanidade; ordem criada","πνεῦμα":"espírito; vento; sopro",
+ "ἅγιος":"santo; separado","χάρις":"graça; favor","εἰρήνη":"paz; bem-estar","ἀλήθεια":"verdade","φῶς":"luz",
+ "σῶμα":"corpo","ἐκκλησία":"assembleia; igreja","βασιλεία":"reino; reinado","οὐρανός":"céu","ἄνθρωπος":"ser humano; homem",
+ "καρδία":"coração; centro interior","μαθητής":"discípulo; aprendiz","ἀπόστολος":"enviado; apóstolo","σωτηρία":"salvação",
+ "ἁμαρτία":"pecado","δικαιοσύνη":"justiça; retidão","δύναμις":"poder; capacidade","σοφία":"sabedoria","ὁδός":"caminho"
+};
+function bereiaGreekTranslit(s){
+ const m={"α":"a","β":"b","γ":"g","δ":"d","ε":"e","ζ":"z","η":"ē","θ":"th","ι":"i","κ":"k","λ":"l","μ":"m","ν":"n","ξ":"x","ο":"o","π":"p","ρ":"r","σ":"s","ς":"s","τ":"t","υ":"y","φ":"ph","χ":"ch","ψ":"ps","ω":"ō"};
+ return [...String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"")].map(c=>m[c.toLowerCase()]||c).join("");
+}
+function bereiaImportantGreek(row){
+ const pos=row.pos||"";
+ return pos.startsWith("N")||pos.startsWith("V")||pos.startsWith("A")||pos.startsWith("D");
+}
+async function bereiaFetchGreek(book,chapter,verse){
+ const code=BEREIA_BOOK_CODES[book],file=BEREIA_MORPH_FILES[code]; if(!file)return [];
+ const url="https://raw.githubusercontent.com/morphgnt/sblgnt/master/"+file;
+ const res=await fetch(url,{cache:"force-cache"}); if(!res.ok)throw new Error("Fonte grega indisponível");
+ const txt=await res.text(),target=String(chapter).padStart(2,"0")+String(verse).padStart(2,"0");
+ const rows=[];
+ for(const line of txt.split(/\r?\n/)){
+   if(!line.trim())continue;
+   const cols=line.trim().split(/\s+/); if(cols.length<7)continue;
+   const bc=cols[0]; if(!bc.endsWith(target))continue;
+   rows.push({pos:cols[1],parse:cols[2],text:cols[3],word:cols[4],norm:cols[5],lemma:cols.slice(6).join(" ")});
+ }
+ let imp=rows.filter(bereiaImportantGreek);
+ if(imp.length>8)imp=imp.slice(0,8); if(!imp.length)imp=rows.slice(0,8);
+ return imp.map(w=>({original:w.word,transliteration:bereiaGreekTranslit(w.lemma||w.norm),lemma:w.lemma,
+   meaning:BEREIA_GREEK_GLOSSES[w.lemma]||"Lema identificado; significado lexical ampliado ainda não está no dicionário local.",
+   literal:"Forma encontrada no texto grego deste versículo.",morph:w.parse}));
+}
+function bereiaRenderOriginalWords(items,lang){
+ const words=document.getElementById("bomWords"); words.innerHTML="";
+ items.forEach(w=>{
+   const d=document.createElement("div");d.className="bomWord";
+   d.innerHTML=`<div class="original">${w.original||""}</div>
+   <div class="translit">${w.transliteration||""}</div>
+   <div class="lemmaLine">${w.lemma?`Lema: ${w.lemma}`:""}${w.morph?` · Morfologia: ${w.morph}`:""}</div>
+   <div class="meaning"><b>Sentido lexical:</b> ${w.meaning||""}</div>
+   ${w.literal?`<div class="contextSense"><b>Neste versículo:</b> ${w.literal}</div>`:""}`;
+   words.appendChild(d);
+ });
+ document.getElementById("bomStatus").innerHTML=`<i></i><span>${items.length} palavra${items.length===1?"":"s"} principal${items.length===1?"":"is"} em ${lang}</span>`;
+}
+const _bereiaOldOpen=window.openOriginalStudy;
+window.openOriginalStudy=async function(){
+ if(!bereiaSelected.el)return;
+ const lang=originalLanguage(bereiaSelected.book,bereiaSelected.chapter);
+ document.getElementById("bomTitle").textContent=bereiaSelected.ref||"Texto original";
+ document.getElementById("bomVerse").textContent=bereiaSelected.text;
+ document.getElementById("bomLang").textContent="Idioma-base: "+lang;
+ document.getElementById("bomWords").innerHTML="";
+ document.getElementById("bomNotice").style.display="none";
+ document.getElementById("bomStatus").innerHTML='<i></i><span>Carregando palavras do texto original…</span>';
+ document.getElementById("bereiaOriginalModal").classList.add("open");
+ try{
+   let items=[];
+   if(lang==="Grego koiné")items=await bereiaFetchGreek(bereiaSelected.book,bibNum(bereiaSelected.chapter),bibNum(bereiaSelected.verse));
+   // Existing local verified Hebrew/Aramaic examples are retained until OSHB XML adapter is loaded.
+   if(!items.length && typeof bereiaKeyWords==="function")items=bereiaKeyWords(bereiaSelected.ref);
+   if(items.length){bereiaRenderOriginalWords(items,lang);return}
+   throw new Error("Sem dados locais para esta referência");
+ }catch(e){
+   const local=(typeof bereiaKeyWords==="function")?bereiaKeyWords(bereiaSelected.ref):[];
+   if(local.length){bereiaRenderOriginalWords(local,lang);return}
+   document.getElementById("bomStatus").innerHTML='<i></i><span>Base original não pôde ser carregada neste modo</span>';
+   document.getElementById("bomNotice").style.display="block";
+   document.getElementById("bomNotice").textContent=
+     location.protocol==="file:"?
+     "Este arquivo foi aberto diretamente no celular (content:// ou file://). O navegador pode bloquear a consulta à base linguística externa. Quando o BEREIA estiver publicado em HTTPS, a consulta automática poderá funcionar. Os exemplos já incorporados continuam disponíveis.":
+     "Não foi possível consultar a base linguística agora. Verifique a conexão e tente novamente.";
+ }
+}
+function bibNum(x){const m=String(x||"").match(/\d+/);return m?Number(m[0]):0}
+</script>
+
+<style id="bereiaV7Styles">#bereiaBuildBadge{position:fixed;right:12px;bottom:12px;z-index:9999;background:#151515;border:1px solid #b9964a;color:#e8cf91;padding:7px 10px;border-radius:999px;font:600 11px system-ui;opacity:.82}</style>
+<script id="bereiaV7Core">
+function bereiaCurrentBookName(){const s=document.getElementById("bibleBook");if(!s)return "";const o=s.options&&s.selectedIndex>=0?s.options[s.selectedIndex]:null;return(o&&o.textContent?o.textContent:s.value||"").trim()}
+function bereiaCanonBookName(book){const b=String(book||"").trim();if(typeof BEREIA_BOOK_CODES!=="undefined"&&BEREIA_BOOK_CODES[b])return b;const s=document.getElementById("bibleBook"),o=s&&s.options?s.options[s.selectedIndex]:null;return(o&&o.textContent?o.textContent:b).trim()}
+window.selectBereiaVerse=function(el){if(bereiaSelected.el)bereiaSelected.el.classList.remove("bereiaSelectedVerse");el.classList.add("bereiaSelectedVerse");const n=el.dataset.verse||el.querySelector(".vn,.verse-num")?.textContent?.trim()||"";const clone=el.cloneNode(true);clone.querySelector(".vn,.verse-num")?.remove();const txt=(el.querySelector(".vt,.verse-text")?.textContent||clone.textContent||"").trim();const book=bereiaCurrentBookName(),chapter=document.getElementById("bibleChapter")?.value||"";bereiaSelected={el,verse:n,text:txt,ref:book+" "+chapter+":"+n,book,chapter};const t=document.getElementById("deepSelectionText");if(t)t.textContent=bereiaSelected.ref;document.getElementById("bereiaDeepBar")?.classList.add("show")};
+const bereiaFetchGreekBase=window.bereiaFetchGreek;if(typeof bereiaFetchGreekBase==="function"){window.bereiaFetchGreek=async function(book,chapter,verse){return bereiaFetchGreekBase(bereiaCanonBookName(book),chapter,verse)}}
+window.addEventListener("load",()=>{const b=document.getElementById("bibleBook"),ch=document.getElementById("bibleChapter");[b,ch].filter(Boolean).forEach(x=>x.addEventListener("change",()=>document.getElementById("bereiaDeepBar")?.classList.remove("show")));const badge=document.createElement("div");badge.id="bereiaBuildBadge";badge.textContent="BEREIA • V7";document.body.appendChild(badge)});
+</script></body></html>
