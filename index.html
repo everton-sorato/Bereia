@@ -771,4 +771,29 @@ function bereiaOpenCanon(kind){
 const _toggleV11=window.bereiaToggleLayer;
 window.bereiaToggleLayer=function(k){if(k==="apocrypha")return bereiaOpenCanon("catholic");return _toggleV11(k)}
 window.addEventListener("load",()=>{const badge=document.getElementById("bereiaBuildBadge");if(badge)badge.textContent="BEREIA • V11"});
+</script><style id="bereiaV12Styles">
+.bereia-library-switch{max-width:980px;margin:12px auto;padding:0 14px}.bereia-library-title{font:700 12px system-ui;letter-spacing:.1em;color:#c9a85b;margin-bottom:8px}.bereia-library-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.bereia-library-tabs button{border:1px solid #3a3222;background:#121212;color:#cfc4a8;border-radius:13px;padding:10px 6px;font:600 11px system-ui}.bereia-library-tabs button.active{background:#292113;border-color:#b9964a;color:#f0d48e}.bereia-library-info{margin-top:8px;color:#999;font:11px/1.45 system-ui}
+</style>
+<script id="bereiaV12Libraries">
+window.BEREIA_LIBRARY_MODE="protestant";
+window.BEREIA_LIBRARIES={
+ protestant:{label:"66 Livros",desc:"Cânon protestante: 39 livros do Antigo Testamento e 27 do Novo Testamento."},
+ catholic:{label:"Católica",desc:"Cânon católico: inclui os livros deuterocanônicos e as adições reconhecidas nessa tradição."},
+ ancient:{label:"Apócrifos / Literatura Antiga",desc:"Biblioteca complementar. Cada obra deve indicar claramente sua tradição, recepção canônica e fonte textual."}
+};
+function bereiaSetLibrary(mode){
+ if(!BEREIA_LIBRARIES[mode])return;BEREIA_LIBRARY_MODE=mode;
+ document.querySelectorAll(".bereia-library-tabs button").forEach(x=>x.classList.toggle("active",x.dataset.lib===mode));
+ const i=document.getElementById("bereiaLibraryInfo");if(i)i.textContent=BEREIA_LIBRARIES[mode].desc;
+ if(mode==="ancient"&&typeof bereiaOpenCanon==="function")bereiaOpenCanon("historical");
+ if(mode==="catholic"&&typeof bereiaOpenCanon==="function")bereiaOpenCanon("catholic");
+}
+window.addEventListener("load",()=>{
+ if(document.getElementById("bereiaLibrarySwitch"))return;
+ const entry=document.getElementById("bereiaSimpleEntry");if(!entry)return;
+ const w=document.createElement("section");w.id="bereiaLibrarySwitch";w.className="bereia-library-switch";
+ w.innerHTML='<div class="bereia-library-title">ESCOLHA SUA BIBLIOTECA BÍBLICA</div><div class="bereia-library-tabs"><button data-lib="protestant" class="active" onclick="bereiaSetLibrary(\'protestant\')">📖 66 Livros</button><button data-lib="catholic" onclick="bereiaSetLibrary(\'catholic\')">✝ Católica</button><button data-lib="ancient" onclick="bereiaSetLibrary(\'ancient\')">📜 Apócrifos</button></div><div id="bereiaLibraryInfo" class="bereia-library-info">'+BEREIA_LIBRARIES.protestant.desc+'</div>';
+ entry.insertAdjacentElement("afterend",w);
+ const badge=document.getElementById("bereiaBuildBadge");if(badge)badge.textContent="BEREIA • V12";
+});
 </script></body></html>
