@@ -839,4 +839,22 @@ window.bereiaOpenExtraBook=function(mode,i){
  box.innerHTML='<div class="bereia-library-reader"><h3>'+x[0]+'</h3><p>'+x[1]+'</p><p><b>Edição de leitura:</b> World English Bible — Catholic Book Order (inglês).</p>'+bereiaWebcChapterSelect(x[0])+'<div class="bereia-read-actions"><a id="bereiaWebcOpen" target="_blank" rel="noopener" href="'+bereiaWebcUrl(x[0],1)+'">📖 Ler capítulo completo</a></div><div class="bereia-license">Texto integral da WEB Catholic em domínio público. O BEREIA mantém o texto da edição sem alteração e identifica a fonte.</div></div>'+bereiaExtraBooks("catholic");box.classList.add("show");box.scrollIntoView({behavior:"smooth",block:"nearest"});
 };
 window.addEventListener("load",()=>{const badge=document.getElementById("bereiaBuildBadge");if(badge)badge.textContent="BEREIA • V14"});
+</script><style id="bereiaV15Styles">
+.bereia-pt-reader{margin-top:12px;border:1px solid #3a3222;border-radius:15px;overflow:hidden;background:#0d0d0d}.bereia-pt-reader iframe{display:block;width:100%;height:68vh;min-height:520px;border:0;background:#fff}.bereia-reader-head{padding:12px;background:#15130f}.bereia-reader-head b{color:#e0c477;font:700 14px system-ui}.bereia-reader-head p{color:#999;font:11px/1.45 system-ui;margin:5px 0 0}
+</style>
+<script id="bereiaV15Portuguese">
+window.BEREIA_PT_CATHOLIC={
+ "Tobias":{slug:"tobias",chapters:14},"Judite":{slug:"judite",chapters:16},"Sabedoria":{slug:"sabedoria",chapters:19},"Eclesiástico (Sirácida)":{slug:"eclesiastico",chapters:51},"Baruc":{slug:"baruc",chapters:6},"1 Macabeus":{slug:"1-macabeus",chapters:16},"2 Macabeus":{slug:"2-macabeus",chapters:15},"Adições a Daniel":{slug:"daniel",chapters:14}
+};
+function bereiaPtCatholicUrl(book,ch){const d=BEREIA_PT_CATHOLIC[book];return d?"https://saosebastiaomococa.com.br/biblia/"+d.slug+"/"+(ch||1):""}
+function bereiaPtChapterSelect(book){const d=BEREIA_PT_CATHOLIC[book];if(!d)return "";return '<select id="bereiaPtChapter" onchange="bereiaLoadPtChapter(\''+book.replace(/'/g,"\\'")+'\')" style="background:#151515;color:#ddd;border:1px solid #3b3323;border-radius:10px;padding:9px">'+Array.from({length:d.chapters},(_,i)=>'<option value="'+(i+1)+'">Capítulo '+(i+1)+'</option>').join("")+'</select>'}
+function bereiaLoadPtChapter(book){const ch=document.getElementById("bereiaPtChapter")?.value||1,fr=document.getElementById("bereiaPtFrame");if(fr)fr.src=bereiaPtCatholicUrl(book,ch)}
+const _extraV15=window.bereiaOpenExtraBook;
+window.bereiaOpenExtraBook=function(mode,i){
+ if(mode!=="catholic")return _extraV15(mode,i);
+ const x=BEREIA_CATHOLIC_BOOKS[i],d=x&&BEREIA_PT_CATHOLIC[x[0]],box=document.getElementById("bereiaStudyPanel");if(!x||!box)return;
+ if(!d)return _extraV15(mode,i);
+ box.innerHTML='<div class="bereia-library-reader"><h3>'+x[0]+'</h3><p>'+x[1]+'</p>'+bereiaPtChapterSelect(x[0])+'<div class="bereia-pt-reader"><div class="bereia-reader-head"><b>Leitura em português</b><p>Pe. Antônio Pereira de Figueiredo — edição em domínio público; digitalização em revisão pela fonte.</p></div><iframe id="bereiaPtFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="'+bereiaPtCatholicUrl(x[0],1)+'" title="'+x[0]+' em português"></iframe></div></div>'+bereiaExtraBooks("catholic");box.classList.add("show");box.scrollIntoView({behavior:"smooth",block:"nearest"});
+};
+window.addEventListener("load",()=>{const badge=document.getElementById("bereiaBuildBadge");if(badge)badge.textContent="BEREIA • V15"});
 </script></body></html>
