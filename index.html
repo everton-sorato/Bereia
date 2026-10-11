@@ -1046,4 +1046,39 @@ window.openOriginalStudy=function(){const r=typeof _origV23==="function"?_origV2
 const _deepContextV23=window.openBereiaDeep;
 if(typeof _deepContextV23==="function")window.openBereiaDeep=async function(){const r=await _deepContextV23.apply(this,arguments);setTimeout(bereiaInjectVerseContext,100);return r};
 window.addEventListener("load",()=>{const badge=document.getElementById("bereiaBuildBadge");if(badge)badge.textContent="BEREIA • V23"});
+</script><style id="bereiaV24Styles">
+.bereia-event-pack{display:grid;gap:8px;margin-top:10px}.bereia-event{border:1px solid #3b3427;border-radius:12px;padding:11px;background:#0c0f0e}.bereia-event b{color:#e8ca7e;font:700 12px system-ui}.bereia-event span{display:block;color:#aaa;font:11px/1.5 system-ui;margin-top:4px}.bereia-event em{display:block;color:#858b88;font:10px/1.4 system-ui;margin-top:5px}
+</style>
+<script id="bereiaV24PassageEvents">
+window.BEREIA_PASSAGE_EVENTS=[
+ {book:"Gênesis",from:1,to:11,title:"Origens",place:"Mundo primordial na narrativa bíblica",history:"Criação, queda, dilúvio e Babel formam a seção primeva de Gênesis.",evidence:"O BEREIA não tratará esses capítulos como se possuíssem uma localização arqueológica única comprovada."},
+ {book:"Gênesis",from:12,to:36,title:"Patriarcas",place:"Canaã, Mesopotâmia e Egito",history:"Ciclo de Abraão, Isaque, Jacó e suas famílias.",evidence:"Costumes e lugares do antigo Oriente Próximo podem contextualizar a narrativa; isso não equivale a comprovação arqueológica individual dos patriarcas."},
+ {book:"Gênesis",from:37,to:50,title:"José e o Egito",place:"Canaã e Egito",history:"Narrativa de José, migração familiar e estabelecimento no Egito.",evidence:"O contexto egípcio pode ser estudado historicamente; identificações específicas de José em fontes egípcias exigem cautela."},
+ {book:"Êxodo",from:1,to:15,title:"Saída do Egito",place:"Egito e rota rumo ao Sinai",history:"Opressão, Moisés, pragas, Páscoa e saída.",evidence:"A rota exata e várias identificações geográficas permanecem debatidas."},
+ {book:"Êxodo",from:16,to:40,title:"Sinai e aliança",place:"Deserto/Sinai",history:"Jornada, aliança, legislação e tabernáculo.",evidence:"A localização precisa do monte Sinai é objeto de propostas concorrentes."},
+ {book:"Josué",from:1,to:12,title:"Entrada em Canaã",place:"Jordão, Jericó e Canaã",history:"Narrativas de entrada, batalhas e conquista.",evidence:"A interpretação arqueológica do processo de ocupação de Canaã é debatida; sítios devem ser tratados individualmente."},
+ {book:"1 Samuel",from:8,to:31,title:"Ascensão da monarquia",place:"Israel",history:"Samuel, Saul e ascensão de Davi.",evidence:"Contextualizar a formação da monarquia sem atribuir automaticamente cada achado ao personagem bíblico."},
+ {book:"2 Samuel",from:1,to:24,title:"Reinado de Davi",place:"Hebrom, Jerusalém e Israel",history:"Consolidação do reinado de Davi e conflitos de sua casa.",evidence:"Inscrições relacionadas à 'Casa de Davi' pertencem ao debate histórico da dinastia, não são prova de cada episódio narrado."},
+ {book:"2 Reis",from:17,to:17,title:"Queda de Samaria",place:"Samaria / Império Assírio",history:"Fim do Reino do Norte sob expansão assíria.",evidence:"Há contexto histórico neoassírio independente útil para esta fase."},
+ {book:"2 Reis",from:24,to:25,title:"Queda de Jerusalém e exílio",place:"Jerusalém e Babilônia",history:"Campanhas babilônicas, destruição de Jerusalém e deportação.",evidence:"Fontes babilônicas e arqueologia de Judá ajudam a contextualizar o período."},
+ {book:"Esdras",from:1,to:10,title:"Retorno e reconstrução",place:"Pérsia, Babilônia e Jerusalém",history:"Retorno, templo e reorganização comunitária no período persa.",evidence:"O quadro imperial persa é historicamente documentado; detalhes devem ser correlacionados fonte a fonte."},
+ {book:"Neemias",from:1,to:13,title:"Jerusalém no período persa",place:"Jerusalém",history:"Reconstrução das muralhas e reformas comunitárias.",evidence:"Arqueologia de Jerusalém persa é relevante, mas atribuições específicas a Neemias precisam de fonte."},
+ {book:"Mateus",from:1,to:4,title:"Nascimento e início do ministério",place:"Belém, Egito, Nazaré, Judeia e Galileia",history:"Infância, João Batista, batismo, tentação e início do ministério.",evidence:"Herodes, administração romana e localidades possuem documentação histórica em diferentes níveis."},
+ {book:"Mateus",from:21,to:28,title:"Última semana, morte e ressurreição",place:"Jerusalém e arredores",history:"Entrada em Jerusalém, paixão, crucificação e relatos da ressurreição.",evidence:"Contexto de crucificação romana e Jerusalém do Segundo Templo é historicamente documentável; afirmações teológicas são identificadas como tais."},
+ {book:"Lucas",from:1,to:4,title:"Nascimento e início do ministério",place:"Judeia, Belém, Nazaré e Galileia",history:"Nascimento de João e Jesus, infância e início do ministério.",evidence:"Personagens e estruturas administrativas devem ser avaliados com fontes históricas específicas."},
+ {book:"João",from:18,to:21,title:"Paixão e ressurreição",place:"Jerusalém",history:"Prisão, julgamento, crucificação e relatos pós-ressurreição.",evidence:"Topografia de Jerusalém e práticas romanas podem ser contextualizadas; locais tradicionais precisam ser classificados por grau de identificação."},
+ {book:"Atos",from:1,to:7,title:"Igreja em Jerusalém",place:"Jerusalém",history:"Pentecostes e formação da comunidade cristã primitiva.",evidence:"Contexto do Segundo Templo e da cidade ajuda a interpretar a narrativa."},
+ {book:"Atos",from:8,to:12,title:"Expansão para Judeia e além",place:"Judeia, Samaria, Cesareia, Damasco e Antioquia",history:"Expansão missionária e conversão de Saulo.",evidence:"Estradas, cidades e administração romana podem ser mapeadas com fontes antigas."},
+ {book:"Atos",from:13,to:21,title:"Viagens missionárias de Paulo",place:"Chipre, Ásia Menor, Macedônia e Acaia",history:"Missões paulinas pelo Mediterrâneo oriental.",evidence:"Muitas cidades são arqueologicamente conhecidas; rotas exatas devem ser distinguidas entre texto e reconstrução."},
+ {book:"Atos",from:22,to:28,title:"Paulo rumo a Roma",place:"Jerusalém, Cesareia, Mediterrâneo e Roma",history:"Prisão, julgamentos, viagem marítima e chegada a Roma.",evidence:"Contexto jurídico, marítimo e administrativo romano pode ser comparado a fontes antigas."},
+ {book:"Apocalipse",from:1,to:3,title:"Sete igrejas da Ásia",place:"Éfeso, Esmirna, Pérgamo, Tiatira, Sardes, Filadélfia e Laodiceia",history:"Mensagens às sete comunidades da província romana da Ásia.",evidence:"As cidades e vários elementos de seu contexto são arqueologicamente documentados; aplicações simbólicas devem permanecer distintas."}
+];
+function bereiaPassageEvent(book,ch){ch=Number(ch||0);return BEREIA_PASSAGE_EVENTS.find(x=>x.book===book&&ch>=x.from&&ch<=x.to)}
+function bereiaPassageEventHTML(){
+ const s=window.bereiaSelected||{},e=bereiaPassageEvent(s.book,s.chapter);if(!e)return "";
+ return '<div class="bereia-event-pack"><div class="bereia-event"><b>📜 '+e.title+'</b><span><strong>Passagem:</strong> '+e.book+' '+e.from+(e.to!==e.from?'–'+e.to:'')+'</span><span><strong>Local:</strong> '+e.place+'</span><span><strong>Contexto:</strong> '+e.history+'</span><em><strong>Evidência e cautela:</strong> '+e.evidence+'</em></div></div>';
+}
+const _ctxHtmlV24=window.bereiaContextHTML;
+window.bereiaContextHTML=function(){return (typeof _ctxHtmlV24==="function"?_ctxHtmlV24():"")+bereiaPassageEventHTML()};
+window.addEventListener("load",()=>{const badge=document.getElementById("bereiaBuildBadge");if(badge)badge.textContent="BEREIA • V24"});
 </script></body></html>
