@@ -1033,7 +1033,7 @@ function bereiaBookContext(book){
  return null;
 }
 function bereiaContextHTML(){
- const s=window.bereiaSelected||{},d=bereiaBookContext(s.book);if(!d)return '<div class="bereia-context-note">Referências históricas e geográficas específicas desta passagem ainda estão em expansão.</div>';
+ const s=(typeof bereiaSelected!=="undefined"?bereiaSelected:(window.bereiaSelected||{})),d=bereiaBookContext(s.book);if(!d)return '<div class="bereia-context-note">Referências históricas e geográficas específicas desta passagem ainda estão em expansão.</div>';
  return '<div class="bereia-context-pack"><div class="bereia-context-item"><b>🏺 Contexto histórico do livro</b><span>'+d.history+'</span></div><div class="bereia-context-item"><b>🗺️ Geografia relacionada</b><span>'+d.geo+'</span></div><div class="bereia-context-item"><b>🔎 Temas para investigação</b><span>'+d.topics+'</span></div><div class="bereia-context-item"><b>⚖️ Nota de evidência</b><span>'+d.note+'</span></div></div><div class="bereia-context-note">Estas informações contextualizam o livro. Evidência arqueológica direta de um versículo só será indicada quando houver fonte específica.</div>';
 }
 function bereiaInjectVerseContext(){
@@ -1075,7 +1075,7 @@ window.BEREIA_PASSAGE_EVENTS=[
 ];
 function bereiaPassageEvent(book,ch){ch=Number(ch||0);return BEREIA_PASSAGE_EVENTS.find(x=>x.book===book&&ch>=x.from&&ch<=x.to)}
 function bereiaPassageEventHTML(){
- const s=window.bereiaSelected||{},e=bereiaPassageEvent(s.book,s.chapter);if(!e)return "";
+ const s=(typeof bereiaSelected!=="undefined"?bereiaSelected:(window.bereiaSelected||{})),e=bereiaPassageEvent(s.book,s.chapter);if(!e)return "";
  return '<div class="bereia-event-pack"><div class="bereia-event"><b>📜 '+e.title+'</b><span><strong>Passagem:</strong> '+e.book+' '+e.from+(e.to!==e.from?'–'+e.to:'')+'</span><span><strong>Local:</strong> '+e.place+'</span><span><strong>Contexto:</strong> '+e.history+'</span><em><strong>Evidência e cautela:</strong> '+e.evidence+'</em></div></div>';
 }
 const _ctxHtmlV24=window.bereiaContextHTML;
