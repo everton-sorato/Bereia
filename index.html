@@ -1513,4 +1513,31 @@ window.bereiaApplyDaily=function(){
 window.initDaily=window.bereiaApplyDaily;
 window.addEventListener('load',()=>{setTimeout(window.bereiaApplyDaily,20);const b=document.getElementById('bereiaBuildBadge');if(b)b.textContent='BEREIA • V38'});
 })();
+</script><style id="bereiaV39PolishStyles">
+#bdcTheme{display:inline-flex;align-items:center;gap:6px;margin:0 0 9px;padding:5px 9px;border:1px solid rgba(235,205,126,.45);border-radius:999px;background:rgba(12,16,13,.48);color:#f0d991;font:800 10px/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+#v39StudyTheme{margin:8px 0 11px;padding:9px 11px;border-left:3px solid #d8b963;background:#111611;color:#c9c6bb;font:12px/1.5 system-ui;border-radius:0 9px 9px 0}#v39StudyTheme b{color:#e7ca7c}
+</style>
+<script id="bereiaV39Polish">
+(function(){
+ const THEMES=[
+  ['fé',['fé','confia','confiança','esperam','fundamento']],['oração',['orai','orar','oração','pedidos']],['sabedoria',['sabedoria','entendimento','coração','pensamentos']],['esperança',['esperança','esperam','renovarão','socorro']],['salvação',['salvação','salvos','cristo morreu','filho unigênito']],['amor',['amor','amarás','ama','deus é amor']],['paz',['paz','inquietos','ansiedade']],['coragem',['não temas','bom ânimo','fortaleza','temerei']],['vida com Deus',['palavra','caminho','reino de deus','segue','videira']],['graça',['graça','misericórdias','misericordia']],['perseverança',['fortalece','armadura','tentação','cansados']],['nova vida',['nova criatura','renovação','fruto do espírito']]
+ ];
+ function theme(d){const s=((d?.text||'')+' '+(d?.ref||'')).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();for(const [n,ks] of THEMES)if(ks.some(k=>s.includes(k.normalize('NFD').replace(/[\u0300-\u036f]/g,''))))return n;return 'vida com Deus'}
+ function applyTheme(){
+  const d=typeof bereiaDailyToday==='function'?bereiaDailyToday():window.dailyCurrent;if(!d)return;d.theme=theme(d);
+  const content=document.querySelector('#bereiaDailyCover .bdcContent'),label=document.querySelector('#bereiaDailyCover .bdcLabel');if(content&&!document.getElementById('bdcTheme')){const x=document.createElement('div');x.id='bdcTheme';label?.insertAdjacentElement('afterend',x)}
+  const x=document.getElementById('bdcTheme');if(x)x.textContent='Tema · '+d.theme;
+ }
+ function studyTheme(){
+  const modal=document.getElementById('bereiaOriginalModal'),verse=document.getElementById('bomVerse');if(!modal||!verse)return;
+  let x=document.getElementById('v39StudyTheme');if(!x){x=document.createElement('div');x.id='v39StudyTheme';verse.insertAdjacentElement('afterend',x)}
+  const d=typeof bereiaDailyToday==='function'?bereiaDailyToday():null,s=typeof bereiaSelected!=='undefined'?bereiaSelected:null;
+  const isDaily=d&&s&&String(s.ref||'')===String(d.ref||'');x.innerHTML='<b>Tema de estudo:</b> '+(isDaily?theme(d):'Estudo da passagem selecionada');
+ }
+ const oldApply=window.bereiaApplyDaily;
+ window.bereiaApplyDaily=function(){const d=typeof oldApply==='function'?oldApply():null;applyTheme();return d};
+ const oldOpen=window.openOriginalStudy;
+ window.openOriginalStudy=function(){const r=typeof oldOpen==='function'?oldOpen.apply(this,arguments):undefined;setTimeout(studyTheme,80);return r};
+ window.addEventListener('load',()=>{setTimeout(()=>{applyTheme();const b=document.getElementById('bereiaBuildBadge');if(b)b.textContent='BEREIA • V39'},120)});
+})();
 </script></body></html>
