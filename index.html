@@ -1365,4 +1365,30 @@ body:not(.simpleBibleOpen) #bereiaStudyPanel.show{display:block!important}
  };
  window.addEventListener('load',()=>{const b=document.getElementById('bereiaBuildBadge');if(b)b.textContent='BEREIA • V34';});
 })();
+</script><style id="bereiaV35RefineStyles">
+#bereiaLicenseCenter{max-width:980px;margin:14px auto 24px;padding:0 14px;font-family:system-ui}
+#bereiaLicenseCenter details{border:1px solid #4a402d;border-radius:16px;background:#111511;padding:14px;color:#ccc}
+#bereiaLicenseCenter summary{cursor:pointer;color:#e6c878;font-weight:800}
+.blc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.blc-card{border:1px solid #393529;border-radius:12px;padding:11px;background:#0c100d}.blc-card b{display:block;color:#eee;font-size:12px}.blc-card span{display:block;color:#aaa;font-size:11px;line-height:1.45;margin-top:5px}.blc-ok{color:#92d69a!important}.blc-warn{color:#e9c46a!important}.blc-stop{color:#ef9a9a!important}
+.bereiaStudyIntro{padding:11px 12px;border:1px solid #403827;border-radius:12px;background:#121611;color:#bbb;font:12px/1.55 system-ui;margin:8px 0 12px}.bereiaStudyIntro b{color:#e5c574}
+@media(max-width:650px){.blc-grid{grid-template-columns:1fr}}
+</style>
+<script id="bereiaV35Refine">
+(function(){
+ function licenseCenter(){
+  if(document.getElementById('bereiaLicenseCenter'))return;
+  const anchor=document.getElementById('bereiaLibrarySwitch')||document.getElementById('bereiaSimpleEntry');if(!anchor)return;
+  const s=document.createElement('section');s.id='bereiaLicenseCenter';
+  s.innerHTML='<details><summary>🛡️ Fontes e licenças do BEREIA</summary><div class="blc-grid"><div class="blc-card"><b class="blc-ok">✓ Uso aberto / domínio público</b><span>Somente edições e bases cuja licença foi identificada. Créditos e condições devem ser preservados.</span></div><div class="blc-card"><b class="blc-warn">◐ Uso condicionado</b><span>Creative Commons, mapas, imagens e bases que exigem atribuição ou conferência por item.</span></div><div class="blc-card"><b class="blc-stop">⛔ Não incorporar sem autorização</b><span>Traduções modernas comerciais e qualquer material cujo direito de redistribuição não esteja confirmado.</span></div></div><p style="font-size:11px;color:#999;line-height:1.55">Regra do projeto: link público não significa licença para copiar o conteúdo. O BEREIA identifica a fonte e só incorpora material integral quando os direitos forem compatíveis.</p></details>';
+  anchor.insertAdjacentElement('afterend',s);
+ }
+ function refineStudy(){
+  const modal=document.getElementById('bereiaOriginalModal'),verse=document.getElementById('bomVerse');if(!modal||!verse||document.getElementById('bereiaStudyIntro'))return;
+  const intro=document.createElement('div');intro.id='bereiaStudyIntro';intro.className='bereiaStudyIntro';intro.innerHTML='<b>Como estudar este versículo</b><br>Comece pelo texto. Depois avance para o idioma original, contexto e evidências históricas. O BEREIA separa informação documentada de hipótese.';
+  verse.insertAdjacentElement('afterend',intro);
+ }
+ const oldOpen=window.openOriginalStudy;
+ if(typeof oldOpen==='function')window.openOriginalStudy=function(){const r=oldOpen.apply(this,arguments);setTimeout(refineStudy,20);return r};
+ window.addEventListener('load',()=>{licenseCenter();refineStudy();const b=document.getElementById('bereiaBuildBadge');if(b)b.textContent='BEREIA • V35'});
+})();
 </script></body></html>
