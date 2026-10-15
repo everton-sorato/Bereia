@@ -1124,4 +1124,41 @@ window.addEventListener("load",()=>{
  document.body.classList.remove("simpleBibleOpen");
  const b=document.getElementById("bereiaBuildBadge");if(b)b.textContent="BEREIA • V29";
 });
+</script><style id="bereiaV30ReaderUX">
+/* leitor focado: escolher e ler sem ruído */
+body.simpleBibleOpen .topbar,body.simpleBibleOpen .hero,body.simpleBibleOpen .quickGrid,
+body.simpleBibleOpen .stats,body.simpleBibleOpen .sectionTitle,body.simpleBibleOpen .cards,
+body.simpleBibleOpen #bereiaSourcesSection,body.simpleBibleOpen #bereiaResearchHub,
+body.simpleBibleOpen #bereiaCoverage,body.simpleBibleOpen #bereiaBookDossiers,
+body.simpleBibleOpen #bereiaCanonLibrary{display:none!important}
+body.simpleBibleOpen [data-page="bible"]{padding-top:64px!important}
+body.simpleBibleOpen .bibleControls{position:sticky;top:8px;z-index:100;background:rgba(12,15,18,.96);backdrop-filter:blur(10px);border-radius:16px;padding:10px}
+body.simpleBibleOpen #bibleVersion,body.simpleBibleOpen #bibleBook,body.simpleBibleOpen #bibleChapter{min-height:46px;font-size:16px}
+body.simpleBibleOpen #bibleReader{font-size:18px;line-height:1.8}
+body.simpleBibleOpen #verseDock{display:none!important}
+body.simpleBibleOpen .readerNav{margin-top:8px}
+body.simpleBibleOpen .readerNav .btn{min-height:42px}
+@media(max-width:600px){
+ body.simpleBibleOpen [data-page="bible"]{padding-left:8px!important;padding-right:8px!important}
+ body.simpleBibleOpen .bibleControls{display:grid!important;grid-template-columns:1fr 1fr;gap:7px}
+ body.simpleBibleOpen #bibleVersion{grid-column:1/-1}
+ body.simpleBibleOpen .bibleControls>.btn{grid-column:1/-1}
+ body.simpleBibleOpen #bibleReader{padding:15px 10px!important;font-size:18px;line-height:1.85}
+ body.simpleBibleOpen .readerNav{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+ body.simpleBibleOpen .readerNav>div{grid-column:1/-1;grid-row:1;text-align:center}
+}
+</style>
+<script id="bereiaV30ReaderScript">
+(function(){
+ const oldOpen=window.openSimpleBible;
+ window.openSimpleBible=function(){
+  if(typeof oldOpen==="function")oldOpen();
+  setTimeout(()=>{document.getElementById("bibleBook")?.focus({preventScroll:true});document.querySelector('[data-page="bible"]')?.scrollIntoView({block:"start"});},180);
+ };
+ const oldBook=window.bookChanged;
+ if(typeof oldBook==="function")window.bookChanged=function(){const r=oldBook.apply(this,arguments);setTimeout(()=>document.getElementById("bibleChapter")?.focus({preventScroll:true}),80);return r};
+ const oldLoad=window.loadChapter;
+ if(typeof oldLoad==="function")window.loadChapter=function(){document.getElementById("bereiaDeepBar")?.classList.remove("show");const r=oldLoad.apply(this,arguments);setTimeout(()=>{bindBereiaVerses();document.getElementById("bibleReader")?.scrollIntoView({block:"start",behavior:"smooth"});},350);return r};
+ window.addEventListener("load",()=>{const b=document.getElementById("bereiaBuildBadge");if(b)b.textContent="BEREIA • V30"});
+})();
 </script></body></html>
