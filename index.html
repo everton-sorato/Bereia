@@ -149,7 +149,7 @@ body.simpleBibleOpen #bereiaDailyCover,body.simpleBibleOpen #bereiaSimpleEntry{d
 .bomWord b{color:#dfbd66}
 </style>
 
-</head><body>
+<link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#151a16"><link rel="icon" type="image/svg+xml" href="./bereia-icon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="BEREIA"></head><body>
 <section id="bereiaDailyCover" class="bereiaDailyCover" onclick="openDailyArt(event)">
  <div class="bdcShade"></div>
  <div class="bdcContent">
@@ -1160,5 +1160,54 @@ body.simpleBibleOpen .readerNav .btn{min-height:42px}
  const oldLoad=window.loadChapter;
  if(typeof oldLoad==="function")window.loadChapter=function(){document.getElementById("bereiaDeepBar")?.classList.remove("show");const r=oldLoad.apply(this,arguments);setTimeout(()=>{bindBereiaVerses();document.getElementById("bibleReader")?.scrollIntoView({block:"start",behavior:"smooth"});},350);return r};
  window.addEventListener("load",()=>{const b=document.getElementById("bereiaBuildBadge");if(b)b.textContent="BEREIA • V30"});
+})();
+</script><style id="bereiaV31Styles">
+#bereiaInstallButton{display:flex;align-items:center;justify-content:center;gap:10px;width:min(100% - 16px,980px);margin:0 auto 18px;border:1px solid #e1c078;border-radius:16px;background:#e1c078;color:#15140f;font:800 16px system-ui;min-height:54px;cursor:pointer}
+body.simpleBibleOpen #bereiaInstallButton{display:none}
+#bereiaInstallHelp{display:none;width:min(100% - 16px,980px);margin:0 auto 20px;padding:16px;border:1px solid #4c4029;border-radius:14px;background:#181b18;color:#ddd;font:13px/1.6 system-ui}
+#bereiaInstallHelp.show{display:block}
+#bereiaStudyNav{display:flex;gap:7px;overflow-x:auto;padding:8px 0 14px;scrollbar-width:thin}
+#bereiaStudyNav button{flex:none;border:1px solid #49432e;border-radius:999px;background:#191d19;color:#dfd7bc;padding:10px 13px;font:700 12px system-ui;min-height:42px}
+#bereiaStudyNav button.active{background:#dfbd66;color:#15140f}
+.bereiaStudySection{display:none!important}.bereiaStudySection.active{display:block!important}
+</style>
+<button id="bereiaInstallButton" type="button">📲 Instalar BEREIA no celular</button>
+<div id="bereiaInstallHelp" role="status" aria-live="polite"></div>
+<script id="bereiaV31InstallStudy">
+(function(){
+ let deferredPrompt=null;
+ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e});
+ window.addEventListener('appinstalled',()=>{const b=document.getElementById('bereiaInstallButton');if(b)b.style.display='none'});
+ document.getElementById('bereiaInstallButton')?.addEventListener('click',async()=>{
+  const help=document.getElementById('bereiaInstallHelp');
+  if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;return}
+  const ios=/iPhone|iPad|iPod/i.test(navigator.userAgent);
+  help.textContent=ios?'No iPhone: abra no Safari, toque em Compartilhar e depois em Adicionar à Tela de Início.':'No Android: abra no Chrome, toque no menu ⋮ e escolha Instalar aplicativo ou Adicionar à tela inicial.';
+  help.classList.toggle('show');
+ });
+ if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+ function prepareStudy(){
+  const modal=document.getElementById('bereiaOriginalModal');
+  if(!modal||document.getElementById('bereiaStudyNav'))return;
+  const target=document.getElementById('bomLang');if(!target)return;
+  const nav=document.createElement('nav');nav.id='bereiaStudyNav';nav.setAttribute('aria-label','Seções do estudo');
+  const names=['Resumo','Original','Contexto','História'];
+  names.forEach((name,i)=>{const btn=document.createElement('button');btn.type='button';btn.textContent=name;btn.addEventListener('click',()=>selectStudy(i));nav.appendChild(btn)});
+  target.parentNode.insertBefore(nav,target);
+  function selectStudy(n){
+   const words=document.getElementById('bomWords'),context=document.getElementById('bereiaVerseContext'),status=document.getElementById('bomStatus'),source=document.getElementById('bomSource');
+   const summary=document.getElementById('bomVerse');
+   [summary,words,context].forEach(el=>el?.classList.add('bereiaStudySection'));
+   [summary,words,context][Math.min(n,2)]?.classList.add('active');
+   if(status)status.style.display=n===1?'':'none';
+   if(source)source.style.display=n===1?'':'none';
+   if(target)target.style.display=n===1?'':'none';
+   if(n===3){context?.classList.add('active');summary?.classList.remove('active')}
+   nav.querySelectorAll('button').forEach((b,i)=>{b.classList.toggle('active',i===n);b.setAttribute('aria-pressed',i===n?'true':'false')});
+  }
+  const observer=new MutationObserver(()=>{if(modal.classList.contains('open')&&!nav.querySelector('.active'))selectStudy(0);if(!modal.classList.contains('open'))nav.querySelectorAll('button').forEach(b=>b.classList.remove('active'))});
+  observer.observe(modal,{attributes:true,attributeFilter:['class']});
+ }
+ window.addEventListener('load',()=>{prepareStudy();const b=document.getElementById('bereiaBuildBadge');if(b)b.textContent='BEREIA • V31'});
 })();
 </script></body></html>
