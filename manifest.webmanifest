@@ -1,0 +1,20 @@
+{
+  "id": "/Bereia/",
+  "name": "BEREIA — Bíblia e Estudos",
+  "short_name": "BEREIA",
+  "description": "Leia a Bíblia e aprofunde seus estudos com simplicidade.",
+  "lang": "pt-BR",
+  "start_url": "/Bereia/",
+  "scope": "/Bereia/",
+  "display": "standalone",
+  "background_color": "#10130f",
+  "theme_color": "#151a16",
+  "icons": [
+    {
+      "src": "./bereia-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
