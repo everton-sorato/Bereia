@@ -1,4 +1,4 @@
-const CACHE='bereia-shell-v49';
+const CACHE='bereia-shell-v50';
 const CORE=['/Bereia/','/Bereia/index.html','/Bereia/manifest.webmanifest','/Bereia/bereia-icon.svg'];
 
 self.addEventListener('install',event=>{
