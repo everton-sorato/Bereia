@@ -934,7 +934,7 @@ window.BEREIA_SOURCE_REGISTRY=[
  {name:"Traduções modernas comerciais",kind:"Outras versões bíblicas solicitadas",license:"Não presumir direito de redistribuição integral; requer licença expressa do titular",status:"Autorização ainda não obtida",url:"https://www.sbb.org.br/",credit:"Titulares de direitos de cada edição"}
 ];
 function bereiaSourceCards(){return BEREIA_SOURCE_REGISTRY.map(s=>'<div class="source-card"><b>'+s.name+'</b><small>'+s.kind+' · '+s.status+'</small><div>'+s.license+'</div><small>Créditos: '+s.credit+'</small><a href="'+s.url+'" target="_blank" rel="noopener noreferrer">Consultar fonte e licença ↗</a></div>').join("")}
-window.addEventListener("load",()=>{if(document.getElementById("bereiaSourcesSection"))return;const anchor=document.getElementById("bereiaStudyTools")||document.getElementById("bereiaSimpleEntry");if(!anchor)return;const s=document.createElement("section");s.id="bereiaSourcesSection";s.innerHTML='<details><summary>📚 Fontes, traduções e licenças do BEREIA</summary><p style="font:12px/1.5 system-ui;color:#aaa">Registro de fontes candidatas e seus termos. Estar nesta lista não significa que o conteúdo integral já esteja incorporado.</p>'+bereiaSourceCards()+'</details>';anchor.insertAdjacentElement("afterend",s);const badge=document.getElementById("bereiaBuildBadge");if(badge)badge.textContent="BEREIA • V19"})});
+window.addEventListener("load",()=>{if(document.getElementById("bereiaSourcesSection"))return;const anchor=document.getElementById("bereiaStudyTools")||document.getElementById("bereiaSimpleEntry");if(!anchor)return;const s=document.createElement("section");s.id="bereiaSourcesSection";s.innerHTML='<details><summary>📚 Fontes, traduções e licenças do BEREIA</summary><p style="font:12px/1.5 system-ui;color:#aaa">Registro de fontes candidatas e seus termos. Estar nesta lista não significa que o conteúdo integral já esteja incorporado.</p>'+bereiaSourceCards()+'</details>';anchor.insertAdjacentElement("afterend",s);const badge=document.getElementById("bereiaBuildBadge");if(badge)badge.textContent="BEREIA • V19"});
 </script><style id="bereiaV20Styles">
 #bereiaResearchHub{max-width:980px;margin:18px auto 70px;padding:0 14px;color:#eee;font-family:system-ui}#bereiaResearchHub details{border:1px solid #51452d;border-radius:16px;background:#121411;padding:14px}#bereiaResearchHub summary{color:#e6c678;font-weight:800;cursor:pointer}#bereiaResearchHub .bh-tabs{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}#bereiaResearchHub .bh-tabs button{background:#22231e;color:#f0dfb5;border:1px solid #51452d;border-radius:10px;padding:9px;cursor:pointer}#bereiaResearchHub .bh-card{padding:13px;border:1px solid #363126;border-radius:12px;margin:9px 0;background:#0d100f}#bereiaResearchHub .bh-card b{display:block;color:#f1d68e}#bereiaResearchHub .bh-card p{font-size:12px;color:#c0c1ba;line-height:1.5}#bereiaResearchHub .bh-card a{color:#e8c16d;font-size:12px;overflow-wrap:anywhere}#bereiaResearchHub .bh-status{font-size:10px;color:#a9b8ad;margin:5px 0}
 </style>
@@ -3734,9 +3734,9 @@ body[data-bereia-build="V46"] #bereiaBuildBadge{border-color:#d8b95f}
 </style>
 <script id="bereiaV57ArchaeologyLab">
 (function(){
- const BUILD='V57';
+ const BUILD='V58';
  const META={
-  'estela de tel dan':{type:'Inscrição',period:'século IX a.C.',findspot:'Tel Dan, norte de Israel',current:'Acervo arqueológico em Israel; consulte a fonte institucional',relation:'histórica / dinástica',supports:'A inscrição é um testemunho extrabíblico antigo que menciona a “Casa de Davi”, relevante para a discussão histórica de uma dinastia davídica.',limit:'Não comprova cada episódio atribuído a Davi, nem resolve sozinha todas as questões sobre a extensão e natureza de seu reino.',image:'Tel Dan Stele'},
+  'estela de tel dan':{type:'Inscrição',period:'século IX a.C.',findspot:'Tel Dan, norte de Israel',current:'Coleção da Israel Antiquities Authority, sob custódia do Israel Museum, Jerusalém; empréstimos temporários podem ocorrer',relation:'histórica / dinástica',supports:'A inscrição é um testemunho extrabíblico antigo que menciona a “Casa de Davi”, relevante para a discussão histórica de uma dinastia davídica.',limit:'Não comprova cada episódio atribuído a Davi, nem resolve sozinha todas as questões sobre a extensão e natureza de seu reino.',image:'Tel Dan Stele'},
   'tunel e inscricao de siloe':{type:'Inscrição / obra hidráulica',period:'fim do século VIII a.C.',findspot:'Túnel de Siloé, Jerusalém',current:'Museus Arqueológicos de Istambul',relation:'contextual / epigráfica',supports:'A inscrição documenta a escavação de um túnel hidráulico na Jerusalém antiga e ajuda a contextualizar obras de abastecimento de água do período.',limit:'A inscrição não cita diretamente todos os acontecimentos narrados no texto bíblico nem prova cada detalhe atribuído a Ezequias.',image:'Siloam inscription'},
   'grande rolo de isaias':{type:'Manuscrito bíblico',period:'c. 125 a.C.',findspot:'Caverna 1 de Qumran, deserto da Judeia',current:'Shrine of the Book, Israel Museum, Jerusalém',relation:'textual',supports:'É um dos mais antigos e completos manuscritos de um livro bíblico e permite estudar a transmissão antiga do texto de Isaías.',limit:'É evidência para a história textual de Isaías; não funciona como prova arqueológica dos acontecimentos narrados no livro.',image:'Great Isaiah Scroll'},
   'manuscritos do cantico do mar':{type:'Manuscrito',period:'período do Segundo Templo',findspot:'Deserto da Judeia / tradição manuscrita antiga',current:'Coleções de Manuscritos do Mar Morto',relation:'textual',supports:'Fragmentos antigos de Êxodo ajudam a estudar a transmissão textual do Cântico do Mar.',limit:'A existência de manuscritos antigos demonstra transmissão do texto, não comprova arqueologicamente o evento do Êxodo.',image:'Dead Sea Scroll Exodus'},
@@ -3774,7 +3774,14 @@ body[data-bereia-build="V46"] #bereiaBuildBadge{border-color:#d8b95f}
  function matches(v){return (window.BEREIA_PASSAGE_SOURCES||[]).filter(x=>x[0]===v?.book&&Number(v.chapter)>=Number(x[1])&&Number(v.chapter)<=Number(x[2]))}
  function eventFor(v){return (window.BEREIA_PASSAGE_EVENTS||[]).find(x=>x.book===v?.book&&Number(v.chapter)>=Number(x.from)&&Number(v.chapter)<=Number(x.to))}
  function urlOf(x){return x.slice().reverse().find(v=>/^https?:\/\//i.test(String(v||'')))||''}
- function sourceLabel(x){const u=x.findIndex(v=>/^https?:\/\//i.test(String(v||'')));return u>5?String(x[u-1]||'Fonte institucional'):'Fonte institucional'}
+ function sourceLabel(x){
+   try{return new URL(urlOf(x)).hostname.replace(/^www\./,'')}catch(e){return 'Fonte não informada'}
+ }
+ function safeURL(value){try{const u=new URL(value);return u.protocol==='https:'?u.href:''}catch(e){return ''}}
+ function licensedImage(p){
+   const ii=p.imageinfo?.[0],em=ii?.extmetadata||{},license=String(em.LicenseShortName?.value||'');
+   return !!(safeURL(ii?.thumburl)&&safeURL(ii?.descriptionurl)&&/^(CC BY(?:-SA)? [1-4]\.0|CC0(?: 1\.0)?|Public domain)$/i.test(license));
+ }
  function meta(title){
    const n=norm(title);return META[n]||{type:classify(title),period:'Período indicado pela fonte do achado/sítio',findspot:'Consulte a fonte institucional',current:'Consulte a fonte institucional',relation:'contextual',supports:'Este item oferece contexto material, histórico ou textual relacionado à passagem.',limit:'A relação arqueológica deve ser avaliada junto ao tipo de evidência e à fonte; contexto não equivale automaticamente a comprovação de cada detalhe narrado.',image:title};
  }
@@ -3784,31 +3791,42 @@ body[data-bereia-build="V46"] #bereiaBuildBadge{border-color:#d8b95f}
    let x=document.getElementById('b57ArchaeologyLab');if(!x){x=document.createElement('div');x.id='b57ArchaeologyLab';const a=s.querySelector('.b54Trail')||s.querySelector('h1');a?.insertAdjacentElement('afterend',x)}return x;
  }
  async function commonsImage(card,query){
-   const box=card.querySelector('.b57Img'),credit=card.querySelector('.b57Credit');if(!box)return;
-   box.innerHTML='<div class="placeholder">Buscando imagem licenciada na Wikimedia Commons…</div>';
+   const box=card.querySelector('.b57Img'),credit=card.querySelector('.b57Credit'),button=card.querySelector('[data-b57-image]');if(!box||button?.disabled)return;
+   if(button)button.disabled=true;
+   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
+   box.innerHTML='<div class="placeholder" role="status">Buscando fotografias com licença identificada…</div>';
    try{
-     const u='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch='+encodeURIComponent(query)+'&gsrnamespace=6&gsrlimit=5&prop=imageinfo&iiprop=url%7Cextmetadata&iiurlwidth=1000&format=json&origin=*';
-     const r=await fetch(u,{cache:'force-cache'});if(!r.ok)throw new Error('commons');const d=await r.json();
-     const pages=Object.values(d?.query?.pages||{}).filter(p=>p.imageinfo?.[0]?.thumburl);
-     const p=pages[0];if(!p)throw new Error('sem imagem');
-     const ii=p.imageinfo[0],em=ii.extmetadata||{},artist=String(em.Artist?.value||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim(),license=em.LicenseShortName?.value||em.UsageTerms?.value||'Licença na Wikimedia Commons';
-     box.innerHTML='<img src="'+esc(ii.thumburl)+'" alt="'+esc(p.title||query)+'"><span class="b57ImgBadge">Wikimedia Commons</span>';
-     if(credit)credit.innerHTML='Imagem: '+esc(artist||p.title)+' • '+esc(license)+' • <a target="_blank" rel="noopener noreferrer" href="'+esc(ii.descriptionurl||'https://commons.wikimedia.org/')+'">ver arquivo e licença ↗</a>';
+     const u='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch='+encodeURIComponent(query+' filetype:bitmap')+'&gsrnamespace=6&gsrlimit=10&prop=imageinfo&iiprop=url%7Cextmetadata&iiurlwidth=700&format=json&origin=*';
+     const r=await fetch(u,{signal:controller.signal,cache:'force-cache'});if(!r.ok)throw new Error('commons');const d=await r.json();
+     const pages=Object.values(d?.query?.pages||{}).filter(licensedImage).sort((a,b)=>(a.index||0)-(b.index||0)).slice(0,3);
+     if(!pages.length)throw new Error('sem imagem licenciada');
+     box.innerHTML='';
+     for(const p of pages){
+       const ii=p.imageinfo[0],em=ii.extmetadata,figure=document.createElement('figure');
+       const artist=String(em.Artist?.value||'Autoria indicada na página do arquivo').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+       const img=document.createElement('img');img.src=safeURL(ii.thumburl);img.alt=p.title.replace(/^File:/,'');img.loading='lazy';
+       img.addEventListener('error',()=>{img.replaceWith(document.createTextNode('Fotografia indisponível. Consulte o arquivo original.'))});
+       const caption=document.createElement('figcaption');caption.textContent=img.alt+' — '+artist+' • '+em.LicenseShortName.value+' ';
+       const link=document.createElement('a');link.href=safeURL(ii.descriptionurl);link.target='_blank';link.rel='noopener noreferrer';link.textContent='Arquivo e licença ↗';caption.append(link);
+       figure.append(img,caption);box.append(figure);
+     }
+     if(credit)credit.textContent='Resultados relacionados da Wikimedia Commons. Confira a identificação na página de cada foto: podem incluir réplicas, detalhes ou reconstruções. Imagens exibidas sem edição.';
    }catch(e){
-     box.innerHTML='<div class="placeholder">Imagem licenciada não localizada automaticamente.<br>O conteúdo arqueológico continua disponível abaixo.</div>';
-     if(credit)credit.textContent='Sem imagem automática para este item.';
-   }
+     box.innerHTML='<div class="placeholder" role="status">Não foi possível carregar fotos com licença identificada. Você pode tentar novamente; a ficha permanece disponível.</div>';
+     if(credit)credit.textContent='Nenhuma fotografia exibida nesta tentativa.';
+   }finally{clearTimeout(timer);if(button){button.disabled=false;button.textContent='Buscar fotos licenciadas novamente'}}
  }
  function artifactHTML(x,i){
-   const title=x[3],desc=x[4]||'',m=meta(title),url=urlOf(x),source=sourceLabel(x);
+   const title=x[3],desc=x[4]||'',m=meta(title),url=safeURL(urlOf(x)),source=sourceLabel(x);
    return '<article class="b57Artifact" data-b57-i="'+i+'" data-b57-query="'+esc(m.image||title)+'">'+
      '<div class="b57Img"><div class="placeholder">🏺<br>Imagem ainda não carregada</div></div>'+
      '<div class="b57Body"><h3>'+esc(title)+'</h3><span class="b57Relation">'+esc(m.relation)+'</span>'+
        '<div class="b57Meta"><div class="b57Info"><b>Tipo</b>'+esc(m.type)+'</div><div class="b57Info"><b>Período</b>'+esc(m.period)+'</div><div class="b57Info"><b>Descoberta / local</b>'+esc(m.findspot)+'</div><div class="b57Info"><b>Onde está hoje</b>'+esc(m.current)+'</div></div>'+
-       '<div class="b57Evidence"><b>✓ O que a evidência sustenta</b>'+esc(m.supports)+'</div>'+
-       '<div class="b57Limit"><b>⚖ O que ela NÃO prova</b>'+esc(m.limit)+'</div>'+
+       '<div class="b57Info"><b>Relação com a passagem</b>'+esc(ref(current()))+' — vínculo '+esc(m.relation)+'. Referência cadastrada: '+esc(x[0])+' '+esc(x[1])+(x[1]!==x[2]?'–'+esc(x[2]):'')+'.</div>'+
+       '<div class="b57Evidence"><b>✓ O que este achado comprova ou sustenta</b>'+esc(m.supports)+'</div>'+
+       '<div class="b57Limit"><b>⚖ O que este achado não comprova</b>'+esc(m.limit)+'</div>'+
        (desc?'<div class="b57Info" style="margin-top:9px"><b>Nota cadastrada no BEREIA</b>'+esc(desc)+'</div>':'')+
-       '<div class="b57Actions"><button class="b57Btn" data-b57-image>Carregar imagem licenciada</button>'+(url?'<a class="b57Btn primary" target="_blank" rel="noopener noreferrer" href="'+esc(url)+'">Consultar fonte ↗</a>':'')+'<button class="b57Btn" data-b57-map>Ver geografia</button></div>'+
+       '<div class="b57Actions"><button class="b57Btn" data-b57-image>Buscar fotos licenciadas</button>'+(url?'<a class="b57Btn primary" target="_blank" rel="noopener noreferrer" href="'+esc(url)+'">Consultar fonte ↗</a>':'')+'<button class="b57Btn" data-b57-map>Ver geografia</button></div>'+
        '<div class="b57Info" style="margin-top:9px"><b>Fonte</b>'+esc(source)+'</div>'+
      '</div><div class="b57Credit">Imagem não carregada.</div></article>';
  }
@@ -3841,7 +3859,8 @@ body[data-bereia-build="V46"] #bereiaBuildBadge{border-color:#d8b95f}
  }
  document.addEventListener('bereia:studyverse',()=>{if(document.querySelector('.screen.active')?.id==='archaeology')render()});
  window.BEREIA_V57_ARCH={render,open,commonsImage,meta};
- if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=57',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}));
+ window.BEREIA_V58_ARCH={render,open,commonsImage,meta,licensedImage};
+ if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js?v=58',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}));
  window.addEventListener('load',()=>{setTimeout(hook,260);setTimeout(hook,1100);setTimeout(()=>{if(document.querySelector('.screen.active')?.id==='archaeology')render()},1200)});setTimeout(hook,700);
 })();
-</script></body></html>
+</script><style>.b57Img:has(figure){display:block;height:auto;max-height:none}.b57Img figure{margin:0;padding:12px}.b57Img figure img{width:100%;height:230px;object-fit:contain}.b57Img figcaption{font:12px/1.5 system-ui;padding:8px;overflow-wrap:anywhere}.b57Img a{color:var(--gold)}.b57Btn:disabled{opacity:.6;cursor:wait}</style></body></html>
