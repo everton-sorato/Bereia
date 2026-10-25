@@ -1,0 +1,1055 @@
+{
+  "note": "Inventário estático; controles criados por JS precisam de revisão adicional em execução. Não representa aprovação funcional.",
+  "controls": [
+    {
+      "tag": "section",
+      "id": "bereiaDailyCover",
+      "action": "openDailyArt(event)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "event.stopPropagation();openDailyVerse()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "event.stopPropagation();openDailyArt(event)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "openSimpleBible()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "simpleBackHome",
+      "action": "simpleHome()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "bereiaDeepBtn",
+      "action": "openOriginalStudy()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "closeOriginalStudy()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('bible')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('compare')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('originals')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('maps')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('discover')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('bible')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('originals')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('mission')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('mission')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "openBiblicalWorld()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('library')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('discover')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "closeBiblicalWorld()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('geography');closeBiblicalWorld()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('maps');closeBiblicalWorld()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('timeline');closeBiblicalWorld()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "select",
+      "id": "bibleVersion",
+      "action": "loadChapter(true)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "select",
+      "id": "bibleBook",
+      "action": "bookChanged()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "select",
+      "id": "bibleChapter",
+      "action": "loadChapter(true)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "openReference()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "prevChapter()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "nextChapter()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "deepStudySelected()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "favoriteSelected()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "compareSelected()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "goBack()",
+      "href": null,
+      "label": "Voltar"
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "readSelectedInChapter()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "openOriginalsSelected()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "moveStudyVerse(-1)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "moveStudyVerse(1)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "studyTopic('História')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "studyTopic('Arqueologia')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('maps')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('timeline')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "openOriginalsSelected()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "studyTopic('Pessoas')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "studyTopic('Lugares')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "studyTopic('Referências')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('originals')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('compare')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('timeline')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('maps')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('library')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('me')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "goBack()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "select",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "select",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "compareSelected()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "goBack()",
+      "href": null,
+      "label": "Voltar"
+    },
+    {
+      "tag": "input",
+      "id": "searchInput",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "doPortalSearch()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "portalTerm('Jericó')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "portalTerm('Êxodo')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "portalTerm('Jerusalém')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "portalTerm('Paulo')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "portalTerm('Mar Morto')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "portalTerm('Jesus')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "portalTerm('Jerusalém')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "portalTerm('Êxodo')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('maps')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('originals')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('originals')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "openCanons()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "goBack()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "renderCanon('catolico',this)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "renderCanon('ortodoxo',this)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "renderCanon('etiope',this)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "renderCanon('antigos',this)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "goBack()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "filterRealMaps(this,'todos')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "filterRealMaps(this,'jesus')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "filterRealMaps(this,'nt')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "filterRealMaps(this,'exodo')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "filterRealMaps(this,'paulo')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "img",
+      "id": "mainAtlasImg",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "selectRealMap(this)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "selectRealMap(this)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "selectRealMap(this)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "selectRealMap(this)",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "studyTopic('Patriarcas')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "studyTopic('Êxodo')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "studyTopic('Doze tribos')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "studyTopic('Reino dividido')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "studyTopic('Ministério de Jesus')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "studyTopic('Viagens de Paulo')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "action": "go('bible')",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "textarea",
+      "id": "note",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "saveNote()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "goBack()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": "dailyArtModal",
+      "action": "if(event.target===this)closeDailyArt()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "closeDailyArt()",
+      "href": null,
+      "label": "Fechar"
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "shareDailyImage()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "saveDailyImage()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "div",
+      "id": "bereiaAssistantButton",
+      "action": "openBereiaAssistant()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "closeBereiaAssistant()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('discover');closeBereiaAssistant()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('originals');closeBereiaAssistant()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('maps');closeBereiaAssistant()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "go('originals');closeBereiaAssistant()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "bereiaInstallButton",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "b48DoCopy",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "b48DoShareText",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "textarea",
+      "id": "b48NoteText",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "b48SaveNote",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "b48DeleteNote",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "b48NewCollection",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "b48OpenLibrary",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "b48UseDaily",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "input",
+      "id": "b48ImageSearch",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "b48SearchCommons",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "b48ShareImage",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "b48SaveImage",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "goBack()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "goBack()",
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "b52CopyMessage",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": "b52ShareMessage",
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": null,
+      "href": null,
+      "label": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "action": "goBack()",
+      "href": null,
+      "label": null
+    }
+  ]
+}
