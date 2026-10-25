@@ -122,7 +122,7 @@
  }
  function hookSelection(){
    const old=window.selectRealVerse;if(typeof old==='function'&&!old.__v54){
-     const wrapped=function(){const r=old.apply(this,arguments);const v=window.selectedVerse||getCurrent();if(v)saveCurrent(v);updateTrails();return r};wrapped.__v54=true;window.selectRealVerse=wrapped;
+     const wrapped=function(){const r=old.apply(this,arguments);const v=typeof selectedVerse!=='undefined'?selectedVerse:(window.selectedVerse||getCurrent());if(v){window.selectedVerse=v;try{localStorage.setItem('bereia:lastVerse',JSON.stringify(v));localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}document.dispatchEvent(new CustomEvent('bereia:studyverse',{detail:v}))}updateTrails();return r};wrapped.__v54=true;window.selectRealVerse=wrapped;
    }
  }
  function hookGo(){

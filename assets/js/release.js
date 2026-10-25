@@ -82,7 +82,7 @@ function search(){
 const normalize=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 function accessible(root=document){root.querySelectorAll('[onclick]:not(button):not(a):not(input):not(select):not(textarea)').forEach(el=>{if(el.querySelector('button,a,input'))return;el.setAttribute('role','button');el.tabIndex=0;if(!el.dataset.keyboard){el.dataset.keyboard='1';el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click()}})}})}
 function init(){
- settings();if(location.hash==='#settings')go('settings',false);const favorites=document.createElement('div');favorites.id='releaseFavorites';$('#me').append(favorites);personal();
+ settings();const initialScreen=location.hash.slice(1);if(document.getElementById(initialScreen)?.classList.contains('screen'))go(initialScreen,false);const favorites=document.createElement('div');favorites.id='releaseFavorites';$('#me').append(favorites);personal();
  const cards=$('#me .grid');if(cards){cards.children[1].querySelector('p').textContent='Marcações feitas no leitor ficam neste dispositivo.';cards.children[2].querySelector('p').textContent='Acompanhe suas leituras em Missão.'}
  window.doPortalSearch=search;$('#searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')search()});$('.searchCats').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('.searchCats .active')?.classList.remove('active');b.classList.add('active');search()});
  // Remove nonfunctional future-course percentages without inventing completed lessons.

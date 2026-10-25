@@ -29,7 +29,8 @@ Esta lista diferencia código implementado de homologação; não afirma aprova�
 - Livro de Obadias carregado e versículo selecionado.
 - Menus Meu BEREIA, Descobrir, Biblioteca, Missão e Créditos abrem telas visíveis.
 - Busca Jericó: dois resultados; filtro Arqueologia: um resultado; ficha de Josué 6:1 aberta e botão Voltar retorna à busca.
-- Anotação salva com confirmação na interface.
+- Anotação salva e persistida após recarregar; tamanho de fonte alterado na interface.
+- Comparação Almeida/King James retornou texto; corrigida sessão que reutilizava passagem antiga.
 
 ## Homologação necessária antes da loja
 - Compilar e instalar APK/AAB em Android real; SDK/Gradle ausentes no ambiente atual.
