@@ -39,7 +39,7 @@
  document.getElementById('b48NewCollection').onclick=()=>{const name=prompt('Nome da nova coleção:');if(!name?.trim())return;const all=collections();all[name.trim()]=all[name.trim()]||[];save(COL_KEY,all);renderCollections()};
  document.getElementById('b48OpenLibrary').onclick=renderLibrary;
 
- function setBg(bg,meta){imageBg=bg;imageMeta=meta||null;const p=document.getElementById('b48ImagePreview');p.style.backgroundImage='';p.style.background=bg.type==='gradient'?bg.value:'#111';if(bg.type==='image'){p.style.backgroundImage='url("'+bg.value.replace(/"/g,'%22')+'")';p.style.backgroundSize='cover';p.style.backgroundPosition='center'}document.getElementById('b48ImageLicense').textContent=meta?(meta.title+' • '+meta.license+(meta.artist?' • '+meta.artist:'')):'Fundos internos do BEREIA.'}
+ function setBg(bg,meta){imageBg=bg;imageMeta=meta||null;const p=document.getElementById('b48ImagePreview'),info=document.getElementById('b48ImageLicense');p.style.backgroundImage='';p.style.background=bg.type==='gradient'?bg.value:'#111';if(bg.type==='image'){p.style.backgroundImage='url("'+bg.value.replace(/"/g,'%22')+'")';p.style.backgroundSize='cover';p.style.backgroundPosition='center'}info.replaceChildren();if(!meta){info.textContent='Fundos internos do BEREIA.';return}info.append(document.createTextNode([meta.title,meta.license,meta.artist].filter(Boolean).join(' • ')));if(meta.source){info.append(document.createTextNode(' • '));const a=document.createElement('a');a.href=meta.source;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Ver arquivo e origem ↗';info.append(a)}}
  function refreshImagePreview(){const a=sel(),t=a.map(v=>'“'+v.text+'”').join('\n\n'),r=a.map(ref).join(' • ');document.getElementById('b48ImageText').textContent=t;document.getElementById('b48ImageRef').textContent=r;document.querySelectorAll('#b48Templates button').forEach(b=>b.classList.toggle('active',b.dataset.template===imageTemplate));const p=document.getElementById('b48ImagePreview');p.dataset.template=imageTemplate;if(imageTemplate==='minimal'){p.querySelector('.b48PreviewShade').style.background='rgba(0,0,0,.18)'}else if(imageTemplate==='sermon'){p.querySelector('.b48PreviewShade').style.background='linear-gradient(90deg,rgba(0,0,0,.78),rgba(0,0,0,.24))'}else p.querySelector('.b48PreviewShade').style.background='linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.78))'}
  document.getElementById('b48Templates').addEventListener('click',e=>{const b=e.target.closest('[data-template]');if(!b)return;imageTemplate=b.dataset.template;refreshImagePreview()});
  const bgBox=document.getElementById('b48Backgrounds');gradients.forEach(([name,g])=>{const b=document.createElement('button');b.className='b48BgSwatch';b.title=name;b.style.background=g;b.onclick=()=>setBg({type:'gradient',value:g},{title:'BEREIA • '+name,license:'Fundo interno'});bgBox.appendChild(b)});
@@ -47,17 +47,17 @@
 
  async function searchCommons(){
   const q=document.getElementById('b48ImageSearch').value.trim();if(!q)return;
-  const box=document.getElementById('b48ImageResults');box.innerHTML='<div class="b48License">Buscando imagens abertas…</div>';
+  const box=document.getElementById('b48ImageResults');box.innerHTML='<div class="b48License">Buscando imagens com licença CC0 ou domínio público…</div>';
   const url='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch='+encodeURIComponent(q)+'&gsrnamespace=6&gsrlimit=9&prop=imageinfo&iiprop=url%7Cextmetadata&iiurlwidth=900&format=json&origin=*';
   try{
-   const r=await fetch(url),j=await r.json(),pages=Object.values(j.query?.pages||{});
+   const r=await fetch(url),j=await r.json(),pages=Object.values(j.query?.pages||{}).filter(p=>{const m=p.imageinfo?.[0]?.extmetadata||{},l=String(m.LicenseShortName?.value||m.UsageTerms?.value||'');return /^CC0(?: 1\.0)?$|^Public domain$/i.test(l)});
    box.innerHTML='';
    pages.forEach(p=>{
     const ii=p.imageinfo?.[0],thumb=ii?.thumburl||ii?.url;if(!thumb)return;
     const meta=ii.extmetadata||{},license=meta.LicenseShortName?.value||meta.UsageTerms?.value||'Licença não identificada',artist=String(meta.Artist?.value||'').replace(/<[^>]*>/g,'').trim(),title=p.title.replace(/^File:/,'');
-    const d=document.createElement('div');d.className='b48Result';d.innerHTML='<img src="'+esc(thumb)+'" alt=""><small>'+esc(title)+'</small>';d.onclick=()=>setBg({type:'image',value:thumb},{title,license,artist});box.appendChild(d);
+    const d=document.createElement('div');d.className='b48Result';d.innerHTML='<img src="'+esc(thumb)+'" alt=""><small>'+esc(title)+'<br>'+esc(license)+(artist?' • '+esc(artist):'')+'</small>';d.onclick=()=>setBg({type:'image',value:thumb},{title,license,artist,source:ii.descriptionurl});box.appendChild(d);
    });
-   if(!box.children.length)box.innerHTML='<div class="b48License">Nenhuma imagem encontrada.</div>';
+   if(!box.children.length)box.innerHTML='<div class="b48License">Nenhum resultado com licença CC0 ou domínio público identificada.</div>';
   }catch(e){box.innerHTML='<div class="b48License">Não foi possível consultar a Wikimedia Commons agora.</div>'}
  }
  document.getElementById('b48SearchCommons').onclick=searchCommons;
