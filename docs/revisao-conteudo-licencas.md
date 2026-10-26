@@ -19,7 +19,7 @@ Revisão de triagem em 26/10/2026. Este registro descreve as fontes declaradas n
 
 ## Imagens, mapas e achados
 
-- Resultados de imagens arqueológicas são filtrados para CC BY, CC BY-SA, CC0 ou domínio público e mantêm um link para a página do arquivo. A licença, o autor e a atribuição precisam continuar acessíveis ao usuário junto de cada imagem.
+- Resultados de imagens arqueológicas são filtrados para licenças reconhecidas CC BY/CC BY-SA, CC0 ou domínio público. Para CC BY/CC BY-SA, a ficha precisa trazer autor e URL de licença; todas as imagens precisam vir de URLs HTTPS do Wikimedia e manter link da página Commons. A legenda identifica cada foto como relacionada, podendo ser réplica, detalhe ou reconstrução.
 - Wikimedia Commons recomenda conferir os termos da página individual do arquivo; a informação de licença é enviada por quem publicou o arquivo e não é uma garantia jurídica da Wikimedia.
 - Mapas e imagens fixos no Atlas ainda precisam de conferência individual do autor, página do arquivo, licença exata e atribuição. Rótulos genéricos como “mapa histórico” ou “CC0” não bastam sem essa ficha por item.
 - Imagens de Unsplash/Picsum e outros serviços externos devem ser avaliadas separadamente; carregar por URL não prova licença, permanência ou permissão de redistribuição dentro do pacote Android.

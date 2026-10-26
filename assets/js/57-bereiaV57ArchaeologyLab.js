@@ -1,6 +1,6 @@
 
 (function(){
- const BUILD='V59';
+ const BUILD='V62';
  const META={
   'estela de tel dan':{type:'Inscrição',period:'século IX a.C.',findspot:'Tel Dan, norte de Israel',current:'Coleção da Israel Antiquities Authority, sob custódia do Israel Museum, Jerusalém; empréstimos temporários podem ocorrer',relation:'histórica / dinástica',supports:'A inscrição é um testemunho extrabíblico antigo que menciona a “Casa de Davi”, relevante para a discussão histórica de uma dinastia davídica.',limit:'Não comprova cada episódio atribuído a Davi, nem resolve sozinha todas as questões sobre a extensão e natureza de seu reino.',image:'Tel Dan Stele'},
   'tunel e inscricao de siloe':{type:'Inscrição / obra hidráulica',period:'fim do século VIII a.C.',findspot:'Túnel de Siloé, Jerusalém',current:'Museus Arqueológicos de Istambul',relation:'contextual / epigráfica',supports:'A inscrição documenta a escavação de um túnel hidráulico na Jerusalém antiga e ajuda a contextualizar obras de abastecimento de água do período.',limit:'A inscrição não cita diretamente todos os acontecimentos narrados no texto bíblico nem prova cada detalhe atribuído a Ezequias.',image:'Siloam inscription'},
@@ -43,10 +43,13 @@
  function sourceLabel(x){
    try{return new URL(urlOf(x)).hostname.replace(/^www\./,'')}catch(e){return 'Fonte não informada'}
  }
- function safeURL(value){try{const u=new URL(value);return u.protocol==='https:'?u.href:''}catch(e){return ''}}
+ function safeURL(value,hosts){try{const u=new URL(value);return u.protocol==='https:'&&(!hosts||hosts.includes(u.hostname))?u.href:''}catch(e){return ''}}
  function licensedImage(p){
    const ii=p.imageinfo?.[0],em=ii?.extmetadata||{},license=String(em.LicenseShortName?.value||'');
-   return !!(safeURL(ii?.thumburl)&&safeURL(ii?.descriptionurl)&&/^(CC BY(?:-SA)? [1-4]\.0|CC0(?: 1\.0)?|Public domain)$/i.test(license));
+   const accepted=/^(?:CC BY(?:-SA)? (?:1\.0|2\.0|2\.5|3\.0|4\.0)|CC0(?: 1\.0)?|Public domain)$/i.test(license);
+   const attribution=String(em.Artist?.value||'').replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();
+   const licenseURL=safeURL(em.LicenseUrl?.value);
+   return !!(accepted&&safeURL(ii?.thumburl,['upload.wikimedia.org'])&&safeURL(ii?.descriptionurl,['commons.wikimedia.org'])&&(!/^CC BY/i.test(license)||(attribution&&licenseURL)));
  }
  function meta(title){
    const n=norm(title);return META[n]||{type:classify(title),period:'Período indicado pela fonte do achado/sítio',findspot:'Consulte a fonte institucional',current:'Consulte a fonte institucional',relation:'contextual',supports:'Este item oferece contexto material, histórico ou textual relacionado à passagem.',limit:'A relação arqueológica deve ser avaliada junto ao tipo de evidência e à fonte; contexto não equivale automaticamente a comprovação de cada detalhe narrado.',image:title};
@@ -69,14 +72,14 @@
      box.innerHTML='';
      for(const p of pages){
        const ii=p.imageinfo[0],em=ii.extmetadata,figure=document.createElement('figure');
-       const artist=String(em.Artist?.value||'Autoria indicada na página do arquivo').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
-       const img=document.createElement('img');img.src=safeURL(ii.thumburl);img.alt=p.title.replace(/^File:/,'');img.loading='lazy';
+       const artist=String(em.Artist?.value||'Autoria não indicada na ficha do arquivo').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+       const img=document.createElement('img');img.src=safeURL(ii.thumburl,['upload.wikimedia.org']);img.alt=p.title.replace(/^File:/,'');img.loading='lazy';
        img.addEventListener('error',()=>{img.replaceWith(document.createTextNode('Fotografia indisponível. Consulte o arquivo original.'))});
-       const caption=document.createElement('figcaption');caption.textContent=img.alt+' — '+artist+' • '+em.LicenseShortName.value+' ';
-       const link=document.createElement('a');link.href=safeURL(ii.descriptionurl);link.target='_blank';link.rel='noopener noreferrer';link.textContent='Arquivo e licença ↗';caption.append(link);
+       const caption=document.createElement('figcaption');caption.textContent=img.alt+' — '+artist+' • '+em.LicenseShortName.value+' • Foto relacionada; pode ser réplica, detalhe ou reconstrução. ';
+       const link=document.createElement('a');link.href=safeURL(ii.descriptionurl,['commons.wikimedia.org']);link.target='_blank';link.rel='noopener noreferrer';link.textContent='Arquivo, autor e licença ↗';caption.append(link);
        figure.append(img,caption);box.append(figure);
      }
-     if(credit)credit.textContent='Resultados relacionados da Wikimedia Commons. Confira a identificação na página de cada foto: podem incluir réplicas, detalhes ou reconstruções. Imagens exibidas sem edição.';
+     if(credit)credit.textContent='As fotos são encontradas por associação de termos; não confirmam que a imagem retrate o achado original. Confira a ficha do arquivo para autoria e licença. Imagens exibidas sem edição.';
    }catch(e){
      box.innerHTML='<div class="placeholder" role="status">Não foi possível carregar fotos com licença identificada. Você pode tentar novamente; a ficha permanece disponível.</div>';
      if(credit)credit.textContent='Nenhuma fotografia exibida nesta tentativa.';
