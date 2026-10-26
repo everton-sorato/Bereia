@@ -37,7 +37,7 @@ Esta lista diferencia código implementado de homologação; não afirma aprova�
 - Validar toda a matriz de controles (inventario-controles.json), inclusive todos os modais, downloads e compartilhamento de imagens.
 - Testar TalkBack, fonte máxima, telas pequenas, teclado, orientação, botão Voltar e atualização sobre versão anterior.
 - Modo avião após download e após reiniciar o aparelho; falta de espaço e interrupção de rede.
-- Fontes dos quatro mapas fixos do Atlas revisadas e créditos/links adicionados; fundos diários limitados a imagens Unsplash sob licença geral; fotos arqueológicas dinâmicas exigem metadados e link da ficha por arquivo. Revisão editorial das associações imagem/achado e confirmação jurisdicional final ainda pendentes.
+- Fontes dos quatro mapas fixos do Atlas revisadas e créditos/links adicionados; fichas e associações arqueológicas revisadas na V63. Fotos dinâmicas exibem resultados relacionados com autoria/licença/link, sem declará-los como o objeto original. Confirmação jurisdicional final ainda pendente.
 - Conta Play Console, verificação de identidade e dispositivo; pagamento e termos pelo titular.
 - Definir assinatura e publicar assetlinks no domínio raiz; não publicar certificado fictício.
 - Preencher Data safety, classificação, público-alvo e ficha no Console; capturas reais do Android final.
