@@ -24,6 +24,19 @@ Revisão de triagem em 26/10/2026. Este registro descreve as fontes declaradas n
 - Mapas e imagens fixos no Atlas ainda precisam de conferência individual do autor, página do arquivo, licença exata e atribuição. Rótulos genéricos como “mapa histórico” ou “CC0” não bastam sem essa ficha por item.
 - Imagens de Unsplash/Picsum e outros serviços externos devem ser avaliadas separadamente; carregar por URL não prova licença, permanência ou permissão de redistribuição dentro do pacote Android.
 
+### Revisão editorial dos achados arqueológicos — V63
+
+| Item conferido | Ajuste no BEREIA | Referência institucional |
+| --- | --- | --- |
+| Estela de Tel Dan | A relação bíblica foi movida de 2 Samuel 1 para 2 Samuel 7, por afinidade temática com a dinastia davídica. O texto limita a evidência à menção da “Casa de Davi”; não atribui à estela prova dos episódios do reinado. A localização atual fica indicada como Israel Museum; o empréstimo temporário ao Jewish Museum é datado de 2024–2025. | [The Jewish Museum — Tel Dan Stele](https://thejewishmuseum.org/exhibitions/tel-dan-stele/) |
+| Fragmentos do Cântico do Mar | Corrigida a mistura de fragmentos de Qumran e manuscritos de outras épocas e proveniências. O cartão agora identifica as diferentes datas, não presume que todos vieram do deserto da Judeia e diz que o conjunto documenta transmissão textual, não o evento do Êxodo. | [Israel Museum — Piecing Together the Past](https://www.imj.org.il/en/exhibitions/piecing-together-past) |
+| Apócrifo de Gênesis | Datação ajustada para o fim do século I a.C.; o texto identifica o manuscrito como uma releitura antiga, não como testemunha independente dos eventos de Gênesis. | [Israel Museum — Genesis Retold](https://www.imj.org.il/en/exhibitions/genesis-retold-0) |
+| Relevos de Laquis | A fonte ampla do British Museum foi substituída pela ficha de um painel da sala XXXVI do Palácio Sudoeste de Nínive, datado pelo museu entre 700–692 a.C. O cartão mantém explícito que a cena mostra Laquis, não Jerusalém. | [British Museum — painel 124904](https://www.britishmuseum.org/collection/object/W_1856-0909-14_1) |
+| Cafarnaum | Especificado que a sinagoga monumental visível é do século V d.C. e que há estruturas mais antigas sob ela. A associação dessas estruturas com a sinagoga do tempo de Jesus é apresentada como interpretação arqueológica. | [Custódia da Terra Santa — Capernaum](https://www.custodia.org/en/sanctuaries/capernaum/) |
+| Grande Rolo de Isaías | Período, descoberta em Qumran e localização no Shrine of the Book mantidos; sua relevância fica circunscrita à transmissão textual de Isaías. | [Israel Museum — A Voice from the Desert](https://www.imj.org.il/en/exhibitions/voice-desert) |
+
+As fotos arqueológicas continuam sob busca explícita do usuário. A busca filtra licenças e registra autor/link/licença, mas o resultado não é prova de que a fotografia seja o objeto original; a legenda informa que pode ser réplica, detalhe ou reconstrução. A ficha da fonte do achado e a ficha de licença da foto são verificações separadas.
+
 ### Mapas fixos do Atlas conferidos por arquivo
 
 | Arquivo | Crédito/licença declarados na página do arquivo | Tratamento no BEREIA |
