@@ -1,7 +1,7 @@
-/* BEREIA 1.0 preparation — V59. No tracking, accounts or advertising SDKs. */
+/* BEREIA 1.0 preparation — V60. No tracking, accounts or advertising SDKs. */
 (()=>{
 'use strict';
-const VERSION='V59', $=s=>document.querySelector(s), esc=window.escapeHtml;
+const VERSION='V60', $=s=>document.querySelector(s), esc=window.escapeHtml;
 const keys=['bereia:note','bereia:favorites','bereia:favs','bereia:highlights:v1','bereia:verseNotes:v1','bereia:collections:v1','bereia:reading','bereia:lastVerse','bereia:studySession:v1','bereia:completed:v1','bereia:font'];
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
 const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
@@ -46,6 +46,18 @@ async function offlineDownload(){
  }catch(e){status.textContent=e.message+'. Os livros já concluídos permanecem disponíveis; você pode tentar novamente.'}finally{$('#offlineDownload').disabled=false;$('#offlineCancel').hidden=true;offlineInventory()}
 }
 async function offlineInventory(){try{const all=await dbCall('readonly',s=>s.getAllKeys());$('#offlineInventory').textContent=all.length+' capítulos baixados. Imagens, mapas e fontes externas ainda podem precisar de internet.'}catch{$('#offlineInventory').textContent='Armazenamento offline indisponível neste navegador.'}}
+let fullSearchIndex=[];
+async function searchWholeBible(){
+ const q=$('#searchInput').value.trim();if(!q)return toast('Digite uma palavra ou referência primeiro.');
+ const version=bibleVersion?.value||'almeida-livre',status=$('#fullBibleSearchStatus'),button=$('#fullBibleSearch');button.disabled=true;
+ try{
+  let keys=await dbCall('readonly',s=>s.getAllKeys()),saved=await dbCall('readonly',s=>s.getAll()),all=keys.map((k,i)=>({key:String(k),verses:saved[i]})).filter(x=>x.key.startsWith(version+':'));
+  const books=new Map();for(const x of all){const [,osis,ch]=x.key.split(':');if(!books.has(osis))books.set(osis,new Set());books.get(osis).add(+ch)}
+  const missing=bibleBooks.filter(b=>books.get(b[0])?.size!==b[2]);if(missing.length&&!navigator.onLine)throw Error('Sem conexão. Baixe a Bíblia inteira em Ajustes, offline e backup para pesquisar todos os livros.');
+  let done=bibleBooks.length-missing.length,queue=[...missing];await Promise.all(Array.from({length:4},async()=>{while(queue.length){const b=queue.shift();status.textContent=`Preparando a busca: ${done} de 66 livros…`;const lang=version==='kjv'?'en':'pt',url=`https://raw.githubusercontent.com/midvash/bible-data/main/versions/${lang}/${version}/books/${b[0]}.json`,r=await fetch(url,{signal:AbortSignal.timeout(25000)});if(!r.ok)throw Error('Falha ao carregar '+b[1]+'. Tente novamente.');const data=await r.json();if(!Array.isArray(data.chapters)||data.chapters.length!==b[2])throw Error('Texto incompleto em '+b[1]+'.');const chapters=data.chapters.map(normalizeChapter);if(chapters.some(c=>!validVerses(c)))throw Error('Não foi possível validar '+b[1]+'.');const d=await db();await new Promise((resolve,reject)=>{const tx=d.transaction('chapters','readwrite'),store=tx.objectStore('chapters');chapters.forEach((v,i)=>store.put(v,chapterKey(version,b[0],i+1)));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});done++}}));
+  keys=await dbCall('readonly',s=>s.getAllKeys());saved=await dbCall('readonly',s=>s.getAll());fullSearchIndex=keys.map((k,i)=>({key:String(k),verses:saved[i]})).filter(x=>x.key.startsWith(version+':'));status.textContent=`Busca completa pronta: ${fullSearchIndex.length} capítulos pesquisados.`;search();
+ }catch(e){status.textContent=e.message||'Falha ao preparar a busca.'}finally{button.disabled=false}
+}
 function gotoVerse(v){if(!v)return;selectedVerse=v;window.selectedVerse=v;localStorage.setItem('bereia:lastVerse',JSON.stringify(v));window.BEREIA_STUDY_SESSION?.saveCurrent?.(v);bibleVersion.value=v.version||'almeida-livre';bibleBook.value=v.bookIndex;renderChapterOptions(v.chapter);go('bible');loadChapter(false).then(()=>{const el=$(`#bibleReader .v[data-verse="${v.verse}"]`);if(el)selectRealVerse(el,v.verse)})}
 function personal(){
  const favs=read('bereia:favorites',[]),list=$('#releaseFavorites');if(!list)return;
@@ -69,13 +81,14 @@ function settings(){
 }
 function search(){
  const q=$('#searchInput').value.trim(),term=normalize(q),filter=$('.searchCats .active')?.textContent||'Tudo',results=[];
- const add=(category,title,text,action)=>{if((filter==='Tudo'||category===filter)&&normalize(title+' '+text).includes(term))results.push({category,title,text,action})};
+ const add=(category,title,text,action)=>{if((filter==='Tudo'||category===filter)&&normalize(title+' '+text).includes(term)&&!results.some(r=>r.category===category&&r.title===title))results.push({category,title,text,action});}
  const ref=q.match(/^(.+?)\s+(\d+)(?::(\d+))?$/),bi=ref?bibleBooks.findIndex(b=>normalize(b[1])===normalize(ref[1])):-1;
  if(bi>=0&&+ref[2]>=1&&+ref[2]<=bibleBooks[bi][2])add('Bíblia',q,'Abrir referência',()=>gotoVerse({bookIndex:bi,book:bibleBooks[bi][1],osis:bibleBooks[bi][0],chapter:+ref[2],verse:+ref[3]||1,version:bibleVersion.value}));
  for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(!k.startsWith('bereia:bible:v4:'))continue;const [, , ,ver,osis,ch]=k.split(':'),book=bibleBooks.findIndex(b=>b[0]===osis);if(book<0)continue;for(const v of read(k,[]))add('Bíblia',`${bibleBooks[book][1]} ${ch}:${v.number}`,v.text,()=>gotoVerse({bookIndex:book,book:bibleBooks[book][1],osis,chapter:+ch,verse:v.number,text:v.text,version:ver}))}
  for(const x of window.BEREIA_PASSAGE_SOURCES||[])add('Arqueologia',x[3],x[4],()=>{go('archaeology');const v={book:x[0],chapter:x[1],verse:1,bookIndex:bibleBooks.findIndex(b=>b[1]===x[0])};window.selectedVerse=v;localStorage.setItem('bereia:lastVerse',JSON.stringify(v));window.BEREIA_V58_ARCH.render()});
  for(const e of window.BEREIA_PASSAGE_EVENTS||[]){for(const cat of ['História','Estudos','Lugares','Mapas','Pessoas'])add(cat,cat==='Lugares'?e.place:e.title,e.book+' '+e.from+' • '+e.history,()=>gotoVerse({book:e.book,bookIndex:bibleBooks.findIndex(b=>b[1]===e.book),chapter:e.from,verse:1,version:bibleVersion.value}))}
- const box=$('#portalResults');box.replaceChildren();const title=document.createElement('p');title.textContent=q?`${Math.min(results.length,100)} resultados exibidos. Busca no acervo cadastrado e nos capítulos já abertos; não abrange automaticamente toda a Bíblia.`:'Digite um termo ou uma referência, como João 3:16.';box.append(title);if(!q)return;
+ for(const item of fullSearchIndex){const [,osis,ch]=item.key.split(':'),book=bibleBooks.findIndex(b=>b[0]===osis);if(book<0)continue;for(const v of item.verses||[])add('Bíblia',`${bibleBooks[book][1]} ${ch}:${v.number}`,v.text,()=>gotoVerse({bookIndex:book,book:bibleBooks[book][1],osis,chapter:+ch,verse:v.number,text:v.text,version:item.key.split(':')[0]}))}
+ const box=$('#portalResults');box.replaceChildren();const title=document.createElement('p');title.textContent=q?`${Math.min(results.length,100)} resultados exibidos. ${fullSearchIndex.length?'Pesquisa na Bíblia inteira e no acervo de estudos.':'Pesquisa no acervo e nos capítulos disponíveis neste dispositivo; use “Buscar em toda a Bíblia” para ampliar.'}`:'Digite um termo ou uma referência, como João 3:16.';box.append(title);if(!q)return;
  results.slice(0,100).forEach(r=>{const b=document.createElement('button');b.className='resultCard releaseResult';b.innerHTML=`<small>${esc(r.category)}</small><strong>${esc(r.title)}</strong><p>${esc(r.text)}</p>`;b.onclick=r.action;box.append(b)});
  if(!results.length){const p=document.createElement('p');p.textContent='Nenhum resultado nesta categoria. Tente outro termo ou consulte uma referência bíblica.';box.append(p)}
 }
@@ -84,7 +97,7 @@ function accessible(root=document){root.querySelectorAll('[onclick]:not(button):
 function init(){
  settings();const initialScreen=location.hash.slice(1);if(document.getElementById(initialScreen)?.classList.contains('screen'))go(initialScreen,false);const favorites=document.createElement('div');favorites.id='releaseFavorites';$('#me').append(favorites);personal();
  const cards=$('#me .grid');if(cards){cards.children[1].querySelector('p').textContent='Marcações feitas no leitor ficam neste dispositivo.';cards.children[2].querySelector('p').textContent='Acompanhe suas leituras em Missão.'}
- window.doPortalSearch=search;$('#searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')search()});$('.searchCats').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('.searchCats .active')?.classList.remove('active');b.classList.add('active');search()});
+ window.doPortalSearch=search;const fullBtn=document.createElement('button');fullBtn.id='fullBibleSearch';fullBtn.className='btn';fullBtn.textContent='Buscar em toda a Bíblia';fullBtn.onclick=searchWholeBible;const fullStatus=document.createElement('p');fullStatus.id='fullBibleSearchStatus';fullStatus.setAttribute('role','status');$('.globalSearchBox').append(fullBtn,fullStatus);$('#searchInput').addEventListener('keydown',e=>{if(e.key==='Enter')search()});$('.searchCats').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('.searchCats .active')?.classList.remove('active');b.classList.add('active');search()});
  // Remove nonfunctional future-course percentages without inventing completed lessons.
  $('#mission .grid').innerHTML='<div class="releasePanel"><h2>Seu plano de leitura</h2><p>Marque os capítulos que você concluiu. O progresso é salvo neste dispositivo e incluído no backup.</p><button class="btn" id="markRead">Marcar capítulo atual como lido</button><p id="readingProgress" role="status"></p><button class="btn" onclick="go(\'bible\')">Continuar leitura</button></div><div class="releasePanel"><h2>Roteiro de estudo pessoal</h2><ol><li>Leia o capítulo e observe personagens, ações e palavras repetidas.</li><li>Consulte o contexto e compare traduções disponíveis.</li><li>Investigue as fontes e registre suas dúvidas.</li><li>Escreva suas conclusões no caderno.</li></ol><p>As trilhas de cursos completos ainda não estão disponíveis.</p></div>';
  document.querySelectorAll('#compare .compareControls select').forEach((s,i)=>{s.setAttribute('aria-label',i?'Segunda edição para comparar':'Primeira edição para comparar');s.addEventListener('change',()=>{const v=window.BEREIA_STUDY_SESSION?.getCurrent?.()||requireSelected();if(v)loadComparison(v)})});
