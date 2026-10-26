@@ -37,7 +37,7 @@ Esta lista diferencia código implementado de homologação; não afirma aprova�
 - Validar toda a matriz de controles (inventario-controles.json), inclusive todos os modais, downloads e compartilhamento de imagens.
 - Testar TalkBack, fonte máxima, telas pequenas, teclado, orientação, botão Voltar e atualização sobre versão anterior.
 - Modo avião após download e após reiniciar o aparelho; falta de espaço e interrupção de rede.
-- Revisão editorial/licenças de todas as fontes, mapas e textos; o manifesto de provedores não substitui autorização de conteúdo.
+- Triagem inicial de traduções, WLC, imagens e mapas registrada em `docs/revisao-conteudo-licencas.md`; fichas individuais dos mapas/imagens e revisão jurisdicional ainda pendentes.
 - Conta Play Console, verificação de identidade e dispositivo; pagamento e termos pelo titular.
 - Definir assinatura e publicar assetlinks no domínio raiz; não publicar certificado fictício.
 - Preencher Data safety, classificação, público-alvo e ficha no Console; capturas reais do Android final.

@@ -31,7 +31,7 @@
  }
  function source(v){
    if(isNT(v))return {name:'SBL Greek New Testament + MorphGNT',license:'SBLGNT: CC BY 4.0 • MorphGNT: CC BY-SA',credit:'Society of Biblical Literature / Logos Bible Software / MorphGNT'};
-   return {name:'Open Scriptures Hebrew Bible / Westminster Leningrad Codex',license:'WLC: domínio público • dados OSHB conforme licença do projeto',credit:'Open Scriptures Hebrew Bible Project'};
+   return {name:'Open Scriptures Hebrew Bible / Westminster Leningrad Codex',license:'WLC: licença própria permissiva; não classificar como domínio público • conferir atribuição em Tanach.us',credit:'Westminster Leningrad Codex / Open Scriptures Hebrew Bible Project'};
  }
  async function greekAll(v){
    if(typeof BEREIA_BOOK_CODES==='undefined'||typeof BEREIA_MORPH_FILES==='undefined')return {items:[],counts:{}};
