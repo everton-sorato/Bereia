@@ -2,6 +2,7 @@
 
 Nome: BEREIA — Bíblia e Estudos
 Descrição curta: Leia, anote e investigue passagens bíblicas com fontes e contexto.
+E-mail público de suporte: everton.sorato@gmail.com
 Categoria sugerida: Livros e referências.
 Modelo: gratuito, sem anúncios. Sem conta obrigatória.
 
@@ -20,8 +21,7 @@ Leia livros, capítulos e versículos; salve favoritos e registre suas observaç
 Mapas, fotos, fontes externas e alguns estudos precisam de conexão. A pesquisa abrange o acervo cadastrado e capítulos já abertos; nem toda passagem tem material complementar. Algumas coleções são catálogos informativos. O aplicativo não oferece sincronização automática entre aparelhos: mantenha um backup dos seus dados.
 
 ## Campos ainda necessários
-- E-mail de suporte público, confirmado pelo titular.
-- Identidade legal da conta e contato privado para questões de dados.
+- Identidade legal da conta de desenvolvedor.
 - Classificação indicativa/público-alvo preenchidos pelo responsável após questionário real.
 - Segurança dos dados concluída após verificar pacote final e provedores.
 - Capturas do aplicativo Android real: leitura, estudo, arqueologia, caderno e downloads.
