@@ -1,4 +1,4 @@
-/* BEREIA 1.0 preparation — V67. No tracking, accounts or advertising SDKs. */
+/* BEREIA 1.0 preparation — V68. No tracking, accounts or advertising SDKs. */
 (()=>{
 'use strict';
 const VERSION='V66', $=s=>document.querySelector(s), esc=window.escapeHtml;
