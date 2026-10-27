@@ -11,6 +11,29 @@ Revisão de triagem em 27/10/2026. Este registro descreve as fontes declaradas n
 | Bíblia Portuguesa Mundial (`porbrbsl`) | O eBible.org declara domínio público, lista os livros deuterocanônicos e também outros livros de coleções antigas; informa que o texto é rascunho em revisão. | O BEREIA abre o catálogo e capítulos diretamente no eBible.org, exibe o status de revisão e não mantém cópia local nem leitura offline desta edição. A fonte não apresenta imprimatur. |
 | Traduções modernas (NVI, NAA, ARA, NTLH) | O próprio projeto as lista como dependentes de autorização. | Não integrar texto integral, comparação ou download offline sem licença expressa. |
 
+## Inventário de conteúdo público e aberto — V65
+
+### Textos bíblicos e apócrifos
+
+- **Bíblia Portuguesa Mundial (BPM):** o eBible.org a declara em domínio público e informa que ainda é rascunho em revisão. O BEREIA abre o catálogo online; não baixa a obra para o pacote nem oferece busca ou leitura offline nessa edição. O catálogo contém o conjunto católico de 73 livros e outras obras antigas, além das formas gregas de Ester e Daniel. Não é uma edição com imprimatur.
+- **Almeida 1819:** o provedor de dados declara domínio público para essa edição histórica; preservar edição, fonte e atribuição.
+- **KJV 1769:** edição em inglês, não deve ser confundida com BKJ/KJA em português. Traduções brasileiras modernas e notas de estudo exigem checagem/licença próprias.
+- **Bíblia Livre em Jesus (BLJ):** fonte declara CC BY 4.0; preservar atribuição e indicar alterações se houver.
+- **1 Enoque, Jubileus e outras traduções em português:** não incluir texto integral até registrar uma edição específica em domínio público/licença aberta ou autorização. O domínio público do original antigo não libera automaticamente uma tradução moderna.
+
+### Mapas, lugares e arqueologia
+
+| Fonte | Material que podemos usar | Condição |
+| --- | --- | --- |
+| OpenBible.info Bible Geocoding Data | Dados de nomes e coordenadas de locais bíblicos para desenhar mapas próprios | CC BY 4.0 e atribuição; verificar separadamente geometrias OpenStreetMap/ODbL e termos de cada camada de mapa |
+| Pleiades | Dados de lugares antigos e geografia histórica | CC BY 3.0 e atribuição |
+| The Met Open Access | Imagens de itens identificados como domínio público/Open Access | CC0 somente nos itens elegíveis; confirmar a ficha do objeto |
+| Smithsonian Open Access | Imagens e metadados marcados como CC0 | Confirmar a indicação individual do item |
+| Wikimedia Commons | Imagens e mapas publicados sob licenças diversas | Avaliar cada arquivo, atribuir autor/fonte/licença e cumprir ShareAlike quando aplicável |
+| IPHAN Banco de Imagens | Fotografias do patrimônio e sítios arqueológicos brasileiros | CC BY-NC 4.0; não reutilizar em versão comercial/monetizada sem autorização |
+
+Textos curatoriais de museus servem para pesquisa e citação factual; o BEREIA deve redigir seus próprios resumos e apontar a ficha institucional. O direito de usar os dados de um achado não concede automaticamente o direito de reproduzir a fotografia do objeto.
+
 ## Idiomas originais e dados de pesquisa
 
 - O laboratório de grego declara SBLGNT e MorphGNT e precisa preservar os créditos e cumprir as licenças individuais indicadas por cada projeto.
