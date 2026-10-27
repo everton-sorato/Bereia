@@ -11,7 +11,7 @@ Revisão de triagem em 27/10/2026. Este registro descreve as fontes declaradas n
 | Bíblia Portuguesa Mundial (`porbrbsl`) | O eBible.org declara domínio público, lista os livros deuterocanônicos e também outros livros de coleções antigas; informa que o texto é rascunho em revisão. | O BEREIA abre o catálogo e capítulos diretamente no eBible.org, exibe o status de revisão e não mantém cópia local nem leitura offline desta edição. A fonte não apresenta imprimatur. |
 | Traduções modernas (NVI, NAA, ARA, NTLH) | O próprio projeto as lista como dependentes de autorização. | Não integrar texto integral, comparação ou download offline sem licença expressa. |
 
-## Inventário de conteúdo público e aberto — V68
+## Inventário de conteúdo público e aberto — V69
 
 ### Textos bíblicos e apócrifos
 
@@ -86,3 +86,10 @@ Os quatro cartões usam hotlinks para páginas de arquivo Commons; os arquivos n
 4. Só concluir as declarações de segurança de dados e conteúdo no Play Console depois de verificar o pacote Android final e todas as requisições reais.
 
 Fontes primárias consultadas em 26/10/2026: `midvash/bible-data` README e SOURCES.md; ficha e copyright da Bíblia Portuguesa Mundial no eBible.org; página de reutilização do Wikimedia Commons; página de licença do WLC/Tanach.us. O manifesto `provedores.json` é um inventário técnico de domínios e não equivale a uma liberação de direitos.
+
+
+## Fichas arqueológicas abertas — V69
+
+- **Estela de Mesha (AO 5066):** o Louvre registra data, descoberta em Dhiban e localização atual. A foto de Tangopaso no Wikimedia Commons está em domínio público. A ficha relaciona o achado a 2 Reis 3 e sinaliza que a leitura “Casa de Davi” na linha 31 é debatida.
+- **Cilindro de Ciro (BM 90920):** objeto do British Museum; foto de M-nemat no Wikimedia Commons sob CC0 1.0. As fichas de Esdras 1, 2 Crônicas 36 e Isaías 45 tratam o cilindro como contexto comparativo da política persa. O app esclarece que ele não menciona Judá, Jerusalém, judeus ou Javé e não é o decreto judaico de Esdras.
+- As duas fichas mostram período, local de descoberta, localização atual, relação com a passagem, o que a evidência sustenta e o que não comprova, além de links para a fonte institucional e a licença da imagem.
