@@ -11,7 +11,7 @@ Revisão de triagem em 27/10/2026. Este registro descreve as fontes declaradas n
 | Bíblia Portuguesa Mundial (`porbrbsl`) | O eBible.org declara domínio público, lista os livros deuterocanônicos e também outros livros de coleções antigas; informa que o texto é rascunho em revisão. | O BEREIA abre o catálogo e capítulos diretamente no eBible.org, exibe o status de revisão e não mantém cópia local nem leitura offline desta edição. A fonte não apresenta imprimatur. |
 | Traduções modernas (NVI, NAA, ARA, NTLH) | O próprio projeto as lista como dependentes de autorização. | Não integrar texto integral, comparação ou download offline sem licença expressa. |
 
-## Inventário de conteúdo público e aberto — V65
+## Inventário de conteúdo público e aberto — V66
 
 ### Textos bíblicos e apócrifos
 
