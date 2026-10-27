@@ -1,6 +1,6 @@
 # Revisão de conteúdo e licenças — BEREIA
 
-Revisão de triagem em 26/10/2026. Este registro descreve as fontes declaradas no código e as afirmações públicas consultadas; não substitui autorização jurídica nem análise por território.
+Revisão de triagem em 27/10/2026. Este registro descreve as fontes declaradas no código e as afirmações públicas consultadas; não substitui autorização jurídica nem análise por território.
 
 ## Conteúdo usado pelo leitor
 
@@ -8,7 +8,7 @@ Revisão de triagem em 26/10/2026. Este registro descreve as fontes declaradas n
 | --- | --- | --- |
 | Almeida 1819 (`almeida-livre`) | O repositório `midvash/bible-data` identifica a edição como “Almeida 1819 (Bíblia Livre)” e declara domínio público para os dados dessa versão. A app recebe os capítulos desse repositório. | Manter atribuição/proveniência e guardar a referência da versão usada. Confirmar o enquadramento para os países em que o app será distribuído. |
 | King James 1769 (`kjv`) | O mesmo repositório declara a versão de 1769 em domínio público. | Manter atribuição e a identificação da edição, sem confundir com revisões modernas. |
-| Bíblia Portuguesa Mundial (`porbrbsl`) | A página da edição no eBible.org declara domínio público e informa que o texto está em revisão. No código, é oferecida como fonte externa em páginas de leitura. | Identificar claramente que abre um serviço externo e que é uma tradução em revisão. Registrar a página-fonte e revisar o uso de qualquer cópia local. |
+| Bíblia Portuguesa Mundial (`porbrbsl`) | O eBible.org declara domínio público, lista os livros deuterocanônicos e também outros livros de coleções antigas; informa que o texto é rascunho em revisão. | O BEREIA abre o catálogo e capítulos diretamente no eBible.org, exibe o status de revisão e não mantém cópia local nem leitura offline desta edição. A fonte não apresenta imprimatur. |
 | Traduções modernas (NVI, NAA, ARA, NTLH) | O próprio projeto as lista como dependentes de autorização. | Não integrar texto integral, comparação ou download offline sem licença expressa. |
 
 ## Idiomas originais e dados de pesquisa
