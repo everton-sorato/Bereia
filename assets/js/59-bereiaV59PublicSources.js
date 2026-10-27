@@ -17,5 +17,15 @@ if(bpm){bpm.kind="Leitor online em português brasileiro; a página da edição 
 window.addEventListener("load",()=>{
  const p=document.querySelector("#bereiaSourcesSection details p");
  if(p)p.textContent="Inventário de textos, dados geográficos e imagens com domínio público ou licença aberta, além de fontes condicionais e conteúdos ainda sem autorização. Confira a licença de cada arquivo; a página de uma fonte não libera automaticamente todas as imagens do acervo.";
+ const visible=[...document.querySelectorAll("details")].find(d=>d.querySelector("summary")?.textContent.includes("Fontes e licenças do BEREIA"));
+ const sourceCards=document.querySelectorAll("#bereiaSourcesSection .source-card");
+ if(visible&&sourceCards.length&&!document.querySelector("#bereiaPublicSourcesInventory")){
+  const index=document.createElement("details");index.id="bereiaPublicSourcesInventory";index.style.cssText="margin-top:12px;padding:12px;border:1px solid #303640;border-radius:12px;background:#11151a";
+  const title=document.createElement("summary");title.textContent="📚 Consultar fontes por item ("+sourceCards.length+")";title.style.cssText="cursor:pointer;color:#d7b56d;font-weight:600";index.append(title);
+  const note=document.createElement("p");note.textContent="Licença, crédito e link de conferência. Imagens e mapas devem ser verificados individualmente; a licença dos dados não cobre automaticamente a imagem do mapa.";note.style.cssText="font-size:11px;color:#aaa;line-height:1.5";index.append(note);
+  const list=document.createElement("div");list.className="public-source-list";list.style.cssText="display:grid;gap:10px;margin-top:12px";
+  sourceCards.forEach(card=>list.append(card.cloneNode(true)));index.append(list);
+  const grid=visible.querySelector(".blc-grid");(grid||visible).after(index);
+ }
 });
 })();
