@@ -100,3 +100,7 @@ Fontes primárias consultadas em 26/10/2026: `midvash/bible-data` README e SOURC
 - **Inscrição de Siloé:** foto de Oncenawhile no Wikimedia Commons, CC0 1.0. A ficha informa descoberta, local atual em Istambul e vínculo contextual com 2 Reis 20:20 e 2 Crônicas 32:30, sem afirmar que a inscrição nomeie Ezequias.
 - **Relevos de Laquis:** foto de Zunkir no Wikimedia Commons, CC BY-SA 4.0; créditos e link de licença incluídos. O British Museum documenta os relevos; a ficha deixa claro que eles mostram a tomada de Laquis, não o cerco de Jerusalém.
 - **Correção técnica:** o seletor de capítulo da Bíblia Portuguesa de domínio público agora registra o evento change com addEventListener, removendo a string inline que provocava erro de sintaxe em 15-bereiaV15Portuguese.js.
+
+
+## Ajuste de deduplicação — V72
+- A ficha nova de Siloé substitui títulos legados equivalentes; Laquis também remove os registros genéricos duplicados antes de cadastrar as fichas com metadados e créditos conferidos.
