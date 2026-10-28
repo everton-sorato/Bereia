@@ -1,4 +1,4 @@
-/* BEREIA V71 — fichas arqueológicas e imagens com licença identificada. */
+/* BEREIA V72 — fichas arqueológicas e imagens com licença identificada. */
 (()=>{'use strict';
 const rows=[
  ["2 Reis",3,3,"Estela de Mesha","","Musée du Louvre + Wikimedia Commons","https://collections.louvre.fr/en/ark:/53355/cl010120339"],
@@ -13,6 +13,9 @@ const rows=[
  ["2 Crônicas",32,32,"Relevos de Laquis","","British Museum + Wikimedia Commons","https://www.britishmuseum.org/collection/object/W_1856-0909-14_1"]
 ];
 window.BEREIA_PASSAGE_SOURCES=window.BEREIA_PASSAGE_SOURCES||[];
+const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+const legacyTitles=new Set(['tunel e inscricao de siloe','cerco de laquis (701 a.c.)','campanha de senaqueribe']);
+window.BEREIA_PASSAGE_SOURCES=window.BEREIA_PASSAGE_SOURCES.filter(x=>!legacyTitles.has(norm(x[3])));
 for(const row of rows)if(!window.BEREIA_PASSAGE_SOURCES.some(x=>x[0]===row[0]&&x[1]===row[1]&&x[3]===row[3]))window.BEREIA_PASSAGE_SOURCES.push(row);
-window.addEventListener('load',()=>{const badge=document.getElementById('bereiaBuildBadge');if(badge)badge.textContent='BEREIA • V71';});
+window.addEventListener('load',()=>{const badge=document.getElementById('bereiaBuildBadge');if(badge)badge.textContent='BEREIA • V72';});
 })();
