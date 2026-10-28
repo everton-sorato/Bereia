@@ -93,3 +93,10 @@ Fontes primárias consultadas em 26/10/2026: `midvash/bible-data` README e SOURC
 - **Estela de Mesha (AO 5066):** o Louvre registra data, descoberta em Dhiban e localização atual. A foto de Tangopaso no Wikimedia Commons está em domínio público. A ficha relaciona o achado a 2 Reis 3 e sinaliza que a leitura “Casa de Davi” na linha 31 é debatida.
 - **Cilindro de Ciro (BM 90920):** objeto do British Museum; foto de M-nemat no Wikimedia Commons sob CC0 1.0. As fichas de Esdras 1, 2 Crônicas 36 e Isaías 45 tratam o cilindro como contexto comparativo da política persa. O app esclarece que ele não menciona Judá, Jerusalém, judeus ou Javé e não é o decreto judaico de Esdras.
 - As duas fichas mostram período, local de descoberta, localização atual, relação com a passagem, o que a evidência sustenta e o que não comprova, além de links para a fonte institucional e a licença da imagem.
+
+
+## Fichas arqueológicas adicionais — V71
+- **Estela de Tel Dan:** foto de Oren Rozen no Wikimedia Commons, CC BY-SA 4.0; autoria, licença e link exibidos na ficha. Fonte de objeto: Israel Antiquities Authority / Israel Museum. A relação com 2 Reis 8–9 contextualiza a inscrição e assinala a diferença entre o relato régio aramaico e 2 Reis 9.
+- **Inscrição de Siloé:** foto de Oncenawhile no Wikimedia Commons, CC0 1.0. A ficha informa descoberta, local atual em Istambul e vínculo contextual com 2 Reis 20:20 e 2 Crônicas 32:30, sem afirmar que a inscrição nomeie Ezequias.
+- **Relevos de Laquis:** foto de Zunkir no Wikimedia Commons, CC BY-SA 4.0; créditos e link de licença incluídos. O British Museum documenta os relevos; a ficha deixa claro que eles mostram a tomada de Laquis, não o cerco de Jerusalém.
+- **Correção técnica:** o seletor de capítulo da Bíblia Portuguesa de domínio público agora registra o evento change com addEventListener, removendo a string inline que provocava erro de sintaxe em 15-bereiaV15Portuguese.js.
