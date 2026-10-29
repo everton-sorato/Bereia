@@ -1,7 +1,7 @@
-/* BEREIA 1.0 preparation — V74. No tracking, accounts or advertising SDKs. */
+/* BEREIA 1.0 preparation — V75. No tracking, accounts or advertising SDKs. */
 (()=>{
 'use strict';
-const VERSION='V74', $=s=>document.querySelector(s), esc=window.escapeHtml;
+const VERSION='V75', $=s=>document.querySelector(s), esc=window.escapeHtml;
 const keys=['bereia:note','bereia:favorites','bereia:favs','bereia:highlights:v1','bereia:verseNotes:v1','bereia:collections:v1','bereia:reading','bereia:lastVerse','bereia:studySession:v1','bereia:completed:v1','bereia:font'];
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
 const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
@@ -114,4 +114,5 @@ function init(){
 }
 function connection(){let el=$('#connectionStatus');if(!el){el=document.createElement('div');el.id='connectionStatus';el.setAttribute('role','status');document.body.append(el)}el.hidden=navigator.onLine;el.textContent='Sem conexão • use capítulos baixados e suas anotações.'}
 init();
+window.addEventListener('load',()=>{const badge=$('#bereiaBuildBadge');if(badge)badge.textContent='BEREIA • '+VERSION});
 })();
