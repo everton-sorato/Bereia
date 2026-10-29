@@ -109,7 +109,7 @@ function init(){
  window.addEventListener('online',connection);window.addEventListener('offline',connection);connection();accessible();
  const observer=new MutationObserver(records=>{records.forEach(r=>r.addedNodes.forEach(n=>{if(n.nodeType===1)accessible(n)}))});observer.observe($('main'),{childList:true,subtree:true});
  $('#bereiaDailyDeepBtn') && ($('#bereiaDailyDeepBtn').textContent='Aprofundar mensagem');
- const badge=$('#bereiaBuildBadge');if(badge){const label='BEREIA • '+VERSION;const syncBadge=()=>{if(badge.textContent!==label)badge.textContent=label};syncBadge();new MutationObserver(syncBadge).observe(badge,{childList:true,characterData:true,subtree:true})}
+ const label='BEREIA • '+VERSION;const syncBadge=()=>{const badge=$('#bereiaBuildBadge');if(badge&&badge.textContent!==label)badge.textContent=label};syncBadge();new MutationObserver(syncBadge).observe(document.body,{childList:true,characterData:true,subtree:true})
  if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).catch(()=>{});
 }
 function connection(){let el=$('#connectionStatus');if(!el){el=document.createElement('div');el.id='connectionStatus';el.setAttribute('role','status');document.body.append(el)}el.hidden=navigator.onLine;el.textContent='Sem conexão • use capítulos baixados e suas anotações.'}
