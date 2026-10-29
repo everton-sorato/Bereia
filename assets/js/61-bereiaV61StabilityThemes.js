@@ -35,7 +35,7 @@ const css=`
 if(!document.getElementById('bereiaThemeStyles')){const style=document.createElement('style');style.id='bereiaThemeStyles';style.textContent=css;document.head.append(style)}
 
 window.simpleHome=function(){
- try{if(Array.isArray(window.navHistory))window.navHistory.length=0}catch{}
+ try{if(typeof navHistory!=='undefined')navHistory.length=0}catch{}
  document.body.classList.remove('simpleBibleOpen');
  document.getElementById('bereiaDeepBar')?.classList.remove('show');
  const homeUrl=location.pathname+location.search+'#home';
