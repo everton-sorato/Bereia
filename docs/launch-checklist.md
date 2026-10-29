@@ -3,6 +3,14 @@
 Data: 25/10/2026. Base: V58. Alterações propostas: V59. Gratuito e sem anúncios.
 Esta lista diferencia código implementado de homologação; não afirma aprovação da loja.
 
+## Atualização do levantamento — 29/10/2026 (código V75)
+- Preparadas melhorias para reduzir espera na abertura do app e no carregamento da Bíblia, sincronizar o retorno ao início, adicionar três temas e padronizar a interface do catálogo BPM.
+- Parse dos 64 arquivos JavaScript: sem erros de sintaxe.
+- O catálogo BPM agora usa a estrutura visual BEREIA; a página do texto continua incorporada da fonte externa e ainda não compartilha totalmente a tipografia do app.
+- A homologação do código web não substitui teste em Android instalado. A matriz de 150 controles segue pendente, assim como validação no aparelho, modo avião após reiniciar e requisitos do Play Console.
+- Detalhes e achados: `docs/auditoria-estabilidade-v75.md`.
+
+
 ## Implementado
 - Scripts separados em arquivos, preservando ordem de execução e compatibilidade; módulo de lançamento separado. Consolidação profunda das camadas históricas ainda pendente.
 - Registro único de service worker e cache de todos os scripts; limpeza limitada aos caches do Bereia.
