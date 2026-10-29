@@ -7,7 +7,7 @@ const valid=x=>Object.prototype.hasOwnProperty.call(themes,x);
 function apply(name,persist=true){
  const key=valid(name)?name:'original';
  document.documentElement.dataset.bereiaTheme=key;
- document.documentElement.style.colorScheme=key==='light'?'light':'dark';
+ document.documentElement.style.colorScheme=key==='light'?'light':'dark';const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content=key==='light'?'#f4f3ef':key==='tech'?'#07111b':'#151a16';
  if(persist)localStorage.setItem('bereia:theme',key);
  document.querySelectorAll('#appTheme').forEach(s=>{if(s.value!==key)s.value=key});
  return key;
