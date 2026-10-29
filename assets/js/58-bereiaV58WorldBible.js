@@ -13,7 +13,7 @@ const extras=[
  {name:"Adições a Daniel",code:"DAG",chapters:14,kind:"Suplemento textual"}
 ];
 const codes={Gen:"GEN",Exod:"EXO",Lev:"LEV",Num:"NUM",Deut:"DEU",Josh:"JOS",Judg:"JDG",Ruth:"RUT", "1Sam":"1SA","2Sam":"2SA","1Kgs":"1KI","2Kgs":"2KI","1Chr":"1CH","2Chr":"2CH",Ezra:"EZR",Neh:"NEH",Esth:"EST",Job:"JOB",Ps:"PSA",Prov:"PRO",Eccl:"ECC",Song:"SNG",Isa:"ISA",Jer:"JER",Lam:"LAM",Ezek:"EZK",Dan:"DAN",Hos:"HOS",Joel:"JOL",Amos:"AMO",Obad:"OBA",Jonah:"JON",Mic:"MIC",Nah:"NAM",Hab:"HAB",Zeph:"ZEP",Hag:"HAG",Zech:"ZEC",Mal:"MAL",Matt:"MAT",Mark:"MRK",Luke:"LUK",John:"JHN",Acts:"ACT",Rom:"ROM","1Cor":"1CO","2Cor":"2CO",Gal:"GAL",Eph:"EPH",Phil:"PHP",Col:"COL","1Thess":"1TH","2Thess":"2TH","1Tim":"1TI","2Tim":"2TI",Titus:"TIT",Phlm:"PHM",Heb:"HEB",Jas:"JAS","1Pet":"1PE","2Pet":"2PE","1John":"1JN","2John":"2JN","3John":"3JN",Jude:"JUD",Rev:"REV"};
-const core=(window.bibleBooks||[]).map(b=>({name:b[1],code:codes[b[0]],chapters:b[2],kind:+bibleBooks.indexOf(b)<39?"Antigo Testamento":"Novo Testamento"})).filter(x=>x.code);
+const core=(typeof bibleBooks!=='undefined'?bibleBooks:[]).map(b=>({name:b[1],code:codes[b[0]],chapters:b[2],kind:+bibleBooks.indexOf(b)<39?"Antigo Testamento":"Novo Testamento"})).filter(x=>x.code);
 const catalog=[...core,...extras];
 function urlFor(book,ch){const n=Number(ch)||1,seq=book.code==="PSA"?String(n).padStart(3,"0"):String(n).padStart(2,"0");return "https://ebible.org/porbrbsl/"+book.code+seq+".htm"}
 function notice(){return '<div class="bpmNotice"><b>Bíblia Portuguesa Mundial (BPM)</b><p>O eBible.org identifica esta tradução brasileira como domínio público. A própria fonte informa que a tradução ainda é um rascunho em revisão e não apresenta imprimatur.</p><a href="https://ebible.org/porbrbsl/" target="_blank" rel="noopener noreferrer">Fonte e catálogo oficiais ↗</a></div>'}
@@ -34,7 +34,7 @@ const previousSet=window.bereiaSetLibrary,previousOpen=window.bereiaOpenExtraBoo
 window.bereiaSetLibrary=function(mode){if(mode!=="catholic")return previousSet(mode);reader("Gênesis")};
 window.bereiaOpenExtraBook=function(mode,i){
  if(mode!=="catholic")return previousOpen(mode,i);
- const entry=window.BEREIA_CATHOLIC_BOOKS?.[i],name=entry?.[0];
+ const entries=typeof BEREIA_CATHOLIC_BOOKS!=='undefined'?BEREIA_CATHOLIC_BOOKS:[],entry=entries[i],name=entry?.[0];
  if(name&&catalog.some(x=>x.name===name))return reader(name);
  return previousOpen(mode,i);
 };
