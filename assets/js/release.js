@@ -1,7 +1,7 @@
-/* BEREIA 1.0 preparation — V73. No tracking, accounts or advertising SDKs. */
+/* BEREIA 1.0 preparation — V74. No tracking, accounts or advertising SDKs. */
 (()=>{
 'use strict';
-const VERSION='V73', $=s=>document.querySelector(s), esc=window.escapeHtml;
+const VERSION='V74', $=s=>document.querySelector(s), esc=window.escapeHtml;
 const keys=['bereia:note','bereia:favorites','bereia:favs','bereia:highlights:v1','bereia:verseNotes:v1','bereia:collections:v1','bereia:reading','bereia:lastVerse','bereia:studySession:v1','bereia:completed:v1','bereia:font'];
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
 const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
