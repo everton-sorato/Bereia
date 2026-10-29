@@ -23,9 +23,13 @@ O texto dos capítulos continua sendo aberto dentro de uma página incorporada d
 ## Verificação técnica
 
 - Os 64 arquivos JavaScript do repositório foram analisados pelo parser: nenhum erro de sintaxe encontrado.
+- Na versão web publicada, as 13 telas principais abriram no navegador de teste. O leitor principal carregou João 1 com 51 versículos.
+- “← Início” e o Voltar do navegador retornaram à tela inicial com a mensagem e a entrada de leitura visíveis.
+- Os temas Claro e Tecnológico foram selecionados; a escolha Tecnológica continuou após recarregar a página.
+- O catálogo BPM abriu com 75 entradas (66 livros e nove suplementos/deuterocanônicos disponíveis na fonte). Gênesis 1 carregou dentro do contêiner do BEREIA.
+- A etiqueta web mostra V75; um observador foi adicionado para impedir que módulos históricos troquem o número exibido.
 - O inventário existente registra 150 controles estáticos, incluindo 108 botões. Ele próprio alerta que controles gerados por JavaScript precisam de revisão durante a execução; o inventário não comprova que todos funcionam.
-- A revisão anterior já apontava a necessidade de homologar botão Voltar, acessibilidade, telas pequenas, modo avião, falta de espaço e atualização por cima de uma versão instalada.
-- A versão web final precisa mostrar a etiqueta V75 depois da conclusão do fluxo do GitHub Pages. O teste num aparelho Android real continua pendente até a instalação da versão empacotada.
+- Esta conferência foi feita no navegador desktop. O teste do botão físico Voltar, telas pequenas, TalkBack, modo avião, falta de espaço e atualização sobre instalação existente continua pendente em Android real.
 
 ## Próximos itens do levantamento
 
