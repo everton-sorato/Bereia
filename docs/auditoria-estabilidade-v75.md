@@ -68,3 +68,6 @@ O BEREIA só deve ser tratado como pronto para publicação depois de a matriz d
 - O caminho de abertura das referências foi corrigido e conferido no leitor bíblico.
 - A correção final do analisador de referências foi publicada para reconhecer espaços, capítulos e versículos.
 - A home foi alinhada ao menu lateral em telas desktop para evitar que a navegação cubra o conteúdo.
+
+- Os 17 temas mostram narrativas devocionais originais com referências relacionadas dentro do app, sem exigir abertura da Bíblia.
+- As oito histórias do carrossel usam ilustrações inéditas criadas para o BEREIA e otimizadas em WebP.
