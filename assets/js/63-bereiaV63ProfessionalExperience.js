@@ -194,8 +194,7 @@ function initMoreMenu(){
   if(primary.some(x=>x[0]===original.dataset.go))return;
   const b=document.createElement('button');b.type='button';b.textContent=original.textContent.trim();b.addEventListener('click',()=>{dlg.close();original.click();setTimeout(sync,0)});grid.append(b);
  });
- const tools=document.querySelectorAll('#bereiaStudyTools button');
- [['Arqueologia',tools[1]],['Apócrifos',tools[2]]].forEach(([name,original])=>{if(!original)return;const b=document.createElement('button');b.type='button';b.textContent=name;b.addEventListener('click',()=>{dlg.close();original.click();setTimeout(sync,0)});grid.append(b)});
+ [['Arqueologia','archaeology'],['Apócrifos','apocrypha']].forEach(([name,layer])=>{const b=document.createElement('button');b.type='button';b.textContent=name;b.addEventListener('click',()=>{dlg.close();document.querySelector('#bereiaStudyTools button[onclick*="'+layer+'"]')?.click();setTimeout(sync,0)});grid.append(b)});
  const settings=document.createElement('button');settings.type='button';settings.textContent='Ajustes, lembretes e dados';settings.addEventListener('click',()=>{dlg.close();openPrayerSettings()});grid.append(settings);
  more.addEventListener('click',()=>dlg.showModal());dlg.querySelector('.moreClose').addEventListener('click',()=>dlg.close());dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
  document.querySelectorAll('#desktopNav [data-go]').forEach(b=>b.addEventListener('click',()=>setTimeout(sync,0)));
