@@ -152,7 +152,7 @@ body.simpleBibleOpen #bereiaDailyCover,body.simpleBibleOpen #bereiaSimpleEntry{d
 <link rel="manifest" href="./manifest.webmanifest"><meta name="theme-color" content="#151a16"><link rel="icon" type="image/svg+xml" href="./bereia-icon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="BEREIA"><link rel="stylesheet" href="./assets/release.css"><style id="b62-passages-styles">
 .b62PassageBlock{margin:0 0 14px;padding:12px;border:1px solid var(--line,#292e36);border-radius:12px;background:var(--panel2,#181c22)}
 .b62PassageBlock h4{margin:0 0 9px;color:var(--gold,#d7b56d);font:700 13px/1.4 system-ui}
-.b62PassageText{max-height:320px;overflow:auto;color:var(--text,#f5f1e8);font:14px/1.7 Georgia,serif}
+.b62PassageText{max-height:none;overflow:visible;color:var(--text,#f5f1e8);font:14px/1.7 Georgia,serif}
 .b62BibleVerse{margin:0 0 7px!important;color:var(--text,#f5f1e8)!important;font:14px/1.7 Georgia,serif!important}
 .b62BibleVerse sup{display:inline-block;min-width:22px;margin-right:3px;color:var(--gold,#d7b56d);font:700 10px system-ui}
 .b62ApiCredit{display:block;margin-top:8px;color:var(--muted,#a9a59c);font:10px/1.5 system-ui}.b62PassageCredit{display:block;margin-top:10px;color:var(--muted,#a9a59c);font:10px/1.5 system-ui}
@@ -160,6 +160,15 @@ body.simpleBibleOpen #bereiaDailyCover,body.simpleBibleOpen #bereiaSimpleEntry{d
 .b62StorySummary> b:first-child{display:block;margin:0 0 5px;color:var(--gold,#d7b56d);font-size:12px}
 .b62RelatedRefs{margin:9px 0 12px;color:var(--muted,#a9a59c);font-size:11px;line-height:1.5}
 .b62RelatedRefs b{display:inline;color:var(--gold,#d7b56d);font-size:11px}
+
+.b62StoryRail:has(.b62StoryCard[open]){display:block;overflow:visible;scroll-snap-type:none}
+.b62StoryRail:has(.b62StoryCard[open]) .b62StoryCard:not([open]){display:none}
+.b62StoryCard[open]{display:block;width:100%;max-width:none;flex:none;overflow:visible}
+.b62StoryCard[open] summary{display:grid;grid-template-columns:minmax(190px,260px) minmax(0,1fr);align-items:center}
+.b62StoryCard[open] .b62StoryArt{width:100%;max-width:260px;height:180px;margin:10px}
+.b62StoryCard[open] .b62StoryName{padding:14px;font-size:20px}
+.b62StoryCard[open] .b62StoryBody{max-width:900px;margin:0 auto;padding:12px 18px 20px}
+@media(max-width:620px){.b62StoryCard[open] summary{grid-template-columns:1fr}.b62StoryCard[open] .b62StoryArt{height:190px;max-width:260px;margin:10px auto 0}.b62StoryCard[open] .b62StoryName{text-align:center;font-size:18px}.b62StoryCard[open] .b62StoryBody{padding:10px 14px 18px}}
 </style></head><body>
 <section id="bereiaDailyCover" class="bereiaDailyCover" onclick="openDailyArt(event)">
  <div class="bdcShade"></div>
