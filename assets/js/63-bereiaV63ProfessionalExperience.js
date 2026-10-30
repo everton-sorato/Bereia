@@ -225,12 +225,16 @@ function moveSourcesToBottom(){
  const sources=document.getElementById('bereiaLicenseCenter');
  if(sources)document.body.appendChild(sources);
 }
+function scheduleSourcesToBottom(){
+ if(document.readyState==='complete')moveSourcesToBottom();
+ else window.addEventListener('load',moveSourcesToBottom,{once:true});
+}
 function init(){
  if(appMode)document.body.classList.add('app-mode');else document.body.classList.add('website-mode');
  const badge=document.getElementById('bereiaBuildBadge');if(badge)badge.hidden=true;
  const labelDeep=()=>{const deep=document.getElementById('bereiaDeepBtn')||document.getElementById('bereiaDailyDeepBtn');if(deep&&deep.textContent!=='Estudo aprofundado'){deep.textContent='Estudo aprofundado';deep.setAttribute('aria-label','Abrir estudo aprofundado sobre a passagem do dia')}};labelDeep();new MutationObserver(labelDeep).observe(document.body,{subtree:true,childList:true});
  document.querySelectorAll('#bereiaStudyTools .btn').forEach(b=>{if(/Ajustes, offline e backup/i.test(b.textContent))b.remove()});
- initMoreMenu();makeHomeCard();ensureSettingsPanel();moveSourcesToBottom();paintHomeCard();checkPrayerReminder();
+ initMoreMenu();makeHomeCard();ensureSettingsPanel();moveSourcesToBottom();scheduleSourcesToBottom();paintHomeCard();checkPrayerReminder();
  window.setInterval(checkPrayerReminder,30000);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkPrayerReminder()});
 }
