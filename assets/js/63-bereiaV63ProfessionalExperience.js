@@ -222,8 +222,8 @@ function initMoreMenu(){
  window.addEventListener('popstate',()=>setTimeout(sync,0));window.addEventListener('hashchange',()=>setTimeout(sync,0));sync();
 }
 function moveSourcesToBottom(){
- const sources=document.getElementById('bereiaLicenseCenter');
- if(sources)document.body.appendChild(sources);
+ const sources=document.getElementById('bereiaLicenseCenter'),stories=document.getElementById('bereiaV62Home');
+ if(sources&&stories)stories.insertAdjacentElement('afterend',sources);
 }
 function scheduleSourcesToBottom(){
  if(document.readyState==='complete')moveSourcesToBottom();
