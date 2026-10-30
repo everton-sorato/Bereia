@@ -4,7 +4,7 @@
   "short_name": "BEREIA",
   "description": "Leia a Bíblia e aprofunde seus estudos com simplicidade.",
   "lang": "pt-BR",
-  "start_url": "/Bereia/",
+  "start_url": "/Bereia/?layout=app",
   "scope": "/Bereia/",
   "display": "standalone",
   "background_color": "#10130f",
