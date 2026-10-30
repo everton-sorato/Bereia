@@ -34,7 +34,7 @@ const css=[
 '.bereia-site-experience body #settings{max-width:960px}',
 '.bereia-site-experience body .releasePanel{border-radius:20px;background:linear-gradient(145deg,#15191e,#101317);border-color:rgba(255,255,255,.09)}',
 '#bereiaBuildBadge{display:none!important}',
-'#bereiaDailyDeepBtn{display:none!important}',
+'.bereiaPrayerTopButton{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:8px 13px;border:1px solid rgba(215,181,109,.55);border-radius:999px;background:rgba(215,181,109,.12);color:#f1d88f;font:800 12px/1 system-ui;white-space:nowrap;cursor:pointer;transition:background .16s,border-color .16s,transform .16s}','.bereiaPrayerTopButton:hover{background:rgba(215,181,109,.2);border-color:#d7b56d;transform:translateY(-1px)}','.bereiaPrayerTopButton .prayerTopGlyph{font-size:15px;line-height:1}','.bereiaAppHeader .bereiaPrayerTopButton{margin-left:auto;flex:none}',.bereiaPrayerTopButton{position:fixed;z-index:12002;top:calc(12px + env(safe-area-inset-top));right:14px;box-shadow:0 6px 22px rgba(0,0,0,.28)},'.bereiaAppHeader .bereiaPrayerTopButton{position:static;top:auto;right:auto;box-shadow:none}','.bereiaPrayerToast{top:calc(76px + env(safe-area-inset-top))}','.bereiaPrayerCard{display:none!important}','.bereiaPrayerTopButton:focus-visible{outline:3px solid #e6c575;outline-offset:3px}','#bereiaDailyDeepBtn{display:none!important}',
 '.bereiaPrayerCard{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px;padding:20px 22px;border:1px solid rgba(215,181,109,.28);border-radius:20px;background:linear-gradient(120deg,rgba(37,35,27,.92),rgba(18,22,21,.97));color:var(--text,#f5f1e8);box-shadow:0 16px 40px rgba(0,0,0,.16)}',
 '.bereiaPrayerCard small{display:block;color:#e4c879;font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}',
 '.bereiaPrayerCard h2{margin:5px 0 4px;font-size:clamp(18px,2.3vw,24px);letter-spacing:-.02em}',
@@ -105,25 +105,30 @@ const prompts={
 };
 const dayNames=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 function saveCfg(next){localStorage.setItem('bereia:prayerReminder:v1',JSON.stringify(next));paintPrayerStatus();paintHomeCard()}
+function localTimeZone(){try{return Intl.DateTimeFormat().resolvedOptions().timeZone||'fuso local'}catch{return 'fuso local'}}
+function localDateKey(date){return [date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('-')}
+function showPrayerSaved(enabled,time,days){const detail=enabled?'Lembrete salvo para '+time+' · '+(days.length===7?'todos os dias':days.map(d=>dayNames[d]).join(', '))+' · hora local ('+localTimeZone()+').':'Lembrete desativado neste navegador.';showPrayerToast({title:enabled?'Lembrete salvo':'Lembrete desativado',text:detail,ref:enabled?'As preferências ficam neste dispositivo.':'Você pode configurar novamente quando quiser.'})}
 function timeLabel(c){return (c.days||[]).length===7?'todos os dias':(c.days||[]).map(d=>dayNames[d]).join(', ')}
 function paintHomeCard(){
- const card=document.getElementById('bereiaPrayerCard');if(!card)return;
- const c=cfg(),status=card.querySelector('.prayerScheduleStatus');
- if(status)status.textContent=c.enabled?'Ativo às '+c.time+' · '+timeLabel(c):'Defina um horário curto para cultivar esse momento.';
- const button=card.querySelector('button');if(button)button.textContent=c.enabled?'Ajustar meu lembrete':'Configurar lembrete';
+ const button=document.getElementById('bereiaPrayerTopButton');if(!button)return;
+ const c=cfg(),label=button.querySelector('.prayerTopLabel'),status=button.querySelector('.prayerTopStatus');
+ if(label)label.textContent=c.enabled?'Lembrete ativo':'Lembrete';
+ if(status)status.textContent=c.enabled?'· '+(c.time||'19:00'):'';
+ button.setAttribute('aria-label',c.enabled?'Lembrete salvo às '+(c.time||'19:00')+' no horário local. Ajustar lembrete.':'Configurar lembrete');
+ button.title=c.enabled?'Ativo às '+(c.time||'19:00')+' · hora local ('+localTimeZone()+')':'Configurar seu lembrete de oração';
 }
 function makeHomeCard(){
- if(document.getElementById('bereiaPrayerCard'))return;
- const card=document.createElement('section');card.id='bereiaPrayerCard';card.className='bereiaPrayerCard';
- card.innerHTML='<div><small>ROTINA DE FÉ</small><h2>Reserve um momento para Deus</h2><p>Um lembrete breve para orar, ler ou agradecer, no horário que você escolher.</p><div class="prayerScheduleStatus"></div></div><button type="button" id="bereiaPrayerConfigure">Configurar lembrete</button>';
- const anchor=document.getElementById('bereiaSimpleEntry')||document.getElementById('bereiaDailyCover');
- if(anchor)anchor.insertAdjacentElement('afterend',card);else document.body.prepend(card);
- card.querySelector('button').addEventListener('click',openPrayerSettings);paintHomeCard();
+ document.getElementById('bereiaPrayerCard')?.remove();
+ if(document.getElementById('bereiaPrayerTopButton'))return;
+ const button=document.createElement('button');button.type='button';button.id='bereiaPrayerTopButton';button.className='bereiaPrayerTopButton';button.innerHTML='<span class="prayerTopGlyph" aria-hidden="true">◷</span><span class="prayerTopLabel">Lembrete</span><span class="prayerTopStatus"></span>';
+ const header=appMode?document.querySelector('.bereiaAppHeader'):null;
+ if(header)header.append(button);else document.body.append(button);
+ button.addEventListener('click',openPrayerSettings);paintHomeCard();
 }
 function ensureSettingsPanel(){
  const settings=document.getElementById('settings');if(!settings||document.getElementById('bereiaPrayerPanel'))return;
  const panel=document.createElement('section');panel.id='bereiaPrayerPanel';panel.className='releasePanel bereiaPrayerPanel';
- panel.innerHTML='<h2>Lembretes e mensagens</h2><p>Escolha um horário para receber uma mensagem curta de oração, leitura ou gratidão.</p><label><input id="prayerReminderEnabled" type="checkbox"> Ativar lembrete neste dispositivo</label><div class="prayerPanelRow"><label for="prayerReminderTime">Horário<input id="prayerReminderTime" type="time" value="19:00"></label><label for="prayerReminderPractice">Tipo de mensagem<select id="prayerReminderPractice"><option value="prayer">Oração</option><option value="reading">Leitura bíblica</option><option value="gratitude">Gratidão</option><option value="pause">Pausa e reflexão</option></select></label></div><p><strong>Quais dias?</strong></p><div class="prayerPanelDays">'+dayNames.map((name,i)=>'<label><input type="checkbox" data-prayer-day="'+i+'"> '+name+'</label>').join('')+'</div><div class="prayerPanelButtons"><button type="button" id="prayerReminderSave">Salvar lembrete</button><button type="button" class="secondary" id="prayerNotificationEnable">Permitir notificações neste aparelho</button></div><p id="prayerReminderStatus" role="status" aria-live="polite"></p><p class="prayerPanelHelp">O lembrete local aparece enquanto o BEREIA está aberto e também pode ser exibido quando você voltar ao app. Avisos com o BEREIA totalmente fechado exigem notificações push e um serviço de envio.</p>';
+ panel.innerHTML='<h2>Lembretes e mensagens</h2><p>Escolha um horário para receber uma mensagem curta de oração, leitura ou gratidão.</p><label><input id="prayerReminderEnabled" type="checkbox"> Ativar lembrete neste dispositivo</label><div class="prayerPanelRow"><label for="prayerReminderTime">Horário<input id="prayerReminderTime" type="time" value="19:00"></label><label for="prayerReminderPractice">Tipo de mensagem<select id="prayerReminderPractice"><option value="prayer">Oração</option><option value="reading">Leitura bíblica</option><option value="gratitude">Gratidão</option><option value="pause">Pausa e reflexão</option></select></label></div><p><strong>Quais dias?</strong></p><div class="prayerPanelDays">'+dayNames.map((name,i)=>'<label><input type="checkbox" data-prayer-day="'+i+'"> '+name+'</label>').join('')+'</div><div class="prayerPanelButtons"><button type="button" id="prayerReminderSave">Salvar lembrete</button><button type="button" class="secondary" id="prayerNotificationEnable">Permitir notificações neste aparelho</button></div><p id="prayerReminderStatus" role="status" aria-live="polite"></p><p class="prayerPanelHelp">Cada navegador/aparelho guarda suas próprias preferências, e o horário segue o fuso local deste dispositivo ('+localTimeZone()+'). O lembrete local aparece enquanto o BEREIA está aberto ou quando você voltar ao app. Avisos com o app totalmente fechado exigem notificações push e um serviço de envio.</p>';
  const first=settings.querySelector('.releasePanel');if(first)first.insertAdjacentElement('afterend',panel);else settings.append(panel);
  const c=cfg();
  panel.querySelector('#prayerReminderEnabled').checked=!!c.enabled;
@@ -136,7 +141,7 @@ function ensureSettingsPanel(){
   const status=panel.querySelector('#prayerReminderStatus');
   if(enabled&&!days.length){status.textContent='Escolha ao menos um dia para ativar o lembrete.';return}
   const next={enabled,time:panel.querySelector('#prayerReminderTime').value||'19:00',practice:panel.querySelector('#prayerReminderPractice').value,days,notifications:cfg().notifications};
-  saveCfg(next);status.textContent=enabled?'Lembrete salvo neste dispositivo.':'Lembrete desativado.';
+  saveCfg(next);status.textContent=enabled?'Lembrete salvo às '+next.time+' · '+(days.length===7?'todos os dias':days.map(d=>dayNames[d]).join(', '))+' · hora local ('+localTimeZone()+').':'Lembrete desativado neste navegador.';showPrayerSaved(enabled,next.time,days);
  });
  panel.querySelector('#prayerNotificationEnable').addEventListener('click',async()=>{
   const status=panel.querySelector('#prayerReminderStatus');
@@ -165,10 +170,10 @@ function showPrayerToast(prompt){
 }
 function checkPrayerReminder(){
  const c=cfg();if(!c.enabled)return;
- const now=new Date(),today=now.toISOString().slice(0,10);if(!(c.days||[]).includes(now.getDay()))return;
+ const now=new Date(),today=localDateKey(now);if(!(c.days||[]).includes(now.getDay()))return;
  const [hour,minute]=(c.time||'19:00').split(':').map(Number),due=new Date(now);due.setHours(hour||0,minute||0,0,0);
  const age=now-due;if(age<0||age>8*60*60*1000)return;
- const key='bereia:prayerReminder:lastShown:'+today;if(localStorage.getItem(key)===c.time)return;
+ const key='bereia:prayerReminder:lastShown:'+localTimeZone()+':'+today;if(localStorage.getItem(key)===c.time)return;
  localStorage.setItem(key,c.time);const prompt=prompts[c.practice]||prompts.prayer;showPrayerToast(prompt);
  if(c.notifications&&'Notification'in window&&Notification.permission==='granted'){try{new Notification(prompt.title,{body:prompt.text+' '+prompt.ref,tag:'bereia-prayer-'+today})}catch{}}
 }
@@ -207,7 +212,7 @@ function init(){
  const badge=document.getElementById('bereiaBuildBadge');if(badge)badge.hidden=true;
  const labelDeep=()=>{const deep=document.getElementById('bereiaDeepBtn')||document.getElementById('bereiaDailyDeepBtn');if(deep&&deep.textContent!=='Estudo aprofundado'){deep.textContent='Estudo aprofundado';deep.setAttribute('aria-label','Abrir estudo aprofundado sobre a passagem do dia')}};labelDeep();new MutationObserver(labelDeep).observe(document.body,{subtree:true,childList:true});
  document.querySelectorAll('#bereiaStudyTools .btn').forEach(b=>{if(/Ajustes, offline e backup/i.test(b.textContent))b.remove()});
- makeHomeCard();ensureSettingsPanel();initMoreMenu();paintHomeCard();checkPrayerReminder();
+ initMoreMenu();makeHomeCard();ensureSettingsPanel();paintHomeCard();checkPrayerReminder();
  window.setInterval(checkPrayerReminder,30000);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkPrayerReminder()});
 }
