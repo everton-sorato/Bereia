@@ -190,6 +190,14 @@ body.simpleBibleOpen #bereiaDailyCover,body.simpleBibleOpen #bereiaSimpleEntry{d
 .b62StoryCard summary{cursor:pointer;list-style:none}.b62StoryArt{display:grid;place-items:center;height:190px;background:linear-gradient(145deg,#f5eee3,#f7dfd9);margin:10px;border-radius:14px}.b62StoryArt svg{width:94%;height:94%}
 .b62StoryName{display:block;padding:0 12px 14px;font:600 14px/1.35 system-ui}.b62StoryBody{padding:0 13px 14px}.b62StoryBody p{font-size:12px;line-height:1.55;color:var(--muted,#a9a59c)}.b62StoryBody b{display:block;color:var(--gold,#d7b56d);font-size:11px;margin-bottom:10px}.b62StoryOpen{border:0;border-radius:9px;background:var(--gold,#d7b56d);color:#17130c;padding:9px 12px;font-weight:700;cursor:pointer}
 @media(max-width:620px){.b62StoryCard{flex-basis:190px}.b62StoryArt{height:166px}.b62Topic summary{padding:9px 13px;font-size:12px}}
+@media(min-width:901px){
+#bereiaDailyCover,#bereiaSimpleEntry,#bereiaLibrarySwitch,#bereiaStudyTools,#bereiaV62Home{
+ width:min(1200px,calc(100% - 250px - 8vw))!important;
+ margin-left:calc(250px + 4vw)!important;
+ margin-right:4vw!important;
+}
+#bereiaV62Home{max-width:1120px}
+}
 </style>
 <script>
 window.bereiaOpenReference=function(reference){
