@@ -53,3 +53,5 @@ O BEREIA só deve ser tratado como pronto para publicação depois de a matriz d
 - Selecionar ou mudar o versículo no leitor não muda a seleção do Atlas.
 - Mapas interativos permanecem dentro de Geografia, associados ao lugar selecionado no próprio Atlas.
 - A navegação e o conteúdo atualizado precisam ser conferidos na versão publicada após a conclusão deste commit.
+
+- Na página inicial, o cartão duplicado “Mapas” foi incorporado em “Geografia”; permanece apenas uma entrada de acesso.
