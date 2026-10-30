@@ -62,3 +62,5 @@ O BEREIA só deve ser tratado como pronto para publicação depois de a matriz d
 - A página inicial ganhou 17 temas bíblicos com referências de leitura e ação explícita para abrir o capítulo no leitor.
 - Foi criada uma faixa horizontal com oito histórias ilustradas em SVG autoral, cada uma com resumo e referência bíblica.
 - As referências temáticas não alteram o leitor até a pessoa tocar em “Abrir”.
+
+- Os tópicos temáticos e histórias ilustradas foram adicionados ao HTML da página inicial para aparecer mesmo se a inicialização dinâmica atrasar; referências abrem no leitor.
