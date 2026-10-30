@@ -92,6 +92,11 @@ const css=[
 '.bereiaAppMoreDialog .moreClose{float:right;min-width:44px;background:transparent;color:#eee;border-color:#42484a}',
 '.bereia-app-experience body .bereiaPrayerPanel{scroll-margin-top:82px}',
 '@media(max-width:760px){.bereia-site-experience body #bereiaDailyCover,.bereia-site-experience body #bereiaSimpleEntry,.bereia-site-experience body #bereiaPrayerCard,.bereia-site-experience body #bereiaLibrarySwitch,.bereia-site-experience body #bereiaLicenseCenter,.bereia-site-experience body #bereiaStudyTools,.bereia-site-experience body #bereiaV62Home{width:calc(100% - 20px)}.bereia-site-experience body .screen{width:calc(100% - 20px);padding:20px 15px}.bereia-site-experience body #bereiaStudyTools .bst-grid{grid-template-columns:1fr}.bereiaPrayerCard{grid-template-columns:1fr}.bereiaPrayerCard button{width:100%}.prayerPanelRow{grid-template-columns:1fr}}',
+'.bereia-site-experience body #bereiaDailyCover{width:100vw!important;max-width:none!important;margin-left:0!important;margin-right:0!important;border-radius:0!important}',
+'.bereia-app-experience body #bereiaDailyCover{width:100vw!important;max-width:none!important;margin-left:0!important;margin-right:0!important;border-radius:0!important}',
+'.bereiaPrayerTopButton{background:rgba(17,20,24,.9);border-color:rgba(215,181,109,.24);color:#cfc6ad;box-shadow:0 4px 14px rgba(0,0,0,.18);font-size:11px}',
+'.bereiaPrayerTopButton:hover{background:rgba(20,23,27,.96);border-color:rgba(215,181,109,.46);color:#e3d39e;transform:none}',
+'.bereia-site-experience body #bereiaLicenseCenter{width:min(980px,calc(100% - 44px));margin:34px auto 18px}',
 '@media(prefers-reduced-motion:reduce){.bereia-site-experience body *, .bereia-app-experience body *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}'
 ].join('\n');
 const style=document.createElement('style');style.id='bereiaV63ProfessionalExperienceStyles';style.textContent=css;document.head.appendChild(style);
@@ -207,12 +212,16 @@ function initMoreMenu(){
  const nav=document.getElementById('desktopNav');if(nav)new MutationObserver(sync).observe(nav,{subtree:true,attributes:true,attributeFilter:['class']});
  window.addEventListener('popstate',()=>setTimeout(sync,0));window.addEventListener('hashchange',()=>setTimeout(sync,0));sync();
 }
+function moveSourcesToBottom(){
+ const sources=document.getElementById('bereiaLicenseCenter'),home=document.getElementById('bereiaV62Home');
+ if(sources&&home)home.insertAdjacentElement('afterend',sources);
+}
 function init(){
  if(appMode)document.body.classList.add('app-mode');else document.body.classList.add('website-mode');
  const badge=document.getElementById('bereiaBuildBadge');if(badge)badge.hidden=true;
  const labelDeep=()=>{const deep=document.getElementById('bereiaDeepBtn')||document.getElementById('bereiaDailyDeepBtn');if(deep&&deep.textContent!=='Estudo aprofundado'){deep.textContent='Estudo aprofundado';deep.setAttribute('aria-label','Abrir estudo aprofundado sobre a passagem do dia')}};labelDeep();new MutationObserver(labelDeep).observe(document.body,{subtree:true,childList:true});
  document.querySelectorAll('#bereiaStudyTools .btn').forEach(b=>{if(/Ajustes, offline e backup/i.test(b.textContent))b.remove()});
- initMoreMenu();makeHomeCard();ensureSettingsPanel();paintHomeCard();checkPrayerReminder();
+ initMoreMenu();makeHomeCard();ensureSettingsPanel();moveSourcesToBottom();paintHomeCard();checkPrayerReminder();
  window.setInterval(checkPrayerReminder,30000);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkPrayerReminder()});
 }
