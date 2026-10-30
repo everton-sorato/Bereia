@@ -102,6 +102,10 @@ const css=[
 '.bereia-site-experience body #bereiaDailyCover .dailyInner,.bereia-app-experience body #bereiaDailyCover .dailyInner{width:min(100%,900px);max-width:900px;margin:0 auto;padding:clamp(22px,4vw,42px);text-align:center}',
 '.bereia-site-experience body #bereiaDailyCover .dailyInner .verse,.bereia-app-experience body #bereiaDailyCover .dailyInner .verse{max-width:900px;margin:12px auto}',
 '.bereia-site-experience body #bereiaDailyCover .dailyInner .actions,.bereia-app-experience body #bereiaDailyCover .dailyInner .actions{justify-content:center}',
+'.bereia-site-experience body #bereiaDailyCover,.bereia-app-experience body #bereiaDailyCover{display:flex;align-items:center;justify-content:center;text-align:center}',
+'.bereia-site-experience body #bereiaDailyCover .bdcContent,.bereia-app-experience body #bereiaDailyCover .bdcContent{width:min(100%,900px);max-width:900px;margin:0 auto;padding:clamp(22px,4vw,42px);text-align:center}',
+'.bereia-site-experience body #bereiaDailyCover .bdcText,.bereia-app-experience body #bereiaDailyCover .bdcText{max-width:760px;margin:0 auto;text-align:center}',
+'.bereia-site-experience body #bereiaDailyCover .bdcActions,.bereia-app-experience body #bereiaDailyCover .bdcActions{display:flex;justify-content:center}',
 '@media(prefers-reduced-motion:reduce){.bereia-site-experience body *, .bereia-app-experience body *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}'
 ].join('\n');
 const style=document.createElement('style');style.id='bereiaV63ProfessionalExperienceStyles';style.textContent=css;document.head.appendChild(style);
@@ -218,8 +222,8 @@ function initMoreMenu(){
  window.addEventListener('popstate',()=>setTimeout(sync,0));window.addEventListener('hashchange',()=>setTimeout(sync,0));sync();
 }
 function moveSourcesToBottom(){
- const sources=document.getElementById('bereiaLicenseCenter'),home=document.getElementById('bereiaV62Home');
- if(sources&&home)home.insertAdjacentElement('afterend',sources);
+ const sources=document.getElementById('bereiaLicenseCenter');
+ if(sources)document.body.appendChild(sources);
 }
 function init(){
  if(appMode)document.body.classList.add('app-mode');else document.body.classList.add('website-mode');
