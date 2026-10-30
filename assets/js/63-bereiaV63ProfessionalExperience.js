@@ -82,6 +82,7 @@ const css=[
 '.bereiaAppBottomNav button .navGlyph{font-size:19px;line-height:1}',
 '.bereiaAppBottomNav button[aria-current=page]{background:rgba(215,181,109,.14);color:#f0d384}',
 '.bereiaAppMoreDialog{position:fixed;inset:auto 0 0;margin:0 auto;max-width:720px;width:100%;max-height:min(78vh,720px);overflow:auto;padding:18px 18px calc(24px + env(safe-area-inset-bottom));border:1px solid rgba(255,255,255,.13);border-bottom:0;border-radius:24px 24px 0 0;background:#11161a;color:#f5f1e8;box-shadow:0 -18px 60px rgba(0,0,0,.45)}',
+'.bereiaAppMoreDialog[open]{display:block}',
 '.bereiaAppMoreDialog::backdrop{background:rgba(0,0,0,.56);backdrop-filter:blur(3px)}',
 '.bereiaAppMoreDialog h2{margin:6px 0 4px;font-size:22px}',
 '.bereiaAppMoreDialog p{margin:0 0 15px;color:#aeb4b6;font-size:13px}',
