@@ -191,7 +191,18 @@ body.simpleBibleOpen #bereiaDailyCover,body.simpleBibleOpen #bereiaSimpleEntry{d
 .b62StoryName{display:block;padding:0 12px 14px;font:600 14px/1.35 system-ui}.b62StoryBody{padding:0 13px 14px}.b62StoryBody p{font-size:12px;line-height:1.55;color:var(--muted,#a9a59c)}.b62StoryBody b{display:block;color:var(--gold,#d7b56d);font-size:11px;margin-bottom:10px}.b62StoryOpen{border:0;border-radius:9px;background:var(--gold,#d7b56d);color:#17130c;padding:9px 12px;font-weight:700;cursor:pointer}
 @media(max-width:620px){.b62StoryCard{flex-basis:190px}.b62StoryArt{height:166px}.b62Topic summary{padding:9px 13px;font-size:12px}}
 </style>
-<button id="simpleBackHome" onclick="simpleHome()">← Início</button>
+<script>
+window.bereiaOpenReference=function(reference){
+ const match=String(reference||'').match(/^(.+?)\\s+(\\d+)(?::(\\d+))?/);if(!match)return;
+ if(window.BEREIA_V62?.openReference){window.BEREIA_V62.openReference(reference);return}
+ const name=match[1].trim(),chapter=Number(match[2]),book=document.getElementById('bibleBook'),chapterSelect=document.getElementById('bibleChapter');
+ if(!book||!chapterSelect){if(typeof go==='function')go('bible');return}
+ const norm=s=>String(s||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+ const index=Array.from(book.options).findIndex(o=>norm(o.textContent.trim())===norm(name));if(index<0){if(typeof go==='function')go('bible');return}
+ book.value=String(index);if(typeof renderChapterOptions==='function')renderChapterOptions(chapter);chapterSelect.value=String(chapter);
+ if(typeof go==='function')go('bible');if(typeof loadChapter==='function')loadChapter(true)
+};
+</script><button id="simpleBackHome" onclick="simpleHome()">← Início</button>
 
 <div id="bereiaDeepBar">
  <div class="deepSelection"><span>VERSÍCULO SELECIONADO</span><b id="deepSelectionText">Selecione um versículo</b></div>
