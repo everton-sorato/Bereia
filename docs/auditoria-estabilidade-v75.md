@@ -64,3 +64,4 @@ O BEREIA só deve ser tratado como pronto para publicação depois de a matriz d
 - As referências temáticas não alteram o leitor até a pessoa tocar em “Abrir”.
 
 - Os tópicos temáticos e histórias ilustradas foram adicionados ao HTML da página inicial para aparecer mesmo se a inicialização dinâmica atrasar; referências abrem no leitor.
+- Os cartões de assunto expandem referências e cada botão seleciona o capítulo no leitor; os cartões de história mostram resumo e leitura sugerida.
