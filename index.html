@@ -828,13 +828,13 @@ async function read(card){
    html=verses.map((v,i)=>{
     const text=typeof v==='string'?v:(v?.text||v?.content||'');
     const number=Number(v?.number||v?.verse||start+i);
-    return text?'<p class="b62BibleVerse"><sup>'+number+'</sup>'+esc(text)+'</p>':'';
+    return text?'<p class="b62BibleVerse"><sup>'+number+'</sup>&nbsp;'+esc(text)+'</p>':'';
    }).join('');
   }else if(data.text){html='<p class="b62BibleVerse">'+esc(data.text)+'</p>'}
   if(!html)throw new Error('A fonte não retornou o texto desta passagem.');
   box.innerHTML=html;
   const credit=body.querySelector('[data-b62-api-credit]');
-  if(credit)credit.textContent=payload.meta?.copyright||'Bíblia Portuguesa Mundial (BPM) — domínio público.'
+  if(credit)credit.textContent=payload.meta?.copyright||data.copyright||payload.copyright||'Bíblia Portuguesa Mundial (BPM) — domínio público.'
   card.dataset.passageLoaded='true';
  }catch(error){
   box.textContent='Não foi possível carregar a passagem agora. Verifique a conexão e abra a história novamente.';
