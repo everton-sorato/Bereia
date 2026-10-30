@@ -67,3 +67,4 @@ O BEREIA só deve ser tratado como pronto para publicação depois de a matriz d
 - Os cartões de assunto expandem referências e cada botão seleciona o capítulo no leitor; os cartões de história mostram resumo e leitura sugerida.
 - O caminho de abertura das referências foi corrigido e conferido no leitor bíblico.
 - A correção final do analisador de referências foi publicada para reconhecer espaços, capítulos e versículos.
+- A home foi alinhada ao menu lateral em telas desktop para evitar que a navegação cubra o conteúdo.
