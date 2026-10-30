@@ -1,4 +1,4 @@
-# Auditoria de estabilidade e experiência — BEREIA V76
+# Auditoria de estabilidade e experiência — BEREIA V77
 
 Atualização: 29/10/2026  
 Repositório: `everton-sorato/Bereia`
@@ -27,7 +27,7 @@ O texto dos capítulos continua sendo aberto dentro de uma página incorporada d
 - “← Início” e o Voltar do navegador retornaram à tela inicial com a mensagem e a entrada de leitura visíveis.
 - Os temas Claro e Tecnológico foram selecionados; a escolha Tecnológica continuou após recarregar a página.
 - O catálogo BPM abriu com 75 entradas (66 livros e nove suplementos/deuterocanônicos disponíveis na fonte). Gênesis 1 carregou dentro do contêiner do BEREIA.
-- A etiqueta web mostra V76; um observador foi adicionado para impedir que módulos históricos troquem o número exibido.
+- A etiqueta web mostra V77; um observador foi adicionado para impedir que módulos históricos troquem o número exibido.
 - O inventário existente registra 150 controles estáticos, incluindo 108 botões. Ele próprio alerta que controles gerados por JavaScript precisam de revisão durante a execução; o inventário não comprova que todos funcionam.
 - Esta conferência foi feita no navegador desktop. O teste do botão físico Voltar, telas pequenas, TalkBack, modo avião, falta de espaço e atualização sobre instalação existente continua pendente em Android real.
 
@@ -55,3 +55,10 @@ O BEREIA só deve ser tratado como pronto para publicação depois de a matriz d
 - A navegação e o conteúdo atualizado precisam ser conferidos na versão publicada após a conclusão deste commit.
 
 - Na página inicial, o cartão duplicado “Mapas” foi incorporado em “Geografia”; permanece apenas uma entrada de acesso.
+
+
+## Temas bíblicos e histórias
+
+- A página inicial ganhou 17 temas bíblicos com referências de leitura e ação explícita para abrir o capítulo no leitor.
+- Foi criada uma faixa horizontal com oito histórias ilustradas em SVG autoral, cada uma com resumo e referência bíblica.
+- As referências temáticas não alteram o leitor até a pessoa tocar em “Abrir”.
