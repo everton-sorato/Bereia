@@ -204,7 +204,7 @@ function initMoreMenu(){
 function init(){
  if(appMode)document.body.classList.add('app-mode');else document.body.classList.add('website-mode');
  const badge=document.getElementById('bereiaBuildBadge');if(badge)badge.hidden=true;
- const deep=document.getElementById('bereiaDeepBtn');if(deep){deep.textContent='Estudo aprofundado';deep.setAttribute('aria-label','Abrir estudo aprofundado sobre a passagem do dia')}
+ const deep=document.getElementById('bereiaDeepBtn')||document.getElementById('bereiaDailyDeepBtn');if(deep){deep.textContent='Estudo aprofundado';deep.setAttribute('aria-label','Abrir estudo aprofundado sobre a passagem do dia')}
  document.querySelectorAll('#bereiaStudyTools .btn').forEach(b=>{if(/Ajustes, offline e backup/i.test(b.textContent))b.remove()});
  makeHomeCard();ensureSettingsPanel();initMoreMenu();paintHomeCard();checkPrayerReminder();
  window.setInterval(checkPrayerReminder,30000);
