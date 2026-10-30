@@ -1,4 +1,4 @@
-# Auditoria de estabilidade e experiência — BEREIA V75
+# Auditoria de estabilidade e experiência — BEREIA V76
 
 Atualização: 29/10/2026  
 Repositório: `everton-sorato/Bereia`
@@ -27,7 +27,7 @@ O texto dos capítulos continua sendo aberto dentro de uma página incorporada d
 - “← Início” e o Voltar do navegador retornaram à tela inicial com a mensagem e a entrada de leitura visíveis.
 - Os temas Claro e Tecnológico foram selecionados; a escolha Tecnológica continuou após recarregar a página.
 - O catálogo BPM abriu com 75 entradas (66 livros e nove suplementos/deuterocanônicos disponíveis na fonte). Gênesis 1 carregou dentro do contêiner do BEREIA.
-- A etiqueta web mostra V75; um observador foi adicionado para impedir que módulos históricos troquem o número exibido.
+- A etiqueta web mostra V76; um observador foi adicionado para impedir que módulos históricos troquem o número exibido.
 - O inventário existente registra 150 controles estáticos, incluindo 108 botões. Ele próprio alerta que controles gerados por JavaScript precisam de revisão durante a execução; o inventário não comprova que todos funcionam.
 - Esta conferência foi feita no navegador desktop. O teste do botão físico Voltar, telas pequenas, TalkBack, modo avião, falta de espaço e atualização sobre instalação existente continua pendente em Android real.
 
@@ -44,3 +44,12 @@ O texto dos capítulos continua sendo aberto dentro de uma página incorporada d
 ## Critério para declarar pronto
 
 O BEREIA só deve ser tratado como pronto para publicação depois de a matriz de controles estar registrada, os fluxos de abertura/retorno/retomada terem sido aprovados em aparelho real e os itens obrigatórios do Play Console estarem completos. A verificação do código web, sozinha, não certifica o pacote Android.
+
+
+## Atualização do Atlas e da navegação geográfica
+
+- Geografia passa a ser o único destino do Atlas; a entrada duplicada Mapas foi removida dos fluxos de navegação.
+- O Atlas apresenta listas independentes do leitor, separadas em Antigo Testamento e Novo Testamento, com referências bíblicas para cada lugar.
+- Selecionar ou mudar o versículo no leitor não muda a seleção do Atlas.
+- Mapas interativos permanecem dentro de Geografia, associados ao lugar selecionado no próprio Atlas.
+- A navegação e o conteúdo atualizado precisam ser conferidos na versão publicada após a conclusão deste commit.

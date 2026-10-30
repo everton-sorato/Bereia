@@ -51,6 +51,15 @@
   ['Atos',13,21,['Antioquia','Chipre','Ásia Menor','Macedônia','Acaia']],['Atos',22,28,['Jerusalém','Cesareia','Mediterrâneo','Roma']],
   ['Apocalipse',1,3,['Éfeso','Esmirna','Pérgamo','Tiatira','Sardes','Filadélfia','Laodiceia']]
  ];
+ const ATLAS={
+  ot:{label:'Antigo Testamento',entries:[
+   ['mesopotamia','Gênesis 11:31; 24:10'],['canaa','Gênesis 12:5–9; Êxodo 6:4'],['egito','Gênesis 12:10; Êxodo 1–14'],['sinai','Êxodo 19–20; Números 10:11–12'],['jordao','Números 22:1; Josué 3'],['jerico','Josué 6'],['hebron','Gênesis 23; 2 Samuel 2:1'],['jerusalem','2 Samuel 5:6–10; 1 Reis 8'],['israel','1 Samuel 9–10; 2 Samuel 5'],['samaria','1 Reis 16:24; 2 Reis 17'],['assiria','2 Reis 17:3–6; Isaías 7–8'],['babilonia','2 Reis 24–25; Daniel 1'],['persia','Esdras 1; Ester 1']
+  ]},
+  nt:{label:'Novo Testamento',entries:[
+   ['belem','Mateus 2:1; Lucas 2:4–7'],['nazare','Mateus 2:23; Lucas 4:16'],['galileia','Mateus 4:12–25; Marcos 1:14–39'],['judeia','Mateus 2:1; João 4:3–4'],['jerusalem','Mateus 21:1–11; Atos 2'],['samaria','João 4:4–42; Atos 8:5–25'],['cesareia','Atos 10:1–48; 23:23–35'],['damasco','Atos 9:1–25'],['antioquia','Atos 11:19–26; 13:1–3'],['chipre','Atos 13:4–12'],['asia menor','Atos 13–14; 16:6'],['filipos','Atos 16:11–40'],['tessalonica','Atos 17:1–9'],['corinto','Atos 18:1–18'],['efeso','Atos 19:1–41'],['macedonia','Atos 16:9–17:15'],['acaia','Atos 18:12–17; 2 Coríntios 1:1'],['mediterraneo','Atos 27:1–28:14'],['roma','Atos 28:14–31; Romanos 1:7'],['esmirna','Apocalipse 2:8–11'],['pergamo','Apocalipse 2:12–17'],['tiatira','Apocalipse 2:18–29'],['sardes','Apocalipse 3:1–6'],['filadelfia','Apocalipse 3:7–13'],['laodiceia','Apocalipse 3:14–22']
+  ]}
+ };
+ let atlasTestament='ot',atlasSelectedKey=null;
  const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
  function current(){return window.BEREIA_STUDY_SESSION?.getCurrent?.()||window.selectedVerse||(()=>{try{return JSON.parse(localStorage.getItem('bereia:lastVerse')||'null')}catch(e){return null}})()}
@@ -107,45 +116,41 @@
    let x=document.getElementById('b56MapLab');if(!x){x=document.createElement('div');x.id='b56MapLab';const a=s.querySelector('.b54Trail')||s.querySelector('h1');a?.insertAdjacentElement('afterend',x)}return x;
  }
  function renderGeo(selectedKey){
-   const root=ensureGeo();if(!root)return;const v=current();
-   if(!v){root.innerHTML='<div class="b56Empty">Selecione um versículo para o BEREIA montar a geografia da passagem.</div>';return}
-   const e=eventFor(v),pts=pointsFor(v),total=pts.length>1?routeTotal(pts):0;
-   root.innerHTML='<div class="b56Hero"><small>'+esc(ref(v))+'</small><h2>'+(e?esc(e.title):'Geografia da passagem')+'</h2><p>'+(e?esc(e.place):'A localização específica desta passagem ainda está em expansão.')+'</p></div>'+
-    '<div class="b56Summary"><div class="b56Metric"><small>Lugares relacionados</small><b>'+pts.length+'</b></div>'+(pts.length>1?'<div class="b56Metric"><small>Sequência mapeada</small><b>'+pts.length+' pontos</b></div><div class="b56Metric"><small>Distância somada</small><b>'+total+' km*</b></div>':'')+'</div>'+
-    '<div class="b56Grid"><div class="b56Card"><strong>📍 Lugares desta passagem</strong>'+mapBlock(pts,selectedKey)+'</div><div class="b56Card"><strong>🧭 Sequência geográfica</strong>'+(pts.length?'<div class="b56Route">'+pts.map((p,i)=>stopHTML(p,i,i?pts[i-1]:null)).join('')+'</div>':'Ainda não há uma sequência geográfica cadastrada.')+(e?'<div class="b56Caution"><b>Contexto:</b> '+esc(e.history)+'<br><b>Cautela:</b> '+esc(e.evidence)+'</div>':'')+'</div></div>'+
-    (pts.length>1?'<div class="b56Caution">* As distâncias são aproximações em linha reta entre pontos de referência. Elas não representam necessariamente a rota antiga percorrida, estradas históricas, relevo ou desvios.</div>':'');
-   bindPlaces(root,pts,k=>renderGeo(k));
+   const root=ensureGeo();if(!root)return;
+   const group=ATLAS[atlasTestament]||ATLAS.ot;
+   const chosen=group.entries.find(x=>x[0]===(selectedKey||atlasSelectedKey))||group.entries[0];
+   if(!chosen){root.innerHTML='<div class="b56Empty">Ainda não há lugares cadastrados nesta seção.</div>';return}
+   atlasSelectedKey=chosen[0];
+   try{localStorage.setItem('bereia:atlas-testament',atlasTestament);localStorage.setItem('bereia:atlas-place',atlasSelectedKey)}catch(e){}
+   const selected=P[chosen[0]];
+   const entries=group.entries.map(([key,refs])=>'<button type="button" class="b56AtlasItem '+(key===atlasSelectedKey?'active':'')+'" data-b56-atlas-place="'+esc(key)+'"><b>'+esc(P[key].label)+'</b><span>Passagens: '+esc(refs)+'</span></button>').join('');
+   root.innerHTML='<div class="b56Hero"><small>ATLAS INDEPENDENTE DA LEITURA</small><h2>Geografia BEREIA</h2><p>Lugares bíblicos e passagens organizados do Antigo Testamento ao Novo Testamento. A seleção do leitor não altera este Atlas.</p></div>'+
+    '<div class="b56AtlasTabs" role="tablist" aria-label="Testamento"><button type="button" role="tab" aria-selected="'+(atlasTestament==='ot')+'" class="'+(atlasTestament==='ot'?'active':'')+'" data-b56-testament="ot">Antigo Testamento</button><button type="button" role="tab" aria-selected="'+(atlasTestament==='nt')+'" class="'+(atlasTestament==='nt'?'active':'')+'" data-b56-testament="nt">Novo Testamento</button></div>'+
+    '<div class="b56Grid"><div class="b56Card"><strong>📚 Lugares e passagens • '+esc(group.label)+'</strong><div class="b56AtlasList">'+entries+'</div></div><div class="b56Card"><strong>📍 '+esc(selected.label)+'</strong><div class="b56Caution">Passagens relacionadas: '+esc(chosen[1])+'</div>'+mapBlock([selected],selected.key)+'</div></div>'+
+    '<div class="b56Caution">As referências bíblicas servem como índice de consulta. Este Atlas não acompanha nem destaca o capítulo ou versículo aberto no leitor.</div>';
+   root.querySelectorAll('[data-b56-testament]').forEach(b=>b.onclick=()=>{atlasTestament=b.dataset.b56Testament;atlasSelectedKey=null;renderGeo()});
+   root.querySelectorAll('[data-b56-atlas-place]').forEach(b=>b.onclick=()=>renderGeo(b.dataset.b56AtlasPlace));
+   bindPlaces(root,[selected],k=>renderGeo(k));
  }
- function renderMaps(selectedKey){
-   const root=ensureMaps(),screen=document.getElementById('maps');if(!root||!screen)return;const v=current();
-   if(!v){screen.classList.remove('b56PassageMode');root.innerHTML='<div class="b56Empty">Selecione um versículo para abrir o mapa ligado à passagem. O Atlas geral continua disponível abaixo.</div>';return}
-   screen.classList.add('b56PassageMode');
-   const e=eventFor(v),pts=pointsFor(v),p=pts.find(x=>x.key===selectedKey)||pts[0];
-   root.innerHTML='<div class="b56Hero"><small>MAPA DA PASSAGEM • '+esc(ref(v))+'</small><h2>'+(e?esc(e.title):'Localização bíblica')+'</h2><p>'+(e?esc(e.place):'Escolha um lugar relacionado à passagem para visualizar no mapa.')+'</p></div>'+
-    '<div class="b56Card">'+mapBlock(pts,p?.key)+'</div>'+
-    (pts.length>1?'<div class="b56Card"><strong>🧭 Rota / sequência de lugares</strong><div class="b56Route">'+pts.map((x,i)=>stopHTML(x,i,i?pts[i-1]:null)).join('')+'</div><div class="b56Caution">A linha de estudo mostra a ordem geográfica adotada pelo dossiê. Quando o texto não informa a rota exata, o BEREIA não apresenta um trajeto hipotético como fato.</div></div>':'')+
-    '<div class="b56MapActions"><button class="b56Btn" data-b56-general>Mostrar também o Atlas geral</button><button class="b56Btn" onclick="BEREIA_V56_GEO.openGeography()">Abrir estudo geográfico</button></div>';
-   bindPlaces(root,pts,k=>renderMaps(k));
-   const g=root.querySelector('[data-b56-general]');if(g)g.onclick=()=>{screen.classList.toggle('b56PassageMode');g.textContent=screen.classList.contains('b56PassageMode')?'Mostrar também o Atlas geral':'Ocultar Atlas geral'};
- }
+ function renderMaps(selectedKey){return renderGeo(selectedKey)}
  function openGeography(){if(typeof go==='function')go('geography');setTimeout(()=>renderGeo(),0)}
- function openMaps(){if(typeof go==='function')go('maps');setTimeout(()=>renderMaps(),0)}
+ function openMaps(){return openGeography()}
  function hook(){
    window.openPassageGeography=openGeography;window.openPassageMaps=openMaps;
    const v52=window.BEREIA_V52;if(v52&&!v52.__v56){
      const old=v52.openContext;
-     v52.openContext=function(k){if(k==='geography')return openGeography();if(k==='maps')return openMaps();return old.apply(this,arguments)};
+     v52.openContext=function(k){if(k==='geography'||k==='maps')return openGeography();return old.apply(this,arguments)};
      v52.__v56=true;
    }
    const oldTopic=window.studyTopic;if(typeof oldTopic==='function'&&!oldTopic.__v56){
-     const w=function(t){const n=norm(t);if(n==='geografia'||n==='lugares')return openGeography();if(n==='mapas'||n==='atlas')return openMaps();return oldTopic.apply(this,arguments)};w.__v56=true;window.studyTopic=w;
+     const w=function(t){const n=norm(t);if(n==='geografia'||n==='lugares'||n==='mapas'||n==='atlas')return openGeography();return oldTopic.apply(this,arguments)};w.__v56=true;window.studyTopic=w;
    }
    const b=document.getElementById('bereiaBuildBadge');if(b)b.textContent='BEREIA • '+BUILD;
  }
  function refresh(){
-   const active=document.querySelector('.screen.active')?.id;if(active==='geography')renderGeo();if(active==='maps')renderMaps();
+   const active=document.querySelector('.screen.active')?.id;if(active==='geography')renderGeo();
  }
- document.addEventListener('bereia:studyverse',refresh);
+ // O Atlas não recebe nem persiste a seleção do leitor.
  window.BEREIA_V56_GEO={renderGeo,renderMaps,openGeography,openMaps,pointsFor,place};
  
  window.addEventListener('load',()=>{setTimeout(hook,260);setTimeout(hook,1100);setTimeout(refresh,1200)});setTimeout(hook,700);

@@ -171,7 +171,7 @@
  function closeModal(id){document.getElementById(id)?.classList.remove('open');if(!document.querySelector('.b52Modal.open'))document.body.style.overflow=''}
  function ensureTools(){
    const bar=document.getElementById('bereiaVerseActions');if(!bar)return false;
-   let tools=document.getElementById('b52VerseTools');if(!tools){tools=document.createElement('div');tools.id='b52VerseTools';tools.innerHTML='<div class="b52Label">CRIAR A PARTIR DO TEXTO</div><div class="b52Actions"><button data-b52-msg="devotional">📖 Devocional</button><button data-b52-msg="sermon">🎙 Pregação</button><button data-b52-msg="whatsapp">💬 WhatsApp</button><button class="context" data-b52-ctx="geography">⌖ Geografia</button><button class="context" data-b52-ctx="archaeology">🏺 Arqueologia</button><button class="context" data-b52-ctx="maps">🗺 Mapas</button></div>';bar.appendChild(tools)}
+   let tools=document.getElementById('b52VerseTools');if(!tools){tools=document.createElement('div');tools.id='b52VerseTools';tools.innerHTML='<div class="b52Label">CRIAR A PARTIR DO TEXTO</div><div class="b52Actions"><button data-b52-msg="devotional">📖 Devocional</button><button data-b52-msg="sermon">🎙 Pregação</button><button data-b52-msg="whatsapp">💬 WhatsApp</button><button class="context" data-b52-ctx="geography">⌖ Geografia</button><button class="context" data-b52-ctx="archaeology">🏺 Arqueologia</button></div>';bar.appendChild(tools)}
    if(!tools.dataset.bound){tools.dataset.bound='1';tools.addEventListener('click',e=>{const m=e.target.closest('[data-b52-msg]');if(m){e.stopPropagation();openMessage(m.dataset.b52Msg);return}const x=e.target.closest('[data-b52-ctx]');if(x){e.stopPropagation();openContext(x.dataset.b52Ctx)}})}
    return true;
  }
