@@ -98,6 +98,10 @@ const css=[
 '.bereiaPrayerTopButton{background:rgba(17,20,24,.9);border-color:rgba(215,181,109,.24);color:#cfc6ad;box-shadow:0 4px 14px rgba(0,0,0,.18);font-size:11px}',
 '.bereiaPrayerTopButton:hover{background:rgba(20,23,27,.96);border-color:rgba(215,181,109,.46);color:#e3d39e;transform:none}',
 '.bereia-site-experience body #bereiaLicenseCenter{width:min(980px,calc(100% - 44px));margin:34px auto 18px}',
+'.bereia-site-experience body #bereiaDailyCover,.bereia-app-experience body #bereiaDailyCover{display:flex;align-items:center;justify-content:center;text-align:center}',
+'.bereia-site-experience body #bereiaDailyCover .dailyInner,.bereia-app-experience body #bereiaDailyCover .dailyInner{width:min(100%,900px);max-width:900px;margin:0 auto;padding:clamp(22px,4vw,42px);text-align:center}',
+'.bereia-site-experience body #bereiaDailyCover .dailyInner .verse,.bereia-app-experience body #bereiaDailyCover .dailyInner .verse{max-width:900px;margin:12px auto}',
+'.bereia-site-experience body #bereiaDailyCover .dailyInner .actions,.bereia-app-experience body #bereiaDailyCover .dailyInner .actions{justify-content:center}',
 '@media(prefers-reduced-motion:reduce){.bereia-site-experience body *, .bereia-app-experience body *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}'
 ].join('\n');
 const style=document.createElement('style');style.id='bereiaV63ProfessionalExperienceStyles';style.textContent=css;document.head.appendChild(style);
