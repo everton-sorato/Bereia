@@ -34,6 +34,7 @@ const css=[
 '.bereia-site-experience body #settings{max-width:960px}',
 '.bereia-site-experience body .releasePanel{border-radius:20px;background:linear-gradient(145deg,#15191e,#101317);border-color:rgba(255,255,255,.09)}',
 '#bereiaBuildBadge{display:none!important}',
+'#bereiaDailyDeepBtn{display:none!important}',
 '.bereiaPrayerCard{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px;padding:20px 22px;border:1px solid rgba(215,181,109,.28);border-radius:20px;background:linear-gradient(120deg,rgba(37,35,27,.92),rgba(18,22,21,.97));color:var(--text,#f5f1e8);box-shadow:0 16px 40px rgba(0,0,0,.16)}',
 '.bereiaPrayerCard small{display:block;color:#e4c879;font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}',
 '.bereiaPrayerCard h2{margin:5px 0 4px;font-size:clamp(18px,2.3vw,24px);letter-spacing:-.02em}',
