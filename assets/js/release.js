@@ -1,7 +1,7 @@
 /* BEREIA 1.0 preparation — V80. No tracking, accounts or advertising SDKs. */
 (()=>{
 'use strict';
-const VERSION='V80', $=s=>document.querySelector(s), esc=window.escapeHtml;
+const VERSION='V81', $=s=>document.querySelector(s), esc=window.escapeHtml;
 const keys=['bereia:note','bereia:favorites','bereia:favs','bereia:highlights:v1','bereia:verseNotes:v1','bereia:collections:v1','bereia:reading','bereia:lastVerse','bereia:studySession:v1','bereia:completed:v1','bereia:font'];
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
 const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
@@ -12,7 +12,7 @@ function validateBackup(input){
  const entries=Object.entries(input.data);if(entries.some(([k,v])=>!keys.includes(k)||typeof v!=='string'||v.length>2000000))throw Error('O backup contém dados inválidos.');
  for(const [k,v] of entries){if(k==='bereia:note')continue;let parsed;try{parsed=JSON.parse(v)}catch{throw Error('Dado inválido: '+k)}
   if(k==='bereia:favorites'&&(!Array.isArray(parsed)||parsed.some(x=>!x||typeof x.book!=='string'||typeof x.text!=='string'||!Number.isInteger(+x.chapter)||+x.chapter<1||!Number.isInteger(+x.verse)||+x.verse<1)))throw Error('Favoritos inválidos.');
-  if(k==='bereia:reading'&&(!parsed||!Number.isInteger(parsed.book)||parsed.book<0||parsed.book>65||!Number.isInteger(+parsed.chapter)||+parsed.chapter<1||!['almeida-livre','alm1911','bpm','kjv'].includes(parsed.version)))throw Error('Preferência de leitura inválida.');
+  if(k==='bereia:reading'&&(!parsed||!Number.isInteger(parsed.book)||parsed.book<0||parsed.book>(parsed.version==='bpm'?74:65)||!Number.isInteger(+parsed.chapter)||+parsed.chapter<1||!['almeida-livre','alm1911','bpm','kjv'].includes(parsed.version)))throw Error('Preferência de leitura inválida.');
   if(['bereia:lastVerse','bereia:studySession:v1'].includes(k)&&(!parsed||typeof parsed.book!=='string'||!Number.isInteger(+parsed.chapter)||+parsed.chapter<1||!Number.isInteger(+parsed.verse)||+parsed.verse<1))throw Error('Passagem inválida.');
   if(k==='bereia:completed:v1'&&(!Array.isArray(parsed)||parsed.some(x=>typeof x!=='string'||!/^[1-3]?[A-Za-z]+:\d+$/.test(x))))throw Error('Progresso inválido.');
   if(k==='bereia:font'&&![18,22,26].includes(Number(parsed)))throw Error('Tamanho de fonte inválido.');
@@ -58,7 +58,7 @@ async function searchWholeBible(){
   keys=await dbCall('readonly',s=>s.getAllKeys());saved=await dbCall('readonly',s=>s.getAll());fullSearchIndex=keys.map((k,i)=>({key:String(k),verses:saved[i]})).filter(x=>x.key.startsWith(version+':'));status.textContent=`Busca completa pronta: ${fullSearchIndex.length} capítulos pesquisados.`;search();
  }catch(e){status.textContent=e.message||'Falha ao preparar a busca.'}finally{button.disabled=false}
 }
-function gotoVerse(v){if(!v)return;selectedVerse=v;window.selectedVerse=v;localStorage.setItem('bereia:lastVerse',JSON.stringify(v));window.BEREIA_STUDY_SESSION?.saveCurrent?.(v);bibleVersion.value=v.version||'almeida-livre';bibleBook.value=v.bookIndex;renderChapterOptions(v.chapter);go('bible');loadChapter(false).then(()=>{const el=$(`#bibleReader .v[data-verse="${v.verse}"]`);if(el)selectRealVerse(el,v.verse)})}
+function gotoVerse(v){if(!v)return;selectedVerse=v;window.selectedVerse=v;localStorage.setItem('bereia:lastVerse',JSON.stringify(v));window.BEREIA_STUDY_SESSION?.saveCurrent?.(v);bibleVersion.value=v.version||'almeida-livre';versionChanged(v.osis,v.chapter,false);go('bible');loadChapter(false).then(()=>{const el=$(`#bibleReader .v[data-verse="${v.verse}"]`);if(el)selectRealVerse(el,v.verse)})}
 function personal(){
  const favs=read('bereia:favorites',[]),list=$('#releaseFavorites');if(!list)return;
  list.replaceChildren();if(!favs.length)list.textContent='Nenhum favorito salvo. Selecione um versículo na Bíblia para começar.';
@@ -101,7 +101,7 @@ function init(){
  // Remove nonfunctional future-course percentages without inventing completed lessons.
  $('#mission .grid').innerHTML='<div class="releasePanel"><h2>Seu plano de leitura</h2><p>Marque os capítulos que você concluiu. O progresso é salvo neste dispositivo e incluído no backup.</p><button class="btn" id="markRead">Marcar capítulo atual como lido</button><p id="readingProgress" role="status"></p><button class="btn" onclick="go(\'bible\')">Continuar leitura</button></div><div class="releasePanel"><h2>Roteiro de estudo pessoal</h2><ol><li>Leia o capítulo e observe personagens, ações e palavras repetidas.</li><li>Consulte o contexto e compare traduções disponíveis.</li><li>Investigue as fontes e registre suas dúvidas.</li><li>Escreva suas conclusões no caderno.</li></ol><p>As trilhas de cursos completos ainda não estão disponíveis.</p></div>';
  document.querySelectorAll('#compare .compareControls select').forEach((s,i)=>{s.setAttribute('aria-label',i?'Segunda edição para comparar':'Primeira edição para comparar');s.addEventListener('change',()=>{const v=window.BEREIA_STUDY_SESSION?.getCurrent?.()||requireSelected();if(v)loadComparison(v)})});
- const progress=()=>{$('#readingProgress').textContent=read('bereia:completed:v1',[]).length+' de 1.189 capítulos marcados como lidos.'};progress();$('#markRead').onclick=()=>{const k=bibleBooks[+bibleBook.value][0]+':'+bibleChapter.value,a=read('bereia:completed:v1',[]);if(!a.includes(k))a.push(k);write('bereia:completed:v1',a);progress()};
+ const progress=()=>{const total=readerBooks().reduce((sum,b)=>sum+b[2],0);$('#readingProgress').textContent=read('bereia:completed:v1',[]).length+' de '+total.toLocaleString('pt-BR')+' capítulos marcados como lidos nesta edição.'};progress();$('#markRead').onclick=()=>{const k=readerBooks()[+bibleBook.value][0]+':'+bibleChapter.value,a=read('bereia:completed:v1',[]);if(!a.includes(k))a.push(k);write('bereia:completed:v1',a);progress()};
  $('#library').querySelectorAll('.card:not([onclick])').forEach(c=>{const p=document.createElement('small');p.textContent='Informação de catálogo • não abre um leitor';c.append(p);c.style.cursor='default'});
  const privacy=document.createElement('p');privacy.innerHTML='<a href="./privacidade.html">Privacidade</a> · <a href="./suporte.html">Ajuda e suporte</a>';$('#credits').append(privacy);
  $('#toast').setAttribute('role','status');$('#toast').setAttribute('aria-live','polite');$('#note').setAttribute('aria-label','Caderno de estudo');
