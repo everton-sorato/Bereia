@@ -1,4 +1,4 @@
-/* BEREIA V73 — leitor BPM organizado no visual do aplicativo. */
+/* BEREIA V74 — leitor BPM organizado no visual do aplicativo. */
 (()=>{
 'use strict';
 const extras=[
@@ -36,7 +36,19 @@ function reader(bookName){
  bookSelect.addEventListener("change",chapters);box.querySelector("#bereiaBpmRead").addEventListener("click",load);box.querySelectorAll("[data-bpm-book]").forEach(b=>b.addEventListener("click",()=>{bookSelect.value=b.dataset.bpmBook;chapters();load()}));chapters();box.classList.add("show");box.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 const previousSet=window.bereiaSetLibrary,previousOpen=window.bereiaOpenExtraBook;
-window.bereiaSetLibrary=function(mode){if(mode!=="catholic")return previousSet(mode);reader("Gênesis")};
+window.bereiaSetLibrary=function(mode){
+ if(mode!=="catholic")return previousSet(mode);
+ window.BEREIA_LIBRARY_MODE=mode;
+ try{localStorage.setItem("bereia:libraryMode",mode)}catch{}
+ document.querySelectorAll(".bereia-library-tabs button").forEach(button=>{
+  const selected=button.dataset.lib===mode;
+  button.classList.toggle("active",selected);
+  button.setAttribute("aria-pressed",selected?"true":"false");
+ });
+ const info=document.getElementById("bereiaLibraryInfo");
+ if(info&&window.BEREIA_LIBRARIES?.[mode])info.textContent=window.BEREIA_LIBRARIES[mode].desc;
+ reader("Gênesis");
+};
 window.bereiaOpenExtraBook=function(mode,i){
  if(mode!=="catholic")return previousOpen(mode,i);
  const entries=typeof BEREIA_CATHOLIC_BOOKS!=='undefined'?BEREIA_CATHOLIC_BOOKS:[],entry=entries[i],name=entry?.[0];
