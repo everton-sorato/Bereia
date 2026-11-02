@@ -87,7 +87,29 @@ function layoutStyles(){
  s.textContent='.sidebar{overflow-y:auto!important;overscroll-behavior:contain;max-height:100vh!important;max-height:100dvh!important;scrollbar-width:thin;scrollbar-color:#55482e transparent}.b64AtlasOnly .b54Trail,.b64AtlasOnly #b51GeoContent{display:none!important}.b64AtlasTabs{display:flex;gap:8px;margin:14px 0}.b64AtlasTabs button{flex:1;min-height:42px;border:1px solid #51452e;background:#14181b;color:#eee5ce;border-radius:11px;cursor:pointer}.b64AtlasTabs button[aria-selected=true]{background:#d7b56d;color:#17130c;font-weight:800}.b64AtlasLayout{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.75fr);gap:12px}.b64AtlasList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-height:520px;overflow:auto}.b64AtlasItem{display:grid;gap:5px;text-align:left;padding:11px;border:1px solid #343b42;border-radius:11px;background:#171d20;color:#f4f1e9;cursor:pointer}.b64AtlasItem.active{border-color:#d7b56d;background:#211d15}.b64AtlasItem small,.b64AtlasDetail p{color:#b1b7b5;font:12px/1.5 system-ui}.b64AtlasDetail{padding:16px;border:1px solid #343b42;border-radius:14px;background:#171d20}.b64AtlasDetail h3{color:#e3c675;margin:8px 0}@media(max-width:700px){.b64AtlasLayout{grid-template-columns:1fr}.b64AtlasList{grid-template-columns:1fr 1fr;max-height:380px}}';
  document.head.append(s);
 }
-function install(){layoutStyles();styles();ensure();render();patchHome();renderStandaloneAtlas();try{study.Referências='Veja passagens relacionadas no painel abaixo e abra o índice externo para o cânon de 66 livros.'}catch{}}
+function activateBereiaScreen(id){
+ const target=document.getElementById(id);if(!target||!target.classList.contains('screen'))return false;
+ const current=document.querySelector('.screen.active')?.id||'home';
+ if(current!==id){try{navHistory.push(current)}catch{}}
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ target.classList.add('active');document.body.classList.add('simpleBibleOpen');
+ try{setActive(id)}catch{}
+ if(location.hash!=='#'+id)history.pushState(history.state,'','#'+id);
+ window.scrollTo({top:0,behavior:'smooth'});
+ document.dispatchEvent(new CustomEvent('bereia:screenchange',{detail:{id}}));
+ return true
+}
+function wireStudyTools(){
+ window.bereiaToggleLayer=function(key){
+  const routes={geography:'geography',maps:'geography',archaeology:'archaeology',apocrypha:'canons'};
+  const id=routes[key];if(!id)return false;
+  const opened=activateBereiaScreen(id);
+  if(id==='geography')setTimeout(renderStandaloneAtlas,0);
+  if(id==='archaeology')setTimeout(()=>{if(window.BEREIA_GEO_ARCH_V51?.renderArchaeology)window.BEREIA_GEO_ARCH_V51.renderArchaeology()},0);
+  return opened
+ };
+}
+function install(){layoutStyles();styles();ensure();wireStudyTools();render();patchHome();renderStandaloneAtlas();try{study.Referências='Veja passagens relacionadas no painel abaixo e abra o índice externo para o cânon de 66 livros.'}catch{}}
 
 function patchHome(){if(typeof go!=='function'||go.__bereiaHomeFixed)return;const original=go;const patched=function(id,remember=true){if(id==='home'){const current=document.querySelector('.screen.active')?.id||'home';if(remember&&current!=='home'){try{navHistory.push(current)}catch{}}document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.body.classList.remove('simpleBibleOpen');if(typeof setActive==='function')setActive('home');if(location.hash!=='#home')history.pushState(history.state,'','#home');window.scrollTo({top:0,behavior:'smooth'});return}return original.apply(this,arguments)};patched.__bereiaHomeFixed=true;go=patched;window.go=patched}
 registerSource();document.addEventListener('bereia:studyverse',render);document.addEventListener('click',e=>{if(e.target.closest('[data-go="study"]'))setTimeout(render,80)});const observer=new MutationObserver(()=>{if(document.getElementById('study')?.classList.contains('active'))render()});if(document.getElementById('study'))observer.observe(document.getElementById('study'),{attributes:true,attributeFilter:['class']});window.addEventListener('load',install);if(document.readyState==='complete'||document.readyState==='interactive')install();patchHome();window.BEREIA_OPEN_RESOURCES={render,searchMet,fullURL}
