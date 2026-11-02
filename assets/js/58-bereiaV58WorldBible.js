@@ -8,20 +8,25 @@ const extras=[
  {name:"Eclesiástico (Sirácida)",code:"SIR",chapters:51,kind:"Deuterocanônico"},
  {name:"Baruc",code:"BAR",chapters:6,kind:"Deuterocanônico"},
  {name:"1 Macabeus",code:"1MA",chapters:16,kind:"Deuterocanônico"},
- {name:"2 Macabeus",code:"2MA",chapters:15,kind:"Deuterocanônico"},
- {name:"Adições a Ester",code:"ESG",chapters:16,kind:"Suplemento textual"},
- {name:"Adições a Daniel",code:"DAG",chapters:14,kind:"Suplemento textual"}
+ {name:"2 Macabeus",code:"2MA",chapters:15,kind:"Deuterocanônico"}
 ];
 const codes={Gen:"GEN",Exod:"EXO",Lev:"LEV",Num:"NUM",Deut:"DEU",Josh:"JOS",Judg:"JDG",Ruth:"RUT", "1Sam":"1SA","2Sam":"2SA","1Kgs":"1KI","2Kgs":"2KI","1Chr":"1CH","2Chr":"2CH",Ezra:"EZR",Neh:"NEH",Esth:"EST",Job:"JOB",Ps:"PSA",Prov:"PRO",Eccl:"ECC",Song:"SNG",Isa:"ISA",Jer:"JER",Lam:"LAM",Ezek:"EZK",Dan:"DAN",Hos:"HOS",Joel:"JOL",Amos:"AMO",Obad:"OBA",Jonah:"JON",Mic:"MIC",Nah:"NAM",Hab:"HAB",Zeph:"ZEP",Hag:"HAG",Zech:"ZEC",Mal:"MAL",Matt:"MAT",Mark:"MRK",Luke:"LUK",John:"JHN",Acts:"ACT",Rom:"ROM","1Cor":"1CO","2Cor":"2CO",Gal:"GAL",Eph:"EPH",Phil:"PHP",Col:"COL","1Thess":"1TH","2Thess":"2TH","1Tim":"1TI","2Tim":"2TI",Titus:"TIT",Phlm:"PHM",Heb:"HEB",Jas:"JAS","1Pet":"1PE","2Pet":"2PE","1John":"1JN","2John":"2JN","3John":"3JN",Jude:"JUD",Rev:"REV"};
-const core=(typeof bibleBooks!=='undefined'?bibleBooks:[]).map(b=>({name:b[1],code:codes[b[0]],chapters:b[2],kind:+bibleBooks.indexOf(b)<39?"Antigo Testamento":"Novo Testamento"})).filter(x=>x.code);
-const catalog=[...core,...extras];
+const baseBooks=typeof bibleBooks!=='undefined'?bibleBooks:[];
+const oldTestament=baseBooks.slice(0,39).map(b=>({
+ name:b[0]==='Esth'?'Ester (com acréscimos)':b[0]==='Dan'?'Daniel (com acréscimos)':b[1],
+ code:b[0]==='Esth'?'ESG':b[0]==='Dan'?'DAG':codes[b[0]],
+ chapters:b[0]==='Esth'?10:b[0]==='Dan'?14:b[2],kind:"Antigo Testamento"
+})).filter(x=>x.code);
+const deuterocanonicals=extras.map(book=>({...book,kind:"Antigo Testamento · Deuterocanônico"}));
+const newTestament=baseBooks.slice(39).map(b=>({name:b[1],code:codes[b[0]],chapters:b[2],kind:"Novo Testamento"})).filter(x=>x.code);
+const catalog=[...oldTestament,...deuterocanonicals,...newTestament];
 function urlFor(book,ch){const n=Number(ch)||1,seq=book.code==="PSA"?String(n).padStart(3,"0"):String(n).padStart(2,"0");return "https://ebible.org/porbrbsl/"+book.code+seq+".htm"}
 function notice(){return '<div class="bpmNotice"><b>Bíblia Portuguesa Mundial (BPM)</b><p>O eBible.org identifica esta tradução brasileira como domínio público. A própria fonte informa que a tradução ainda é um rascunho em revisão e não apresenta imprimatur.</p><a href="https://ebible.org/porbrbsl/" target="_blank" rel="noopener noreferrer">Fonte e catálogo oficiais ↗</a></div>'}
 function safe(x){return typeof window.escapeHtml==="function"?window.escapeHtml(x):String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 function reader(bookName){
  const box=document.getElementById("bereiaStudyPanel");if(!box)return;
  const selected=catalog.find(x=>x.name===bookName)||core[0];if(!selected)return;
- box.innerHTML='<div class="bereia-library-reader bpmShell"><div class="bpmHeading"><small>LEITURA EM PORTUGUÊS</small><h3>Bíblia Portuguesa Mundial</h3></div>'+notice()+'<p class="bpmIntro">Escolha um livro e capítulo. A navegação e os controles ficam no BEREIA; o texto é carregado diretamente da fonte oficial.</p><div class="bpmControls"><label for="bereiaBpmBook">Livro</label><select id="bereiaBpmBook">'+catalog.map(x=>'<option value="'+safe(x.name)+'" '+(x.name===selected.name?'selected':'')+'>'+safe(x.name)+' · '+safe(x.kind)+'</option>').join("")+'</select><label for="bereiaBpmChapter">Capítulo</label><select id="bereiaBpmChapter"></select><button id="bereiaBpmRead" class="btn primary" type="button">Ler capítulo</button></div><div id="bereiaBpmText" class="bpmTextArea"><div class="bpmPlaceholder"><span>📖</span><b>Seu capítulo será aberto aqui</b><small>Selecione o capítulo e toque em “Ler capítulo”.</small></div></div><p class="bpmSourceLink" id="bereiaBpmSource"></p><h3 class="bpmCatalogTitle">Livros disponíveis</h3><div class="bpmBookGrid">'+catalog.map(x=>'<button class="bpmBook" data-bpm-book="'+safe(x.name)+'" type="button"><b>'+safe(x.name)+'</b><small>'+safe(x.kind)+' · '+x.chapters+' capítulos</small></button>').join("")+'</div></div>';
+ box.innerHTML='<div class="bereia-library-reader bpmShell"><div class="bpmHeading"><small>LEITURA EM PORTUGUÊS</small><h3>Bíblia Portuguesa Mundial</h3></div>'+notice()+'<p class="bpmIntro">A Bíblia Portuguesa Mundial apresenta os 73 livros do cânon católico: 46 do Antigo Testamento e 27 do Novo. Ester e Daniel incluem seus acréscimos; os sete deuterocanônicos aparecem identificados na lista.</p><div class="bpmControls"><label for="bereiaBpmBook">Livro</label><select id="bereiaBpmBook">'+catalog.map(x=>'<option value="'+safe(x.name)+'" '+(x.name===selected.name?'selected':'')+'>'+safe(x.name)+' · '+safe(x.kind)+'</option>').join("")+'</select><label for="bereiaBpmChapter">Capítulo</label><select id="bereiaBpmChapter"></select><button id="bereiaBpmRead" class="btn primary" type="button">Ler capítulo</button></div><div id="bereiaBpmText" class="bpmTextArea"><div class="bpmPlaceholder"><span>📖</span><b>Seu capítulo será aberto aqui</b><small>Selecione o capítulo e toque em “Ler capítulo”.</small></div></div><p class="bpmSourceLink" id="bereiaBpmSource"></p><h3 class="bpmCatalogTitle">Cânon católico · 73 livros</h3><div class="bpmBookGrid">'+catalog.map(x=>'<button class="bpmBook" data-bpm-book="'+safe(x.name)+'" type="button"><b>'+safe(x.name)+'</b><small>'+safe(x.kind)+' · '+x.chapters+' capítulos</small></button>').join("")+'</div></div>';
  const bookSelect=box.querySelector("#bereiaBpmBook"),chapterSelect=box.querySelector("#bereiaBpmChapter");
  function chapters(){const current=catalog.find(x=>x.name===bookSelect.value)||core[0];chapterSelect.innerHTML=Array.from({length:current.chapters},(_,i)=>'<option value="'+(i+1)+'">Capítulo '+(i+1)+'</option>').join("")}
  function load(){const current=catalog.find(x=>x.name===bookSelect.value)||core[0],n=Number(chapterSelect.value)||1,u=urlFor(current,n),area=box.querySelector("#bereiaBpmText");
