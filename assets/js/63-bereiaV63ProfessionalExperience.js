@@ -118,7 +118,7 @@ const prompts={
  pause:{title:'Uma pausa para respirar',text:'Respire com calma e entregue a Deus as preocupações deste momento.',ref:'1 Pedro 5:7'}
 };
 const dayNames=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-function saveCfg(next){localStorage.setItem('bereia:prayerReminder:v1',JSON.stringify(next));paintPrayerStatus();paintHomeCard()}
+function saveCfg(next){localStorage.setItem('bereia:prayerReminder:v1',JSON.stringify(next));paintHomeCard()}
 function localTimeZone(){try{return Intl.DateTimeFormat().resolvedOptions().timeZone||'fuso local'}catch{return 'fuso local'}}
 function localDateKey(date){return [date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('-')}
 function showPrayerSaved(enabled,time,days){const detail=enabled?'Lembrete salvo para '+time+' · '+(days.length===7?'todos os dias':days.map(d=>dayNames[d]).join(', '))+' · hora local ('+localTimeZone()+').':'Lembrete desativado neste navegador.';showPrayerToast({title:enabled?'Lembrete salvo':'Lembrete desativado',text:detail,ref:enabled?'As preferências ficam neste dispositivo.':'Você pode configurar novamente quando quiser.'})}
