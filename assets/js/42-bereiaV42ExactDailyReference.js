@@ -22,7 +22,7 @@
  if(typeof oldRender==='function'){
    window.renderBibleVerses=function(book,ch,verses){
      const sel=document.getElementById('bibleBook'),cap=document.getElementById('bibleChapter');
-     const current=sel&&typeof bibleBooks!=='undefined'?bibleBooks[Number(sel.value)]:null;
+     const readerCatalog=typeof readerBooks==='function'?readerBooks():bibleBooks;const current=sel&&readerCatalog?readerCatalog[Number(sel.value)]:null;
      if(current&&book&&current[0]!==book[0])return;
      if(cap&&Number(cap.value)!==Number(ch))return;
      return oldRender.apply(this,arguments);
