@@ -87,7 +87,7 @@ function syncBibleSourceNote(version){
  const notes={
   'almeida-livre':'<b>Bíblia Livre (Almeida 1819):</b> uso livre conforme os termos da edição. Texto servido pela API Midvash.',
   alm1911:'<b>Almeida Revista e Corrigida 1911:</b> edição em domínio público, com grafia histórica. Texto servido pela API Midvash.',
-  bpm:'<b>Bíblia Portuguesa Mundial (BPM):</b> domínio público e ainda em revisão. O leitor inclui os 66 livros, os sete deuterocanônicos católicos e as versões gregas de Ester e Daniel, com seus acréscimos. Textos: <a href="https://ebible.org/porbrbsl/" target="_blank" rel="noopener noreferrer">eBible.org</a> e <a href="https://bible.helloao.org/" target="_blank" rel="noopener noreferrer">Free Use Bible API</a>.',
+  bpm:'<b>Bíblia Portuguesa Mundial (BPM):</b> domínio público e ainda em revisão. O catálogo apresenta os 73 livros do cânon católico: os sete deuterocanônicos e os acréscimos de Ester e Daniel dentro desses livros. Textos: <a href="https://ebible.org/porbrbsl/" target="_blank" rel="noopener noreferrer">eBible.org</a> e <a href="https://bible.helloao.org/" target="_blank" rel="noopener noreferrer">Free Use Bible API</a>.',
   kjv:'<b>King James Version 1769:</b> edição em inglês, em domínio público. Texto servido pela API Midvash.'
  };
  note.innerHTML=notes[version]||'<b>Fonte da tradução:</b> consulte Créditos e Fontes.';
