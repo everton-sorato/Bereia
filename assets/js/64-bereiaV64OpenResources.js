@@ -1,0 +1,72 @@
+/* BEREIA V64 — referências cruzadas e acervo arqueológico aberto. */
+(()=>{'use strict';
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const en={Gen:'Genesis',Exod:'Exodus',Lev:'Leviticus',Num:'Numbers',Deut:'Deuteronomy',Josh:'Joshua',Judg:'Judges',Ruth:'Ruth','1Sam':'1 Samuel','2Sam':'2 Samuel','1Kgs':'1 Kings','2Kgs':'2 Kings','1Chr':'1 Chronicles','2Chr':'2 Chronicles',Ezra:'Ezra',Neh:'Nehemiah',Esth:'Esther',Job:'Job',Ps:'Psalm',Prov:'Proverbs',Eccl:'Ecclesiastes',Song:'Song of Solomon',Isa:'Isaiah',Jer:'Jeremiah',Lam:'Lamentations',Ezek:'Ezekiel',Dan:'Daniel',Hos:'Hosea',Joel:'Joel',Amos:'Amos',Obad:'Obadiah',Jonah:'Jonah',Mic:'Micah',Nah:'Nahum',Hab:'Habakkuk',Zeph:'Zephaniah',Hag:'Haggai',Zech:'Zechariah',Mal:'Malachi',Matt:'Matthew',Mark:'Mark',Luke:'Luke',John:'John',Acts:'Acts',Rom:'Romans','1Cor':'1 Corinthians','2Cor':'2 Corinthians',Gal:'Galatians',Eph:'Ephesians',Phil:'Philippians',Col:'Colossians','1Thess':'1 Thessalonians','2Thess':'2 Thessalonians','1Tim':'1 Timothy','2Tim':'2 Timothy',Titus:'Titus',Phlm:'Philemon',Heb:'Hebrews',Jas:'James','1Pet':'1 Peter','2Pet':'2 Peter','1John':'1 John','2John':'2 John','3John':'3 John',Jude:'Jude',Rev:'Revelation'};
+const parallel={
+'Gen.1.1':[['John',1,1,'João 1:1'],['Ps',33,6,'Salmos 33:6'],['Heb',11,3,'Hebreus 11:3'],['Col',1,16,'Colossenses 1:16']],
+'Gen.12.1':[['Heb',11,8,'Hebreus 11:8'],['Acts',7,3,'Atos 7:3'],['Gal',3,8,'Gálatas 3:8']],
+'Exod.3.14':[['John',8,58,'João 8:58'],['Rev',1,8,'Apocalipse 1:8']],
+'Ps.23.1':[['John',10,11,'João 10:11'],['Ezek',34,11,'Ezequiel 34:11']],
+'Ps.46.1':[['Nah',1,7,'Naum 1:7'],['Isa',41,10,'Isaías 41:10']],
+'Ps.51.10':[['Ezek',36,26,'Ezequiel 36:26'],['2Cor',5,17,'2 Coríntios 5:17']],
+'Prov.3.5':[['Ps',37,5,'Salmos 37:5'],['Jer',17,7,'Jeremias 17:7']],
+'Isa.40.31':[['Ps',27,14,'Salmos 27:14'],['2Cor',4,16,'2 Coríntios 4:16']],
+'Isa.41.10':[['Deut',31,8,'Deuteronômio 31:8'],['Josh',1,9,'Josué 1:9'],['Ps',23,4,'Salmos 23:4']],
+'Matt.5.14':[['John',8,12,'João 8:12'],['Eph',5,8,'Efésios 5:8']],
+'Matt.6.33':[['Luke',12,31,'Lucas 12:31'],['Col',3,1,'Colossenses 3:1']],
+'Matt.11.28':[['John',7,37,'João 7:37'],['Isa',55,1,'Isaías 55:1']],
+'John.1.1':[['Gen',1,1,'Gênesis 1:1'],['Col',1,17,'Colossenses 1:17'],['Heb',1,2,'Hebreus 1:2']],
+'John.3.16':[['Rom',5,8,'Romanos 5:8'],['1John',4,9,'1 João 4:9'],['Rom',8,32,'Romanos 8:32'],['John',6,40,'João 6:40']],
+'John.14.6':[['Acts',4,12,'Atos 4:12'],['1Tim',2,5,'1 Timóteo 2:5']],
+'Rom.8.28':[['Gen',50,20,'Gênesis 50:20'],['Eph',1,11,'Efésios 1:11']],
+'Rom.12.2':[['Eph',4,23,'Efésios 4:23'],['1Pet',1,14,'1 Pedro 1:14']],
+'1Cor.13.4':[['1John',4,7,'1 João 4:7'],['Gal',5,22,'Gálatas 5:22']],
+'Phil.4.6':[['1Pet',5,7,'1 Pedro 5:7'],['Matt',6,25,'Mateus 6:25']],
+'Phil.4.13':[['2Cor',12,9,'2 Coríntios 12:9'],['Eph',6,10,'Efésios 6:10']],
+'1Pet.5.7':[['Ps',55,22,'Salmos 55:22'],['Matt',6,25,'Mateus 6:25']],
+'Rev.21.4':[['Isa',25,8,'Isaías 25:8'],['1Cor',15,54,'1 Coríntios 15:54']]
+};
+function current(){try{return window.BEREIA_STUDY_SESSION?.getCurrent?.()||window.selectedVerse||JSON.parse(localStorage.getItem('bereia:lastVerse')||'null')}catch{return window.selectedVerse||null}}
+function info(v){if(!v)return null;const row=(window.bibleBooks||[]).find(b=>b[0]===v.osis||b[1]===v.book);return{osis:v.osis||row?.[0]||'',book:v.book||row?.[1]||'',chapter:+v.chapter||1,verse:+v.verse||1}}
+function fullURL(v){const name=en[v.osis];return name?'https://openbible.info/labs/cross-references/search?q='+encodeURIComponent(name+' '+v.chapter+':'+v.verse):''}
+function read(osis,ch,verse){const row=(window.bibleBooks||[]).find(b=>b[0]===osis);if(row&&typeof window.gotoVerse==='function')window.gotoVerse({bookIndex:window.bibleBooks.indexOf(row),book:row[1],osis,chapter:ch,verse,version:window.bibleVersion?.value||'almeida-livre'})}
+function render(){
+ const box=document.getElementById('b64Crossrefs');if(!box)return;const v=info(current());
+ if(!v){box.innerHTML='<small>REFERÊNCIAS CRUZADAS</small><h2>Leia a Bíblia em diálogo</h2><p>Selecione um versículo para ver passagens relacionadas e consultar o índice completo.</p><div class="b64Empty">Abra a Bíblia e toque em um versículo. As referências aparecerão aqui sem copiar traduções protegidas.</div>';return}
+ const rows=parallel[v.osis+'.'+v.chapter+'.'+v.verse]||[],url=fullURL(v);
+ const cards=rows.length?'<div class="b64RefGrid">'+rows.map(x=>'<button class="b64Ref" type="button" data-os="'+esc(x[0])+'" data-ch="'+x[1]+'" data-v="'+x[2]+'"><b>'+esc(x[3])+'</b><small>Abrir no leitor BEREIA</small></button>').join('')+'</div>':'<p class="b64Empty">Ainda não há uma seleção editorial de paralelos do BEREIA para este versículo. Consulte o índice externo completo, organizado por palavras, temas, acontecimentos e pessoas.</p>';
+ box.innerHTML='<small>REFERÊNCIAS CRUZADAS · '+esc(v.book)+' '+v.chapter+':'+v.verse+'</small><h2>Passagens relacionadas</h2><p>Os paralelos ajudam a comparar temas e linguagem; cada passagem deve ser lida em seu próprio contexto.</p>'+cards+(url?'<a class="b64External" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">Consultar índice completo ↗</a>':'<div class="b64Empty">O índice externo cobre o cânon protestante de 66 livros. Para livros deuterocanônicos, veja as referências no leitor católico.</div>')+'<p class="b64Credit">Paralelos selecionados pelo BEREIA. Índice externo OpenBible.info: Creative Commons Atribuição. Não reproduzimos as citações ESV que aparecem na página externa.</p>';
+ box.querySelectorAll('[data-os]').forEach(b=>b.addEventListener('click',()=>read(b.dataset.os,+b.dataset.ch,+b.dataset.v)));
+}
+function styles(){if(document.getElementById('b64Styles'))return;const s=document.createElement('style');s.id='b64Styles';s.textContent=
+'.b64Panel,.b64OpenPanel,.b64MetPanel{margin:18px 0;padding:clamp(16px,3vw,24px);border:1px solid #343b42;border-radius:18px;background:linear-gradient(145deg,#14191d,#101418);color:#f4f1e9}'+
+'.b64Panel>small,.b64OpenPanel>small,.b64MetPanel>small{color:#d7b56d;font:800 10px system-ui;letter-spacing:.13em}.b64Panel h2,.b64OpenPanel h2,.b64MetPanel h2{margin:7px 0}.b64Panel p,.b64OpenPanel p,.b64Empty{color:#b1b7b5;font:13px/1.6 system-ui}.b64RefGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:9px;margin:14px 0}.b64Ref{display:grid;gap:5px;text-align:left;min-height:64px;padding:11px;border:1px solid #343b42;border-radius:12px;background:#171d20;color:#f5f1e8;cursor:pointer}.b64Ref:hover,.b64OpenLinks a:hover{border-color:#b9954d;background:#201e18}.b64Ref small{color:#a9b0ae;font:11px system-ui}.b64External,.b64OpenLinks a{display:inline-flex;align-items:center;min-height:42px;margin:4px 6px 4px 0;padding:10px 13px;border:1px solid #79633b;border-radius:11px;color:#f0d88f;text-decoration:none;font:700 12px system-ui}.b64Credit{font:11px/1.55 system-ui;color:#aeb4b2;margin-top:14px}.b64OpenPanel{background:#11161a}.b64OpenLinks{display:flex;flex-wrap:wrap;gap:8px}.b64MetPanel{background:#11161a}.b64MetPanel>p{color:#adb4b1;font:13px/1.6 system-ui}.b64MetSearch{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.b64MetSearch input{min-height:44px;flex:1;min-width:180px;padding:10px 12px;border:1px solid #41474c;border-radius:11px;background:#0e1216;color:#f5f1e8;font:inherit}.b64MetSearch button{min-height:44px;padding:10px 14px;border:1px solid #d7b56d;border-radius:11px;background:#d7b56d;color:#19150c;font-weight:800;cursor:pointer}.b64MetSearch button:disabled{opacity:.6}.b64MetStatus,.b64MetNote{min-height:20px;color:#c7c5bd;font:12px/1.5 system-ui}.b64MetGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px;margin-top:12px}.b64MetCard{overflow:hidden;border:1px solid #343b42;border-radius:14px;background:#171d20}.b64MetCard img{display:block;width:100%;height:185px;object-fit:contain;background:#0c1013}.b64MetCard div{padding:12px}.b64MetCard strong{display:block;color:#f4f1e9;font:700 13px/1.45 system-ui}.b64MetCard p{margin:6px 0;color:#b1b7b5;font:11px/1.45 system-ui}.b64MetCard a{color:#e4c678;font:700 11px system-ui}@media(max-width:600px){.b64RefGrid,.b64MetGrid{grid-template-columns:1fr 1fr}.b64MetCard img{height:140px}}';
+ document.head.append(s)}
+function ensure(){
+ const studyScreen=document.getElementById('study');if(studyScreen&&!document.getElementById('b64Crossrefs')){const p=document.createElement('section');p.id='b64Crossrefs';p.className='b64Panel';p.setAttribute('aria-live','polite');const target=document.getElementById('studyContent');target?target.insertAdjacentElement('afterend',p):studyScreen.append(p)}
+ const geo=document.getElementById('geography');if(geo&&!document.getElementById('b64GeoSources')){const p=document.createElement('section');p.id='b64GeoSources';p.className='b64OpenPanel';p.innerHTML='<small>BASES CARTOGRÁFICAS ABERTAS</small><h2>Consulte os dados geográficos</h2><p>O Atlas BEREIA é independente da passagem selecionada. Explore conjuntos de lugares bíblicos e do mundo antigo; imagens e camadas de mapa seguem licenças próprias.</p><div class="b64OpenLinks"><a href="https://openbible.info/geo/" target="_blank" rel="noopener noreferrer">OpenBible · lugares bíblicos ↗</a><a href="https://pleiades.stoa.org/" target="_blank" rel="noopener noreferrer">Pleiades · mundo antigo ↗</a></div><p class="b64Credit">OpenBible: CC BY 4.0; dados derivados do OpenStreetMap: ODbL. Pleiades: CC BY 3.0.</p>';geo.append(p)}
+ const arch=document.getElementById('archaeology');if(arch&&!document.getElementById('b64MetPanel')){const p=document.createElement('section');p.id='b64MetPanel';p.className='b64MetPanel';p.innerHTML='<small>ACERVO ARQUEOLÓGICO COM USO ABERTO</small><h2>Imagens do Metropolitan Museum</h2><p>Busque objetos relacionados ao mundo bíblico. O BEREIA mostra somente resultados com imagem marcada como Open Access/domínio público e liga cada item à ficha original.</p><form class="b64MetSearch" id="b64MetForm"><input id="b64MetQuery" type="search" maxlength="90" placeholder="Ex.: Assyria, Babylon, Egypt" aria-label="Buscar no acervo do Met"><button id="b64MetSearch" type="submit">Buscar no acervo</button></form><div class="b64MetStatus" id="b64MetStatus" role="status">A busca começa quando você tocar em Buscar.</div><div class="b64MetGrid" id="b64MetResults"></div><p class="b64MetNote">O registro do museu é a referência final para crédito, contexto e condições de reutilização.</p>';const anchor=document.getElementById('b57ArchaeologyLab')||document.getElementById('b51ArchContent');anchor?anchor.insertAdjacentElement('afterend',p):arch.append(p);p.querySelector('form').addEventListener('submit',e=>{e.preventDefault();searchMet(p)})}
+}
+async function searchMet(panel){
+ const input=panel.querySelector('#b64MetQuery'),button=panel.querySelector('#b64MetSearch'),status=panel.querySelector('#b64MetStatus'),grid=panel.querySelector('#b64MetResults'),q=input.value.trim();
+ if(!q){status.textContent='Digite o nome de um objeto, povo ou lugar.';input.focus();return}
+ button.disabled=true;status.textContent='Consultando o acervo Open Access do Met…';grid.replaceChildren();
+ try{
+  const response=await fetch('https://collectionapi.metmuseum.org/public/collection/v1/search?hasImages=true&q='+encodeURIComponent(q));if(!response.ok)throw Error('Met '+response.status);
+  const data=await response.json(),ids=(data.objectIDs||[]).slice(0,8);
+  if(!ids.length){status.textContent='Nenhum resultado com imagem. Tente outro termo.';return}
+  const all=await Promise.all(ids.map(async id=>{try{const r=await fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects/'+id);return r.ok?await r.json():null}catch{return null}}));
+  const items=all.filter(x=>x?.isPublicDomain===true&&x.primaryImageSmall&&/^https:\/\/images\.metmuseum\.org\//.test(x.primaryImageSmall));
+  if(!items.length){status.textContent='Os primeiros resultados não têm imagem identificada como Open Access/CC0. Tente outro termo.';return}
+  status.textContent=items.length+' imagem(ns) marcada(s) Open Access pelo Met.';
+  items.forEach(x=>{const card=document.createElement('article');card.className='b64MetCard';const img=document.createElement('img');img.loading='lazy';img.src=x.primaryImageSmall;img.alt=x.title||'Objeto do acervo Open Access do Met';img.onerror=()=>{img.hidden=true};const body=document.createElement('div'),title=document.createElement('strong'),meta=document.createElement('p'),link=document.createElement('a');title.textContent=x.title||'Objeto sem título';meta.textContent=[x.objectDate,x.culture].filter(Boolean).join(' · ')||'Data/cultura não informadas';link.href=x.objectURL;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Ficha do objeto · CC0 ↗';body.append(title,meta,link);card.append(img,body);grid.append(card)})
+ }catch{status.textContent='Não foi possível conectar ao acervo do Met. Verifique a internet e tente novamente.'}
+ finally{button.disabled=false}
+}
+function registerSource(){
+ const list=window.BEREIA_SOURCE_REGISTRY;if(!list||list.some(x=>x.name==='OpenBible.info — referências cruzadas'))return;
+ list.push({name:'OpenBible.info — referências cruzadas',kind:'Índice de relações entre versículos; combina principalmente Treasury of Scripture Knowledge e outras contribuições',license:'Creative Commons Atribuição indicada na página do conjunto. Abrange o cânon protestante de 66 livros. Não reutilizar as citações ESV exibidas no site.',status:'O BEREIA oferece links e referências, sem copiar traduções protegidas',url:'https://openbible.info/labs/cross-references/',credit:'OpenBible.info — Cross References'});
+}
+function install(){styles();ensure();render();try{study.Referências='Veja passagens relacionadas no painel abaixo e abra o índice externo para o cânon de 66 livros.'}catch{}}
+registerSource();document.addEventListener('bereia:studyverse',render);document.addEventListener('click',e=>{if(e.target.closest('[data-go="study"]'))setTimeout(render,80)});const observer=new MutationObserver(()=>{if(document.getElementById('study')?.classList.contains('active'))render()});if(document.getElementById('study'))observer.observe(document.getElementById('study'),{attributes:true,attributeFilter:['class']});window.addEventListener('load',install);if(document.readyState==='complete'||document.readyState==='interactive')install();window.BEREIA_OPEN_RESOURCES={render,searchMet,fullURL}
+})();
