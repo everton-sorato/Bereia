@@ -60,7 +60,7 @@ async function searchMet(panel){
   if(!items.length){status.textContent='Os primeiros resultados não têm imagem identificada como Open Access/CC0. Tente outro termo.';return}
   status.textContent=items.length+' imagem(ns) marcada(s) Open Access pelo Met.';
   items.forEach(x=>{const card=document.createElement('article');card.className='b64MetCard';const img=document.createElement('img');img.loading='lazy';img.src=x.primaryImageSmall;img.alt=x.title||'Objeto do acervo Open Access do Met';img.onerror=()=>{img.hidden=true};const body=document.createElement('div'),title=document.createElement('strong'),meta=document.createElement('p'),link=document.createElement('a');title.textContent=x.title||'Objeto sem título';meta.textContent=[x.objectDate,x.culture].filter(Boolean).join(' · ')||'Data/cultura não informadas';link.href=x.objectURL;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Ficha do objeto · CC0 ↗';body.append(title,meta,link);card.append(img,body);grid.append(card)})
- }catch{status.textContent='Não foi possível conectar ao acervo do Met. Verifique a internet e tente novamente.'}
+ }catch{status.textContent='A busca direta não respondeu neste navegador. Você ainda pode pesquisar no catálogo oficial com o filtro Open Access aplicado.';const a=document.createElement('a');a.className='b64External';a.href='https://www.metmuseum.org/art/collection/search?searchField=All&showOnly=openAccess&sortBy=relevance';a.target='_blank';a.rel='noopener noreferrer';a.textContent='Abrir busca Open Access do Met ↗';grid.append(a)}
  finally{button.disabled=false}
 }
 function registerSource(){
