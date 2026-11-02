@@ -29,7 +29,7 @@ const parallel={
 function current(){try{return window.BEREIA_STUDY_SESSION?.getCurrent?.()||window.selectedVerse||JSON.parse(localStorage.getItem('bereia:lastVerse')||'null')}catch{return window.selectedVerse||null}}
 function info(v){if(!v)return null;const row=(window.bibleBooks||[]).find(b=>b[0]===v.osis||b[1]===v.book);return{osis:v.osis||row?.[0]||'',book:v.book||row?.[1]||'',chapter:+v.chapter||1,verse:+v.verse||1}}
 function fullURL(v){const name=en[v.osis];return name?'https://openbible.info/labs/cross-references/search?q='+encodeURIComponent(name+' '+v.chapter+':'+v.verse):''}
-function read(osis,ch,verse){const row=(window.bibleBooks||[]).find(b=>b[0]===osis);if(row&&typeof window.gotoVerse==='function')window.gotoVerse({bookIndex:window.bibleBooks.indexOf(row),book:row[1],osis,chapter:ch,verse,version:window.bibleVersion?.value||'almeida-livre'})}
+async function read(osis,ch,verse){const row=(window.bibleBooks||[]).find(b=>b[0]===osis);if(!row||typeof window.versionChanged!=='function'||typeof window.loadChapter!=='function')return;window.versionChanged(osis,ch,false);window.go('bible');await window.loadChapter(false);const el=document.querySelector('#bibleReader .v[data-verse="'+verse+'"]');if(el&&typeof window.selectRealVerse==='function')window.selectRealVerse(el,verse)}
 function render(){
  const box=document.getElementById('b64Crossrefs');if(!box)return;const v=info(current());
  if(!v){box.innerHTML='<small>REFERÊNCIAS CRUZADAS</small><h2>Leia a Bíblia em diálogo</h2><p>Selecione um versículo para ver passagens relacionadas e consultar o índice completo.</p><div class="b64Empty">Abra a Bíblia e toque em um versículo. As referências aparecerão aqui sem copiar traduções protegidas.</div>';return}
