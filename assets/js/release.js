@@ -12,7 +12,7 @@ function validateBackup(input){
  const entries=Object.entries(input.data);if(entries.some(([k,v])=>!keys.includes(k)||typeof v!=='string'||v.length>2000000))throw Error('O backup contém dados inválidos.');
  for(const [k,v] of entries){if(k==='bereia:note')continue;let parsed;try{parsed=JSON.parse(v)}catch{throw Error('Dado inválido: '+k)}
   if(k==='bereia:favorites'&&(!Array.isArray(parsed)||parsed.some(x=>!x||typeof x.book!=='string'||typeof x.text!=='string'||!Number.isInteger(+x.chapter)||+x.chapter<1||!Number.isInteger(+x.verse)||+x.verse<1)))throw Error('Favoritos inválidos.');
-  if(k==='bereia:reading'&&(!parsed||!Number.isInteger(parsed.book)||parsed.book<0||parsed.book>65||!Number.isInteger(+parsed.chapter)||+parsed.chapter<1||!['almeida-livre','alm1911','kjv'].includes(parsed.version)))throw Error('Preferência de leitura inválida.');
+  if(k==='bereia:reading'&&(!parsed||!Number.isInteger(parsed.book)||parsed.book<0||parsed.book>65||!Number.isInteger(+parsed.chapter)||+parsed.chapter<1||!['almeida-livre','alm1911','bpm','kjv'].includes(parsed.version)))throw Error('Preferência de leitura inválida.');
   if(['bereia:lastVerse','bereia:studySession:v1'].includes(k)&&(!parsed||typeof parsed.book!=='string'||!Number.isInteger(+parsed.chapter)||+parsed.chapter<1||!Number.isInteger(+parsed.verse)||+parsed.verse<1))throw Error('Passagem inválida.');
   if(k==='bereia:completed:v1'&&(!Array.isArray(parsed)||parsed.some(x=>typeof x!=='string'||!/^[1-3]?[A-Za-z]+:\d+$/.test(x))))throw Error('Progresso inválido.');
   if(k==='bereia:font'&&![18,22,26].includes(Number(parsed)))throw Error('Tamanho de fonte inválido.');
