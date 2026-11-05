@@ -101,8 +101,8 @@
  function mapBlock(pts,selectedKey){
    const p=pts.find(x=>x.key===selectedKey)||pts[0];if(!p)return '<div class="b56Empty">Ainda não há coordenadas verificadas cadastradas para os lugares desta passagem.</div>';
    return '<div class="b56Places">'+pts.map(x=>'<button class="b56Place '+(x.key===p.key?'active':'')+'" data-b56-place="'+esc(x.key)+'">'+esc(x.label)+'</button>').join('')+'</div>'+
-    '<div style="margin-top:9px"><iframe class="b56Map" loading="lazy" src="'+embed(p)+'"></iframe></div>'+
-    infoHTML(p)+'<div class="b56MapActions"><a class="b56Btn primary" target="_blank" rel="noopener" href="'+osm(p)+'">Abrir mapa interativo ↗</a></div>';
+    '<div style="margin-top:9px"><iframe title="Mapa atual da região selecionada" class="b56Map" loading="lazy" src="'+embed(p)+'"></iframe></div>'+
+    infoHTML(p)+'<div class="b56MapActions"><a class="b56Btn primary" target="_blank" rel="noopener" href="'+osm(p)+'">Abrir mapa interativo ↗</a></div><p class="b56Caution">Base atual: © OpenStreetMap contributors (ODbL). O mapa mostra a geografia atual; não representa fronteiras antigas. A consulta ao mapa precisa de conexão.</p>';
  }
  function bindPlaces(root,pts,rerender){
    root.querySelectorAll('[data-b56-place]').forEach(b=>b.onclick=()=>rerender(b.dataset.b56Place));
@@ -133,7 +133,8 @@
    bindPlaces(root,[selected],k=>renderGeo(k));
  }
  function renderMaps(selectedKey){return renderGeo(selectedKey)}
- function openGeography(){if(typeof go==='function')go('geography');setTimeout(()=>renderGeo(),0)}
+ function openGeography(){if(typeof go==='function')go('geography')}
+ document.addEventListener('bereia:screenchange',e=>{if(e.detail.id==='geography')renderGeo()});
  function openMaps(){return openGeography()}
  function hook(){
    window.openPassageGeography=openGeography;window.openPassageMaps=openMaps;
@@ -155,3 +156,4 @@
  
  window.addEventListener('load',()=>{setTimeout(hook,260);setTimeout(hook,1100);setTimeout(refresh,1200)});setTimeout(hook,700);
 })();
+

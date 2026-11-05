@@ -1,7 +1,24 @@
 
 const mainNav=[['home','⌂','Início'],['bible','▤','Bíblia'],['study','⌕','Estudar'],['discover','✦','Descobrir'],['me','◉','Meu BEREIA']];const extra=[['compare','⇄','Comparar'],['originals','א','Originais'],['library','▦','Biblioteca'],['canons','📜','Cânones'],['timeline','⌛','Cronologia'],['geography','🌍','Geografia'],['mission','✧','Missão'],['credits','ⓘ','Créditos']];
 function renderNav(){desktopNav.innerHTML=mainNav.map(n=>`<button data-go="${n[0]}"><span>${n[1]}</span>${n[2]}</button>`).join('')+'<div class="sep"></div>'+extra.map(n=>`<button data-go="${n[0]}"><span>${n[1]}</span>${n[2]}</button>`).join('');mobileNav.innerHTML=mainNav.map(n=>`<button data-go="${n[0]}"><span>${n[1]}</span>${n[2]}</button>`).join('');document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));setActive('home')}
-let navHistory=[];function currentScreen(){return document.querySelector('.screen.active')?.id||'home'}function go(id,remember=true){if(id==='maps')id='geography';document.body.classList.toggle('simpleBibleOpen',id!=='home');const cur=currentScreen();if(remember&&cur!==id)navHistory.push(cur);document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));(document.getElementById(id)||home).classList.add('active');setActive(id);if(id==='study')renderStudyVerse();if(id==='originals')renderOriginals();if(id==='bible'&&cur!=='bible'&&!currentVerses.length){const seq=chapterLoadSequence;setTimeout(()=>{if(seq===chapterLoadSequence&&currentScreen()==='bible'&&!currentVerses.length)loadChapter(false)},180)}scrollTo({top:0,behavior:'smooth'});if(location.hash!=='#'+id)history.pushState(history.state,'','#'+id)}function goBack(){const prev=navHistory.pop()||'home';go(prev,false)}
+let navHistory=[];
+function currentScreen(){return document.body.classList.contains('simpleBibleOpen')?(document.querySelector('.screen.active')?.id||'home'):'home'}
+function go(id,remember=true){
+ const aliases={maps:'geography',atlas:'geography',search:'discover',plans:'mission'};id=aliases[id]||id;
+ const target=document.getElementById(id);if(id!=='home'&&!target?.classList.contains('screen'))return false;
+ const cur=currentScreen();if(remember&&cur!==id)navHistory.push(cur);
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ if(id!=='home')target.classList.add('active');
+ document.body.classList.toggle('simpleBibleOpen',id!=='home');setActive(id);
+ if(id==='study')renderStudyVerse();if(id==='originals')renderOriginals();
+ if(id==='bible'&&cur!=='bible'&&!currentVerses.length){const seq=chapterLoadSequence;setTimeout(()=>{if(seq===chapterLoadSequence&&currentScreen()==='bible'&&!currentVerses.length)loadChapter(false)},0)}
+ if(location.hash!=='#'+id)history.pushState(history.state,'','#'+id);
+ scrollTo({top:0,behavior:'auto'});
+ document.dispatchEvent(new CustomEvent('bereia:screenchange',{detail:{id}}));return true;
+}
+function goBack(){go(navHistory.pop()||'home',false)}
+window.addEventListener('popstate',()=>{go(location.hash.slice(1)||'home',false)});
+
 function setActive(id){document.querySelectorAll('[data-go]').forEach(b=>b.classList.toggle('active',b.dataset.go===id))}
 const study={Observação:'O que o texto realmente diz? Identifique palavras repetidas, personagens, ações, contrastes, conectivos e estrutura antes de concluir o significado.',Contexto:'Leia os parágrafos anteriores e posteriores. Depois considere autor, destinatários, gênero literário e situação histórica.',Referências:'Conecte a passagem a textos paralelos e temas relacionados. Esta área será alimentada pelo índice de referências cruzadas do Bible Engine.',História:'Consulte o cenário histórico e cultural apenas quando ele ajudar a compreender o texto, mantendo a distinção entre Escritura e reconstrução histórica.',Interpretações:'Organize interpretações documentadas por tradição/fonte, mostrando convergências e divergências sem apresentar opinião como se fosse o próprio texto.',Aplicação:'Depois da observação e interpretação, registre princípios e possíveis aplicações pessoais, comunitárias e missionais.'};
 function renderTabs(){studyTabs.innerHTML=Object.keys(study).map((k,i)=>`<button class="btn tab ${i?'':'primary'}" onclick="studyTab('${k}',this)">${k}</button>`).join('');studyContent.innerHTML=`<h2>Observação</h2><p>${study.Observação}</p>`}function studyTab(k,b){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('primary'));b.classList.add('primary');studyContent.innerHTML=`<h2>${k}</h2><p>${study[k]}</p>`}
@@ -30,62 +47,32 @@ function initBible(loadNow=false){let saved={};try{saved=JSON.parse(localStorage
 function versionChanged(preferredOsis=null,chapter=1,loadNow=true){const previous=activeReaderBooks[+bibleBook.value]?.[0];activeReaderBooks=readerBooks();const osis=preferredOsis||previous;const index=osis?activeReaderBooks.findIndex(b=>b[0]===osis):-1;renderBookOptions(index>=0?index:0);syncBibleSourceNote(bibleVersion.value);renderChapterOptions(chapter);if(loadNow)loadChapter(true)}
 function renderChapterOptions(ch=1){const b=readerBooks()[+bibleBook.value]||readerBooks()[0];bibleChapter.innerHTML=Array.from({length:b[2]},(_,i)=>`<option value="${i+1}">Capítulo ${i+1}</option>`).join('');bibleChapter.value=Math.min(Math.max(+ch||1,1),b[2])}
 function bookChanged(){renderChapterOptions(1);loadChapter(true)}
-function cleanVerseText(x){if(x==null)return '';if(typeof x==='string'||typeof x==='number')return String(x).trim();if(Array.isArray(x))return x.map(cleanVerseText).filter(Boolean).join(' ').trim();if(typeof x==='object'){for(const k of ['text','content','value','verseText','verse_text','body']){const t=cleanVerseText(x[k]);if(t)return t}if(x.verse&&typeof x.verse==='object'){const t=cleanVerseText(x.verse);if(t)return t}}return ''}
-function normalizeChapter(payload){let d=payload;if(d&&d.data!==undefined)d=d.data;let vs=[];if(Array.isArray(d))vs=d;else if(d&&typeof d==='object'){vs=d.verses||d.chapter?.verses||d.data?.verses||d.chapter||[];if(!Array.isArray(vs)&&vs&&typeof vs==='object')vs=Object.entries(vs).map(([n,v])=>({number:+n,...(typeof v==='object'?v:{text:v})}))}return (Array.isArray(vs)?vs:[]).map((v,i)=>({number:+(v?.number||v?.verse||v?.id||i+1),text:cleanVerseText(v)})).filter(v=>v.number)}
-function validVerses(vs){return Array.isArray(vs)&&vs.length>0&&vs.some(v=>String(v.text||'').trim().length>0)}
+function cleanVerseText(x){if(typeof x==='string')return x.trim();if(Array.isArray(x))return x.map(cleanVerseText).filter(Boolean).join(' ');if(x&&typeof x==='object')return cleanVerseText(x.text??x.content??x.value??'');return ''}
+function normalizeChapter(payload){return BereiaScripture.normalize(payload)}
+function validVerses(verses){return BereiaScripture.valid(verses)}
 const BIBLE_API_BOOK_SLUGS={Gen:'genesis',Exod:'exodus',Lev:'leviticus',Num:'numbers',Deut:'deuteronomy',Josh:'joshua',Judg:'judges',Ruth:'ruth','1Sam':'1-samuel','2Sam':'2-samuel','1Kgs':'1-kings','2Kgs':'2-kings','1Chr':'1-chronicles','2Chr':'2-chronicles',Ezra:'ezra',Neh:'nehemiah',Esth:'esther',Job:'job',Ps:'psalms',Prov:'proverbs',Eccl:'ecclesiastes',Song:'song-of-solomon',Isa:'isaiah',Jer:'jeremiah',Lam:'lamentations',Ezek:'ezekiel',Dan:'daniel',Hos:'hosea',Joel:'joel',Amos:'amos',Obad:'obadiah',Jonah:'jonah',Mic:'micah',Nah:'nahum',Hab:'habakkuk',Zeph:'zephaniah',Hag:'haggai',Zech:'zechariah',Mal:'malachi',Matt:'matthew',Mark:'mark',Luke:'luke',John:'john',Acts:'acts',Rom:'romans','1Cor':'1-corinthians','2Cor':'2-corinthians',Gal:'galatians',Eph:'ephesians',Phil:'philippians',Col:'colossians','1Thess':'1-thessalonians','2Thess':'2-thessalonians','1Tim':'1-timothy','2Tim':'2-timothy',Titus:'titus',Phlm:'philemon',Heb:'hebrews',Jas:'james','1Pet':'1-peter','2Pet':'2-peter','1John':'1-john','2John':'2-john','3John':'3-john',Jude:'jude',Rev:'revelation'};
 const bpmApiBookIds={Esth:'ESG',Dan:'DAG',Tob:'TOB',Jdt:'JDT',Wis:'WIS',Sir:'SIR',Bar:'BAR','1Mac':'1MA','2Mac':'2MA'};
-async function fetchBpmDeuterocanonicalChapter(bookId,ch){
- const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
+async function fetchBpmDeuterocanonicalChapter(bookId,ch,{signal}={}){
+ return normalizeChapter(await BereiaScripture.json(`https://bible.helloao.org/api/por_bsl/${encodeURIComponent(bookId)}/${ch}.json`,signal));
+}
+async function fetchChapterNetwork(version,osis,ch,{signal}={}){
+ if(version==='bpm'&&bpmApiBookIds[osis])return fetchBpmDeuterocanonicalChapter(bpmApiBookIds[osis],ch,{signal});
+ const slug=BIBLE_API_BOOK_SLUGS[osis]||osis.toLowerCase();
  try{
-  const response=await fetch(`https://bible.helloao.org/api/por_bsl/${encodeURIComponent(bookId)}/${ch}.json`,{headers:{Accept:'application/json'},cache:'force-cache',signal:controller.signal});
-  if(!response.ok)throw new Error('Fonte BPM indisponível ('+response.status+').');
-  const payload=await response.json(),content=payload.chapter?.content||[];
-  const verses=content.filter(item=>item?.type==='verse').map(item=>({number:+item.number,text:cleanVerseText(item.content)})).filter(item=>item.number);
-  if(!validVerses(verses))throw new Error('A fonte não retornou versículos válidos.');
-  return verses;
- }finally{clearTimeout(timer)}
+  const data=await BereiaScripture.json(`${BIBLE_API}/${encodeURIComponent(version)}/${encodeURIComponent(slug)}/${ch}`,signal,10000),verses=normalizeChapter(data);
+  if(!validVerses(verses))throw Error('Capítulo inválido');return verses;
+ }catch(e){if(signal?.aborted)throw e}
+ const lang=version==='kjv'?'en':'pt';
+ const data=await BereiaScripture.json(`https://raw.githubusercontent.com/midvash/bible-data/main/versions/${lang}/${encodeURIComponent(version)}/books/${encodeURIComponent(osis)}.json`,signal,12000);
+ const verses=normalizeChapter(data.chapters?.[ch-1]);if(!validVerses(verses))throw Error('A fonte não retornou o capítulo solicitado.');return verses;
 }
-async function fetchChapterFromSources(version,osis,ch){
- if(version==='bpm'&&bpmApiBookIds[osis])return fetchBpmDeuterocanonicalChapter(bpmApiBookIds[osis],ch);
- const apiBook=osis.toLowerCase(),apiSlug=BIBLE_API_BOOK_SLUGS[osis]||apiBook,lang=version==='kjv'?'en':'pt';
- const controllers=[];
- const run=async url=>{
-  const controller=new AbortController();controllers.push(controller);
-  const timer=setTimeout(()=>controller.abort(),8000);
-  try{
-   const r=await fetch(url,{headers:{Accept:'application/json'},cache:'no-store',signal:controller.signal});
-   if(!r.ok)throw new Error('Fonte '+r.status);
-   const payload=await r.json(),vs=normalizeChapter(payload);
-   if(!validVerses(vs))throw new Error('A fonte não retornou versículos válidos');
-   return vs;
-  }finally{clearTimeout(timer)}
- };
- const sources=[
-  ()=>run(`${BIBLE_API}/${encodeURIComponent(version)}/${encodeURIComponent(apiSlug)}/${ch}`),
-  ()=>run(`${BIBLE_API}/${encodeURIComponent(version)}/${encodeURIComponent(apiBook)}/${ch}`),
-  ()=>run(`${BIBLE_API}/${encodeURIComponent(version)}/${encodeURIComponent(osis)}/${ch}`),
-  async()=>{
-   const controller=new AbortController();controllers.push(controller);const timer=setTimeout(()=>controller.abort(),8000);
-   try{
-    const r=await fetch(`https://raw.githubusercontent.com/midvash/bible-data/main/versions/${lang}/${encodeURIComponent(version)}/books/${encodeURIComponent(osis)}.json`,{cache:'no-store',signal:controller.signal});
-    if(!r.ok)throw new Error('Fonte alternativa '+r.status);
-    const d=await r.json(),c=(d.chapters||[])[ch-1];
-    if(!c)throw new Error('Capítulo ausente');
-    const vs=(c.verses||[]).map((v,i)=>({number:+(v.number||i+1),text:cleanVerseText(v)}));
-    if(!validVerses(vs))throw new Error('A fonte alternativa não retornou versículos válidos');
-    return vs;
-   }finally{clearTimeout(timer)}
-  }
- ];
- try{return await Promise.any(sources.map(fn=>fn()))}
- finally{controllers.forEach(c=>{if(!c.signal.aborted)c.abort()})}
-}
+BereiaScripture.setNetwork(fetchChapterNetwork);
+async function fetchChapterFromSources(version,osis,ch){return (await BereiaScripture.load(version,osis,ch)).verses}
 function versionLabel(version){return ({'almeida-livre':'Bíblia Livre (Almeida 1819)',alm1911:'Almeida Revista e Corrigida 1911',bpm:'Bíblia Portuguesa Mundial (BPM)',kjv:'King James 1769'})[version]||version}
 function syncBibleSourceNote(version){
  const note=document.getElementById('readerSourceNote');if(!note)return;
  const notes={
-  'almeida-livre':'<b>Bíblia Livre (Almeida 1819):</b> uso livre conforme os termos da edição. Texto servido pela API Midvash.',
+  'almeida-livre':'<b>Bíblia Livre (Almeida 1819):</b> © 2018 Diego Santos, Mario Sérgio e Marco Teles. Atualização da tradução de João Ferreira de Almeida de 1819. <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Texto sem edição servido pela API Midvash / bible-data. <a href="https://sites.google.com/site/biblialivre/" target="_blank" rel="noopener">Fonte da edição</a>.',
   alm1911:'<b>Almeida Revista e Corrigida 1911:</b> edição em domínio público, com grafia histórica. Texto servido pela API Midvash.',
   bpm:'<b>Bíblia Portuguesa Mundial (BPM):</b> domínio público e ainda em revisão. O catálogo apresenta os 73 livros do cânon católico: os sete deuterocanônicos e os acréscimos de Ester e Daniel dentro desses livros. Textos: <a href="https://ebible.org/porbrbsl/" target="_blank" rel="noopener noreferrer">eBible.org</a> e <a href="https://bible.helloao.org/" target="_blank" rel="noopener noreferrer">Free Use Bible API</a>.',
   kjv:'<b>King James Version 1769:</b> edição em inglês, em domínio público. Texto servido pela API Midvash.'
@@ -93,7 +80,27 @@ function syncBibleSourceNote(version){
  note.innerHTML=notes[version]||'<b>Fonte da tradução:</b> consulte Créditos e Fontes.';
 }
 let chapterLoadSequence=0;
-async function loadChapter(userAction=false){const ticket=++chapterLoadSequence;if(!bibleBook||!bibleChapter)return;const version=bibleVersion.value,books=readerBooks(version),bi=+bibleBook.value,b=books[bi]||books[0],ch=+bibleChapter.value;if(!books[bi])bibleBook.value='0';syncBibleSourceNote(version);selectedVerse=null;selectedRef.textContent='Nenhum';readingTitle.textContent=`${b[1]} ${ch}`;engineStatus.textContent='Carregando…';bibleReader.innerHTML='<div class="loadingBible"><div class="spinner"></div><p>Carregando as Escrituras…</p></div>';localStorage.setItem('bereia:reading',JSON.stringify({version,book:bi,osis:b[0],chapter:ch}));const key=`bereia:bible:v4:${version}:${b[0]}:${ch}`;let verses=null;try{const cached=localStorage.getItem(key);if(cached){verses=JSON.parse(cached);if(!validVerses(verses)){localStorage.removeItem(key);verses=null}}}catch(e){localStorage.removeItem(key);verses=null}try{if(!validVerses(verses)){verses=await fetchChapterFromSources(version,b[0],ch);try{localStorage.setItem(key,JSON.stringify(verses))}catch(e){}}if(ticket!==chapterLoadSequence)return [];currentVerses=verses;renderBibleVerses(b,ch,verses);engineStatus.textContent=`${versionLabel(version)} • ${verses.length} versículos • texto carregado`;if(userAction)setTimeout(()=>bibleReader.scrollIntoView({behavior:'smooth',block:'start'}),80);return verses}catch(err){if(ticket!==chapterLoadSequence)return [];currentVerses=[];engineStatus.textContent='Falha nas fontes';bibleReader.innerHTML=`<div class="readerError"><h3>Não foi possível carregar ${escapeHtml(b[1])} ${ch}.</h3><p class="lead">O BEREIA tentou a API principal e a fonte de dados por livro. Verifique a conexão e tente novamente.</p><div class="engineFallback">Identificador: ${escapeHtml(b[0])} • versão: ${escapeHtml(version)}</div><button class="btn primary" onclick="loadChapter(true)">Tentar novamente</button></div>`;return []}}
+async function loadChapter(userAction=false){
+ const ticket=++chapterLoadSequence;if(!bibleBook||!bibleChapter)return [];
+ const version=bibleVersion.value,books=readerBooks(version),bi=+bibleBook.value,b=books[bi]||books[0],ch=+bibleChapter.value;
+ syncBibleSourceNote(version);selectedVerse=null;currentVerses=[];selectedRef.textContent='Nenhum';
+ document.getElementById('bereiaDeepBar')?.classList.remove('show');
+ readingTitle.textContent=`${b[1]} ${ch}`;engineStatus.textContent='Carregando…';bibleReader.setAttribute('aria-busy','true');
+ bibleReader.innerHTML='<div class="loadingBible"><div class="spinner"></div><p>Carregando as Escrituras…</p></div>';
+ try{localStorage.setItem('bereia:reading',JSON.stringify({version,book:bi,osis:b[0],chapter:ch}))}catch{}
+ try{
+  const result=await BereiaScripture.load(version,b[0],ch);if(ticket!==chapterLoadSequence)return [];
+  currentVerses=result.verses;renderBibleVerses(b,ch,currentVerses);
+  engineStatus.textContent=`${versionLabel(version)} • ${currentVerses.length} versículos • `+(result.source==='device'?'disponível neste dispositivo':result.saved?'salvo para ler sem internet':'lido online; não foi possível salvar neste dispositivo');
+  if(typeof bindBereiaVerses==='function')bindBereiaVerses();
+  document.dispatchEvent(new CustomEvent('bereia:chapterloaded',{detail:{version,osis:b[0],chapter:ch,saved:result.saved}}));
+  return currentVerses;
+ }catch(err){
+  if(ticket!==chapterLoadSequence)return [];engineStatus.textContent=navigator.onLine?'Não foi possível carregar':'Capítulo não disponível offline';
+  bibleReader.innerHTML=`<div class="readerError" role="alert"><h3>Não foi possível carregar ${escapeHtml(b[1])} ${ch}.</h3><p>${escapeHtml(err.message||'Verifique a conexão e tente novamente.')}</p><button class="btn primary" onclick="loadChapter(true)">Tentar novamente</button><button class="btn" onclick="go('settings')">Gerenciar leitura offline</button></div>`;return [];
+ }finally{if(ticket===chapterLoadSequence)bibleReader.setAttribute('aria-busy','false')}
+}
+
 function renderBibleVerses(book,ch,verses){bibleReader.innerHTML=`<h2>${book[1]} ${ch}</h2><div class="verseGrid">`+verses.map(v=>`<div class="v" data-verse="${v.number}" onclick="selectRealVerse(this,${v.number})"><span class="vn">${v.number}</span><span class="verseText">${escapeHtml(v.text)}</span></div>`).join('')+`</div>`}
 function escapeHtml(x){return String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function selectRealVerse(el,n){document.querySelectorAll('#bibleReader .v').forEach(v=>v.classList.remove('selected'));el.classList.add('selected');const b=readerBooks()[+bibleBook.value],ch=+bibleChapter.value,v=currentVerses.find(x=>+x.number===+n);selectedVerse={bookIndex:+bibleBook.value,book:b[1],osis:b[0],chapter:ch,verse:n,text:v?.text||'',version:bibleVersion.value};const ref=`${b[1]} ${ch}:${n}`;selectedRef.textContent=ref;localStorage.setItem('bereia:lastVerse',JSON.stringify(selectedVerse));toast(ref+' selecionado')}
@@ -210,3 +217,4 @@ function portalTerm(term){document.getElementById('searchInput').value=term;doPo
 function doPortalSearch(){const q=(document.getElementById('searchInput').value||'').trim();if(!q)return;const el=document.getElementById('portalResults');const safe=q.replace(/[<>]/g,'');el.innerHTML=`<div class="resultGroup"><h3>Resultados para “${safe}”</h3><div class="resultCard" onclick="go('bible')"><small>BÍBLIA</small><b> Pesquisar nas Escrituras</b><p>Abra o leitor e localize referências e ocorrências relacionadas a ${safe}.</p></div><div class="resultCard" onclick="studyTopic('${safe.replace(/'/g,"\'")}')"><small>ESTUDO & HISTÓRIA</small><b> Dossiê: ${safe}</b><p>Contexto histórico, pessoas, povos e acontecimentos relacionados.</p></div><div class="resultCard" onclick="studyTopic('Arqueologia: ${safe.replace(/'/g,"\'")}')"><small>ARQUEOLOGIA</small><b> Evidências e sítios</b><p>Área preparada para fontes arqueológicas verificadas, distinguindo evidência de hipótese.</p></div><div class="resultCard" onclick="go('maps')"><small>GEOGRAFIA & MAPAS</small><b> Ver no Atlas BEREIA</b><p>Mapas e lugares relacionados ao tema pesquisado.</p></div></div>`;}
 function filterRealMaps(btn,cat){document.querySelectorAll('#maps .chip').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.realMapCard').forEach(c=>{c.style.display=(cat==='todos'||(c.dataset.mapcat||'').includes(cat))?'block':'none'})}
 function selectRealMap(btn){const card=btn.closest('.realMapCard'),img=card.querySelector('img'),title=card.querySelector('h3').textContent,main=document.getElementById('mainAtlasImg');main.style.display='block';main.src=img.src;main.alt=img.alt;document.getElementById('mainAtlasCaption').textContent=title+' • '+card.querySelector('.mapLicense').textContent;document.querySelector('.atlasImageHero').scrollIntoView({behavior:'smooth',block:'start'})}
+

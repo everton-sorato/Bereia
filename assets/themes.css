@@ -1,0 +1,51 @@
+/* Shared visual tokens; every reader and research panel follows the selected theme. */
+:root {--selected-bg:#352e1c;--selected-text:#ffe7a6;--focus:#e8c575;--surface-shadow:0 12px 32px #0002}
+html[data-bereia-theme] body .sidebar{overflow-x:hidden}
+html[data-bereia-theme] body :is(.sidebar,.bottom,.bereiaAppBottomNav) button{color:var(--text)!important}
+@media(min-width:901px){html body #simpleBackHome{left:264px;top:12px}}
+:root[data-bereia-theme="light"] {--selected-bg:#eee1c4;--selected-text:#402e08;--focus:#76520c;--surface-shadow:0 8px 24px #342d1210}
+:root[data-bereia-theme="tech"] {--selected-bg:#173d52;--selected-text:#b9f2ff;--focus:#55d5ed;--surface-shadow:0 12px 32px #0003}
+html[data-bereia-theme] body :is(.screen,.sidebar,.bottom,.bereiaAppHeader,.bereiaAppBottomNav,.bereiaAppMoreDialog,.releasePanel,.bereiaPrayerPanel,.bereiaPrayerToast,.b62Section,.b62Dialog,.b62StoryCard,.simpleBibleCard,#bereiaLibrarySwitch,#bereiaStudyTools,#bereiaLicenseCenter,.bereia-library-reader) {
+ background:var(--panel)!important;color:var(--text)!important;border-color:var(--line)!important;
+}
+html[data-bereia-theme] body :is(.b64Panel,.b64OpenPanel,.b64MetPanel,.b64AtlasDetail,.b64MetCard,.b57Hero,.b57Artifact,.b57Method,.b56Hero,.b56Card,.b56Info,.b57Info,.b57Stat,.b57Credit,.b56Metric,.b64Ref,.b64AtlasItem) {
+ background:var(--panel)!important;color:var(--text)!important;border-color:var(--line)!important;
+}
+html[data-bereia-theme] body :is(.screen,.b62Section,.bereia-library-reader) :is(h1,h2,h3,h4,strong,label){color:var(--text)!important}
+html[data-bereia-theme] body :is(.screen,.b62Section,.bereia-library-reader,.bereiaPrayerPanel) :is(p,small,.b64Credit,.b64MetNote,.b64MetStatus,.b64Empty,.b57Info,.b57Credit,.b56Info,.b56Empty){color:var(--muted)!important}
+html[data-bereia-theme] body :is(.screen,.b62Section,.bereiaPrayerPanel,.bereiaAppMoreDialog) :is(button,select,input,textarea,summary) {
+ color:var(--text)!important;border-color:var(--line)!important;background-color:var(--panel2)!important;
+}
+html[data-bereia-theme] body :is(.screen,.b62Section,.bereiaPrayerPanel) :is(a,.b57Btn,.b64External){color:var(--gold)!important}
+html[data-bereia-theme] body :is(.screen,.sidebar,.bottom,.b62Section,.bereiaAppBottomNav) :is(button.primary,button.active,[aria-selected="true"],[aria-current="page"],.v.selected,.b64AtlasItem.active) {
+ background:var(--selected-bg)!important;color:var(--selected-text)!important;border-color:var(--gold)!important;
+}
+html[data-bereia-theme] body :is(.b57Evidence,.b57Limit,.b56Caution){background:var(--panel2)!important;color:var(--text)!important}
+html[data-bereia-theme] body .b57Evidence{border-left-color:var(--green)}
+html[data-bereia-theme] body .b57Limit{border-left-color:var(--gold)}
+html[data-bereia-theme] body #bibleReader .v {color:var(--text)!important;background:var(--panel)!important;font-size:var(--reader-size,18px)!important;line-height:1.8;overflow-wrap:anywhere}
+html[data-bereia-theme] body #bibleReader .v.selected{background:var(--selected-bg)!important;color:var(--selected-text)!important}
+html[data-bereia-theme] body .b62BibleVerse{color:var(--text)!important;font-size:var(--reader-size,18px);line-height:1.8}
+html[data-bereia-theme] body .b62BibleVerse sup{color:var(--gold)}
+html[data-bereia-theme] body :is(.screen,.b62Section) :is(button,select,summary,.btn){min-height:44px}
+html body :is(button,a,input,textarea,select,summary,[role="button"]):focus-visible{outline:3px solid var(--focus)!important;outline-offset:3px}
+html[data-bereia-theme] body .screen{min-width:0;overflow-wrap:anywhere;box-shadow:var(--surface-shadow)}
+html body #offlineProgress{display:block;width:100%;height:14px;margin:16px 0;accent-color:var(--gold)}
+html body #offlineProgress[hidden]{display:none}
+html body #settings select{display:block;width:100%;max-width:100%;margin:8px 0 16px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;font:inherit}
+.b57Browse{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}
+.b57Browse button{padding:10px 16px;border-radius:12px;border:1px solid var(--line);cursor:pointer}
+.b57Questions{margin-top:12px;border-top:1px solid var(--line);padding-top:12px;font:14px/1.7 system-ui}
+.b64AtlasMap{width:100%;height:270px;border:1px solid var(--line);border-radius:12px;margin-top:12px;background:var(--panel2)}
+html body .b62StoryRail{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr));gap:14px;overflow:visible!important}
+html body details.b62StoryCard{min-width:0;width:100%;max-width:none}
+html body details.b62StoryCard[open]{grid-column:1/-1}
+html body .b62StoryRail:has(details[open]) details:not([open]){display:block!important}
+html body details.b62StoryCard>summary{cursor:pointer}
+html body details.b62StoryCard[open]>summary img{max-height:220px;object-fit:contain}
+html body .b62StoryCard :is(p,a){overflow-wrap:anywhere}
+@media(max-width:600px){html body .b62StoryRail{grid-template-columns:repeat(2,minmax(0,1fr))}html body .b62StoryCard summary{font-size:14px}html body .b64AtlasLayout{grid-template-columns:1fr}html body .screen{box-shadow:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+#geography .b54Trail,#geography #b51GeoContent{display:none!important}
+html[data-bereia-theme] body button[aria-pressed="true"]{background:var(--selected-bg)!important;color:var(--selected-text)!important;border-color:var(--gold)!important}

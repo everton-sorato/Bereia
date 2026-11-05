@@ -43,10 +43,4 @@ window.simpleHome=function(){
  if(typeof window.go==='function')window.go('home',false);
  window.scrollTo({top:0,behavior:'smooth'});
 };
-window.addEventListener('popstate',()=>{
- const id=location.hash.slice(1)||'home',screen=document.getElementById(id);
- if(!screen?.classList.contains('screen'))return;
- if(id==='home'){try{if(Array.isArray(window.navHistory))window.navHistory.length=0}catch{};document.body.classList.remove('simpleBibleOpen')}
- if(typeof window.currentScreen==='function'&&window.currentScreen()!==id&&typeof window.go==='function')window.go(id,false);
-});
 })();

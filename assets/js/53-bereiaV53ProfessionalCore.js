@@ -87,12 +87,9 @@
  window.openDossier=function(){if(!selected()){if(typeof toast==='function')toast('Selecione um versículo primeiro');return}if(typeof go==='function')go('dossier53');setTimeout(render,0)};
  window.deepStudySelected=window.openDossier;
 
+ document.addEventListener('bereia:screenchange',e=>{if(e.detail.id==='dossier53')render()});
  function auditUI(){
    // Route aliases for legacy buttons.
-   const oldGo=window.go;
-   if(typeof oldGo==='function'&&!oldGo.__v53){
-     const wrapped=function(id){const map={atlas:'maps',search:'discover',plans:'mission'};const a=[...arguments];a[0]=map[id]||id;const r=oldGo.apply(this,a);if(a[0]==='dossier53')setTimeout(render,0);return r};wrapped.__v53=true;window.go=wrapped;
-   }
    // Hide visible placeholder cards/modules that do not have a real action.
    document.querySelectorAll('.module,.card,.pathCard').forEach(el=>{
      const t=norm(el.textContent);
@@ -109,3 +106,4 @@
  
  window.addEventListener('load',()=>{setTimeout(auditUI,250);setTimeout(auditUI,900);setTimeout(auditUI,1800)});setTimeout(auditUI,700);
 })();
+

@@ -1,6 +1,7 @@
 
 (function(){
- const BUILD='V72';
+ const BUILD='132';
+ let browseMode=true;
  const META={
   'estela de mesha':{type:'Estela inscrita em basalto',period:'c. 830–805 a.C. (século IX a.C.)',findspot:'Dhiban (Dibon), atual Jordânia',current:'Musée du Louvre, Paris — sala 303; inventário AO 5066',relation:'histórica / conflito Moabe–Israel',supports:'A inscrição moabita atribui ao rei Mesha a retomada de territórios de Israel e oferece uma fonte extrabíblica para o conflito entre Moabe e Israel no período dos reis da dinastia de Omri, em paralelo ao contexto de 2 Reis 3.',limit:'É uma inscrição régia que celebra as vitórias do próprio rei, não um relato neutro. Não confirma cada detalhe de 2 Reis 3. A leitura “Casa de Davi” na linha 31 é debatida e não deve ser apresentada como consenso.',image:'Mesha stele (Louvre, AO 5066)',imageURL:'https://upload.wikimedia.org/wikipedia/commons/1/15/Mesha_stele_%28Louvre%2C_AO_5066%29.jpg?utm_campaign=index&utm_content=original&utm_source=commons.wikimedia.org',imageAlt:'Estela de Mesha em basalto, Louvre AO 5066',imageCaption:'Fotografia de Tangopaso, Wikimedia Commons — imagem em domínio público.',imageCreditURL:'https://commons.wikimedia.org/wiki/File:Mesha_stele_(Louvre,_AO_5066).jpg',imageLicense:'Domínio público',imageCredit:'Tangopaso / Wikimedia Commons'},
   'cilindro de ciro':{type:'Inscrição real babilônica em cilindro de argila',period:'539 a.C.',findspot:'Babilônia (Amran), atual Iraque',current:'British Museum, Londres — BM 90920',relation:'contextual / política imperial persa',supports:'O cilindro registra a conquista da Babilônia por Ciro e uma política de restauração de imagens de divindades e santuários na região babilônica. É um paralelo para estudar o contexto imperial de Esdras 1:1–4 e 2 Crônicas 36:22–23.',limit:'O cilindro não menciona Judá, Jerusalém, judeus ou Javé e não é o decreto judaico descrito em Esdras. Ele sustenta contexto comparativo de política imperial, não comprova diretamente o retorno judaico nem a reconstrução do Templo.',image:'Cyrus Cylinder British Museum',imageURL:'https://upload.wikimedia.org/wikipedia/commons/c/c6/Kyros-Zylinder_Cyrus_Cylinder_im_British_Museum_London_Mohammad_Nemat_Zadeh.jpg?utm_campaign=index&utm_content=original&utm_source=commons.wikimedia.org',imageAlt:'Cilindro de Ciro exposto no British Museum',imageCaption:'Fotografia de M-nemat, Wikimedia Commons — CC0 1.0.',imageCreditURL:'https://commons.wikimedia.org/wiki/File:Kyros-Zylinder_Cyrus_Cylinder_im_British_Museum_London_Mohammad_Nemat_Zadeh.jpg',imageLicense:'CC0 1.0',imageCredit:'M-nemat / Wikimedia Commons'},
@@ -97,28 +98,33 @@
      '<div class="b57Img">'+photo+'</div>'+
      '<div class="b57Body"><h3>'+esc(title)+'</h3><span class="b57Relation">'+esc(m.relation)+'</span>'+
        '<div class="b57Meta"><div class="b57Info"><b>Tipo</b>'+esc(m.type)+'</div><div class="b57Info"><b>Período</b>'+esc(m.period)+'</div><div class="b57Info"><b>Descoberta / local</b>'+esc(m.findspot)+'</div><div class="b57Info"><b>Onde está hoje</b>'+esc(m.current)+'</div></div>'+
-       '<div class="b57Info"><b>Relação com a passagem</b>'+esc(ref(current()))+' — vínculo '+esc(m.relation)+'. Referência cadastrada: '+esc(x[0])+' '+esc(x[1])+(x[1]!==x[2]?'–'+esc(x[2]):'')+'.</div>'+
+       '<div class="b57Info"><b>Relação com a passagem</b>'+(browseMode?'Referência de estudo':esc(ref(current())))+' — vínculo '+esc(m.relation)+'. Referência cadastrada: '+esc(x[0])+' '+esc(x[1])+(x[1]!==x[2]?'–'+esc(x[2]):'')+'.</div>'+
        '<div class="b57Evidence"><b>✓ O que este achado comprova ou sustenta</b>'+esc(m.supports)+'</div>'+
        '<div class="b57Limit"><b>⚖ O que este achado não comprova</b>'+esc(m.limit)+'</div>'+
        (desc?'<div class="b57Info" style="margin-top:9px"><b>Nota cadastrada no BEREIA</b>'+esc(desc)+'</div>':'')+
+       '<details class="b57Questions"><summary>Como estudar este achado</summary><ol><li>Leia a passagem inteira e identifique o que ela afirma.</li><li>Confira a data, a procedência e o tipo de documento na fonte.</li><li>Compare nomes, lugares e acontecimentos; registre também diferenças e lacunas.</li><li>Separe a observação do objeto da interpretação histórica e da aplicação pessoal.</li></ol></details>'+
        '<div class="b57Actions">'+photoControl+(url?'<a class="b57Btn primary" target="_blank" rel="noopener noreferrer" href="'+esc(url)+'">Consultar fonte ↗</a>':'')+'<button class="b57Btn" data-b57-map>Ver geografia</button></div>'+
        '<div class="b57Info" style="margin-top:9px"><b>Fonte</b>'+esc(source)+'</div>'+
      '</div>'+photoCredit+'</article>';
  }
  function render(){
    const root=ensure();if(!root)return;const v=current();
-   if(!v){root.innerHTML='<div class="b57Empty"><strong>Selecione um versículo</strong>O BEREIA mostrará achados e sítios relacionados à passagem selecionada.</div>';return}
-   const items=matches(v),ev=eventFor(v);
-   root.innerHTML='<div class="b57Hero"><small>'+esc(ref(v))+'</small><h2>Arqueologia da passagem</h2><p>'+(ev?esc(ev.title)+' • '+esc(ev.history):'O BEREIA relaciona somente evidências cadastradas com fonte identificável.')+'</p></div>'+
+   if(!v)browseMode=true;
+   const all=[...new Map((window.BEREIA_PASSAGE_SOURCES||[]).filter(x=>META[norm(x[3])]).map(x=>[norm(x[3]),x])).values()];
+   const items=browseMode?all:matches(v),ev=browseMode?null:eventFor(v);
+   root.innerHTML='<div class="b57Hero"><small>'+esc(browseMode?'ACERVO DE ESTUDO':ref(v))+'</small><h2>'+ (browseMode?'Explore os achados bíblicos':'Arqueologia da passagem')+'</h2><p>'+(ev?esc(ev.title)+' • '+esc(ev.history):'O BEREIA relaciona somente evidências cadastradas com fonte identificável.')+'</p></div>'+
+     '<div class="b57Browse"><button type="button" data-b57-mode="all" aria-pressed="'+browseMode+'">Explorar acervo</button><button type="button" data-b57-mode="passage" aria-pressed="'+!browseMode+'" '+(!v?'disabled':'')+'>Da passagem selecionada</button></div>'+
      '<div class="b57Stats"><div class="b57Stat"><small>Evidências específicas</small><b>'+items.length+'</b></div><div class="b57Stat"><small>Método</small><b>Evidência ≠ prova total</b></div></div>'+
      (items.length?'<div class="b57Grid">'+items.map(artifactHTML).join('')+'</div>':'<div class="b57Empty"><strong>Sem achado específico cadastrado</strong>Não há, neste momento, uma evidência arqueológica específica cadastrada para '+esc(ref(v))+'. O BEREIA prefere mostrar uma lacuna a inventar uma relação.</div>')+
      (ev?'<div class="b57Method"><strong>Contexto e cautela da seção</strong><br>'+esc(ev.evidence)+'</div>':'')+
      '<div class="b57Method"><strong>Como o BEREIA trata arqueologia</strong><br>1) identifica o objeto ou sítio; 2) mostra a fonte; 3) explica a relação com a passagem; 4) separa contexto histórico de comprovação direta; 5) declara quando uma identificação ou cronologia é debatida.</div>';
+   root.querySelectorAll('[data-b57-mode]').forEach(b=>b.onclick=()=>{browseMode=b.dataset.b57Mode==='all';render()});
    root.querySelectorAll('.b57Artifact').forEach(card=>{
      const q=card.dataset.b57Query;card.querySelector('[data-b57-image]')?.addEventListener('click',()=>commonsImage(card,q));
      card.querySelector('[data-b57-map]')?.addEventListener('click',()=>window.BEREIA_V56_GEO?.openGeography?.());
    });
  }
+ document.addEventListener('bereia:screenchange',e=>{if(e.detail.id==='archaeology')render()});
  function open(){if(typeof go==='function')go('archaeology');setTimeout(render,0)}
  function hook(){
    window.openPassageArchaeology=open;
@@ -138,3 +144,4 @@
  
  window.addEventListener('load',()=>{setTimeout(hook,260);setTimeout(hook,1100);setTimeout(()=>{if(document.querySelector('.screen.active')?.id==='archaeology')render()},1200)});setTimeout(hook,700);
 })();
+

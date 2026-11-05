@@ -2,9 +2,9 @@
 (()=>{'use strict';
 const rows=[
  ["2 Reis",3,3,"Estela de Mesha","","Musée du Louvre + Wikimedia Commons","https://collections.louvre.fr/en/ark:/53355/cl010120339"],
- ["Esdras",1,1,"Cilindro de Ciro","","British Museum BM 90920 + Wikimedia Commons","https://www.britishmuseum.org/collection/term/BIB5392"],
- ["2 Crônicas",36,36,"Cilindro de Ciro","","British Museum BM 90920 + Wikimedia Commons","https://www.britishmuseum.org/collection/term/BIB5392"],
- ["Isaías",45,45,"Cilindro de Ciro","","British Museum BM 90920 + Wikimedia Commons","https://www.britishmuseum.org/collection/term/BIB5392"],
+ ["Esdras",1,1,"Cilindro de Ciro","","British Museum BM 90920 + Wikimedia Commons","https://www.britishmuseum.org/collection/object/W_1880-0617-1941"],
+ ["2 Crônicas",36,36,"Cilindro de Ciro","","British Museum BM 90920 + Wikimedia Commons","https://www.britishmuseum.org/collection/object/W_1880-0617-1941"],
+ ["Isaías",45,45,"Cilindro de Ciro","","British Museum BM 90920 + Wikimedia Commons","https://www.britishmuseum.org/collection/object/W_1880-0617-1941"],
  ["2 Reis",8,9,"Estela de Tel Dan","","Israel Antiquities Authority / Israel Museum + Wikimedia Commons","https://www.atiqot.org.il/en/objects/tel-dan-stele/"],
  ["2 Reis",20,20,"Inscrição de Siloé","","City of David / Istanbul Archaeological Museums + Wikimedia Commons","https://cityofdavid.org.il/en/the-siloam-inscription-eng/"],
  ["2 Crônicas",32,32,"Inscrição de Siloé","","City of David / Istanbul Archaeological Museums + Wikimedia Commons","https://cityofdavid.org.il/en/the-siloam-inscription-eng/"],

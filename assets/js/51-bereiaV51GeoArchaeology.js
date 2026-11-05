@@ -88,15 +88,9 @@
  window.openPassageArchaeology=function(){renderArchaeology();if(typeof go==='function')go('archaeology')};
  window.openPassageMaps=function(){mapContext();if(typeof go==='function')go('maps');setTimeout(mapContext,80)};
 
- const oldGo=window.go;
- if(typeof oldGo==='function')window.go=function(id){
-   const args=[...arguments];if(id==='atlas')args[0]='maps';
-   const out=oldGo.apply(this,args);
-   if(args[0]==='geography')setTimeout(renderGeo,0);
-   if(args[0]==='archaeology')setTimeout(renderArchaeology,0);
-   if(args[0]==='maps')setTimeout(mapContext,0);
-   return out;
- };
+ document.addEventListener('bereia:screenchange',e=>{
+   if(e.detail.id==='archaeology')renderArchaeology();
+ });
  const oldStudy=window.studyTopic;
  window.studyTopic=function(topic){
    const n=norm(topic);
@@ -118,3 +112,4 @@
  
  window.addEventListener('load',()=>{setTimeout(rewire,350);setTimeout(rewire,1200)});setTimeout(rewire,700);
 })();
+

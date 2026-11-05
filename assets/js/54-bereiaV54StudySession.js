@@ -125,15 +125,11 @@
      const wrapped=function(){const r=old.apply(this,arguments);const v=typeof selectedVerse!=='undefined'?selectedVerse:(window.selectedVerse||getCurrent());if(v){window.selectedVerse=v;try{localStorage.setItem('bereia:lastVerse',JSON.stringify(v));localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}document.dispatchEvent(new CustomEvent('bereia:studyverse',{detail:v}))}updateTrails();return r};wrapped.__v54=true;window.selectRealVerse=wrapped;
    }
  }
- function hookGo(){
-   const old=window.go;if(typeof old==='function'&&!old.__v54){
-     const wrapped=function(){const r=old.apply(this,arguments);setTimeout(()=>{updateTrails();refreshOpenTool()},0);return r};wrapped.__v54=true;window.go=wrapped;
-   }
- }
+ document.addEventListener('bereia:screenchange',()=>{updateTrails();refreshOpenTool()});
  function ensureAll(){
    ['dossier53','study','originals','compare','geography','archaeology','maps'].forEach(ensureScreenTrail);
    ['b52MessageModal','b52ContextModal','b48ImageModal'].forEach(ensureModalTrail);
-   hookTools();hookSelection();hookGo();updateTrails();
+   hookTools();hookSelection();updateTrails();
    const b=document.getElementById('bereiaBuildBadge');if(b)b.textContent='BEREIA • '+BUILD;
  }
  const stored=loadStored();if(stored?.book&&!window.selectedVerse)window.selectedVerse=stored;
@@ -142,3 +138,4 @@
  
  window.addEventListener('load',()=>{setTimeout(ensureAll,250);setTimeout(ensureAll,900);setTimeout(ensureAll,1800)});setTimeout(ensureAll,700);
 })();
+

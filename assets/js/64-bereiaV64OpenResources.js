@@ -67,50 +67,18 @@ function registerSource(){
  const list=window.BEREIA_SOURCE_REGISTRY;if(!list||list.some(x=>x.name==='OpenBible.info — referências cruzadas'))return;
  list.push({name:'OpenBible.info — referências cruzadas',kind:'Índice de relações entre versículos; combina principalmente Treasury of Scripture Knowledge e outras contribuições',license:'Creative Commons Atribuição indicada na página do conjunto. Abrange o cânon protestante de 66 livros. Não reutilizar as citações ESV exibidas no site.',status:'O BEREIA oferece links e referências, sem copiar traduções protegidas',url:'https://openbible.info/labs/cross-references/',credit:'OpenBible.info — Cross References'});
 }
-const atlasEntries={ot:[['Jerusalém','2 Samuel 5:6–10; 1 Reis 8'],['Jericó','Josué 6'],['Rio Jordão','Números 22:1; Josué 3'],['Canaã','Gênesis 12:5–9; Êxodo 6:4'],['Egito','Gênesis 12:10; Êxodo 1–14'],['Monte Sinai','Êxodo 19–20; Números 10:11–12'],['Hebrom','Gênesis 23; 2 Samuel 2:1'],['Samaria','1 Reis 16:24; 2 Reis 17'],['Assíria','2 Reis 17:3–6; Isaías 7–8'],['Babilônia','2 Reis 24–25; Daniel 1'],['Pérsia','Esdras 1; Ester 1'],['Mesopotâmia','Gênesis 11:31; 24:10']],nt:[['Belém','Mateus 2:1; Lucas 2:4–7'],['Nazaré','Mateus 2:23; Lucas 4:16'],['Galileia','Mateus 4:12–25; Marcos 1:14–39'],['Judeia','Mateus 2:1; João 4:3–4'],['Jerusalém','Mateus 21:1–11; Atos 2'],['Samaria','João 4:4–42; Atos 8:5–25'],['Cesareia Marítima','Atos 10:1–48; 23:23–35'],['Damasco','Atos 9:1–25'],['Antioquia','Atos 11:19–26; 13:1–3'],['Filipos','Atos 16:11–40'],['Éfeso','Atos 19:1–41'],['Roma','Atos 28:14–31; Romanos 1:7']]};
-let atlasTestament='ot',atlasPlace=0;
-function renderStandaloneAtlas(){
- const screen=document.getElementById('geography');if(!screen)return;
- screen.classList.add('b64AtlasOnly');
- const oldTrail=screen.querySelector('.b54Trail'),oldContext=screen.querySelector('#b51GeoContent');
- if(oldTrail)oldTrail.hidden=true;if(oldContext)oldContext.hidden=true;
- let root=document.getElementById('b64StandaloneAtlas');
- if(!root){root=document.createElement('section');root.id='b64StandaloneAtlas';root.className='b64Panel';const title=screen.querySelector('h1');(title||screen).insertAdjacentElement('afterend',root)}
- const rows=atlasEntries[atlasTestament],item=rows[Math.min(atlasPlace,rows.length-1)]||rows[0];
- root.innerHTML='<small>ATLAS BEREIA · INDEPENDENTE DA LEITURA</small><h2>Geografia bíblica</h2><p>Explore lugares e regiões em uma lista organizada do Antigo ao Novo Testamento. A passagem aberta no leitor não altera este atlas.</p><div class="b64AtlasTabs" role="tablist"><button type="button" role="tab" aria-selected="'+(atlasTestament==='ot')+'" data-b64-testament="ot">Antigo Testamento</button><button type="button" role="tab" aria-selected="'+(atlasTestament==='nt')+'" data-b64-testament="nt">Novo Testamento</button></div><div class="b64AtlasLayout"><div class="b64AtlasList">'+rows.map((x,i)=>'<button type="button" class="b64AtlasItem '+(i===atlasPlace?'active':'')+'" data-b64-place="'+i+'"><b>'+esc(x[0])+'</b><small>'+esc(x[1])+'</small></button>').join('')+'</div><article class="b64AtlasDetail"><small>LOCAL SELECIONADO</small><h3>'+esc(item[0])+'</h3><p>Passagens relacionadas: '+esc(item[1])+'</p><a class="b64External" target="_blank" rel="noopener noreferrer" href="https://www.openstreetmap.org/search?query='+encodeURIComponent(item[0])+'">Ver localização no OpenStreetMap ↗</a></article></div><p class="b64Credit">As referências funcionam como índice de consulta. Para mapas, fontes cartográficas e critérios de localização, veja também os links de dados abertos abaixo.</p>';
- root.querySelectorAll('[data-b64-testament]').forEach(b=>b.addEventListener('click',()=>{atlasTestament=b.dataset.b64Testament;atlasPlace=0;renderStandaloneAtlas()}));
- root.querySelectorAll('[data-b64-place]').forEach(b=>b.addEventListener('click',()=>{atlasPlace=+b.dataset.b64Place;renderStandaloneAtlas()}));
-}
-function layoutStyles(){
- if(document.getElementById('b64NavAtlasStyles'))return;
- const s=document.createElement('style');s.id='b64NavAtlasStyles';
- s.textContent='.sidebar{overflow-y:auto!important;overscroll-behavior:contain;max-height:100vh!important;max-height:100dvh!important;scrollbar-width:thin;scrollbar-color:#55482e transparent}.b64AtlasOnly .b54Trail,.b64AtlasOnly #b51GeoContent{display:none!important}.b64AtlasTabs{display:flex;gap:8px;margin:14px 0}.b64AtlasTabs button{flex:1;min-height:42px;border:1px solid #51452e;background:#14181b;color:#eee5ce;border-radius:11px;cursor:pointer}.b64AtlasTabs button[aria-selected=true]{background:#d7b56d;color:#17130c;font-weight:800}.b64AtlasLayout{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.75fr);gap:12px}.b64AtlasList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-height:520px;overflow:auto}.b64AtlasItem{display:grid;gap:5px;text-align:left;padding:11px;border:1px solid #343b42;border-radius:11px;background:#171d20;color:#f4f1e9;cursor:pointer}.b64AtlasItem.active{border-color:#d7b56d;background:#211d15}.b64AtlasItem small,.b64AtlasDetail p{color:#b1b7b5;font:12px/1.5 system-ui}.b64AtlasDetail{padding:16px;border:1px solid #343b42;border-radius:14px;background:#171d20}.b64AtlasDetail h3{color:#e3c675;margin:8px 0}@media(max-width:700px){.b64AtlasLayout{grid-template-columns:1fr}.b64AtlasList{grid-template-columns:1fr 1fr;max-height:380px}}';
- document.head.append(s);
-}
-function activateBereiaScreen(id){
- const target=document.getElementById(id);if(!target||!target.classList.contains('screen'))return false;
- const current=document.querySelector('.screen.active')?.id||'home';
- if(current!==id){try{navHistory.push(current)}catch{}}
- document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
- target.classList.add('active');document.body.classList.add('simpleBibleOpen');
- try{setActive(id)}catch{}
- if(location.hash!=='#'+id)history.pushState(history.state,'','#'+id);
- window.scrollTo({top:0,behavior:'smooth'});
- document.dispatchEvent(new CustomEvent('bereia:screenchange',{detail:{id}}));
- return true
-}
 function wireStudyTools(){
  window.bereiaToggleLayer=function(key){
   const routes={geography:'geography',maps:'geography',archaeology:'archaeology',apocrypha:'canons'};
   const id=routes[key];if(!id)return false;
-  const opened=activateBereiaScreen(id);
-  if(id==='geography')setTimeout(renderStandaloneAtlas,0);
+  const opened=go(id);
+  
   if(id==='archaeology')setTimeout(()=>{if(window.BEREIA_GEO_ARCH_V51?.renderArchaeology)window.BEREIA_GEO_ARCH_V51.renderArchaeology()},0);
   return opened
  };
 }
-function install(){layoutStyles();styles();ensure();wireStudyTools();render();patchHome();renderStandaloneAtlas();try{study.Referências='Veja passagens relacionadas no painel abaixo e abra o índice externo para o cânon de 66 livros.'}catch{}}
+document.addEventListener('bereia:screenchange',e=>{if(e.detail.id==='study')render()});
+function install(){styles();ensure();wireStudyTools();render();try{study.Referências='Veja passagens relacionadas no painel abaixo e abra o índice externo para o cânon de 66 livros.'}catch{}}
 
-function patchHome(){if(typeof go!=='function'||go.__bereiaHomeFixed)return;const original=go;const patched=function(id,remember=true){if(id==='home'){const current=document.querySelector('.screen.active')?.id||'home';if(remember&&current!=='home'){try{navHistory.push(current)}catch{}}document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.body.classList.remove('simpleBibleOpen');if(typeof setActive==='function')setActive('home');if(location.hash!=='#home')history.pushState(history.state,'','#home');window.scrollTo({top:0,behavior:'smooth'});return}return original.apply(this,arguments)};patched.__bereiaHomeFixed=true;go=patched;window.go=patched}
-registerSource();document.addEventListener('bereia:studyverse',render);document.addEventListener('click',e=>{if(e.target.closest('[data-go="study"]'))setTimeout(render,80)});const observer=new MutationObserver(()=>{if(document.getElementById('study')?.classList.contains('active'))render()});if(document.getElementById('study'))observer.observe(document.getElementById('study'),{attributes:true,attributeFilter:['class']});window.addEventListener('load',install);if(document.readyState==='complete'||document.readyState==='interactive')install();patchHome();window.BEREIA_OPEN_RESOURCES={render,searchMet,fullURL}
+registerSource();document.addEventListener('bereia:studyverse',render);document.addEventListener('click',e=>{if(e.target.closest('[data-go="study"]'))setTimeout(render,80)});const observer=new MutationObserver(()=>{if(document.getElementById('study')?.classList.contains('active'))render()});if(document.getElementById('study'))observer.observe(document.getElementById('study'),{attributes:true,attributeFilter:['class']});window.addEventListener('load',install);if(document.readyState==='complete'||document.readyState==='interactive')install();window.BEREIA_OPEN_RESOURCES={render,searchMet,fullURL}
 })();
