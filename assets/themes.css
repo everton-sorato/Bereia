@@ -54,3 +54,11 @@ html[data-bereia-theme] body button[aria-pressed="true"]{background:var(--select
 @media (max-width:700px) {
   #b56GeoLab .b56Grid > .b56Card:last-child { grid-row:1; }
 }
+
+#bereiaStudyDialog {box-sizing:border-box;width:min(94vw,620px);max-height:84dvh;overflow:auto;padding:22px;border:1px solid var(--line);border-radius:18px;background:var(--panel);color:var(--text)}
+#bereiaStudyDialog::backdrop {background:#000a}
+#bereiaStudyDialog a,#bereiaStudyDialog label {display:block;margin:12px 0}
+#bereiaStudyDialog :is(input,textarea,select) {display:block;box-sizing:border-box;width:100%;padding:10px;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:8px}
+#bereiaStudyDialog textarea {min-height:6em}
+#studyContextActions {display:flex;gap:8px;flex-wrap:wrap}
+#bereiaStudyDialog a {color:var(--gold)}

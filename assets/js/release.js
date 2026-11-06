@@ -1,8 +1,8 @@
 /* BEREIA 1.0 preparation — V80. No tracking, accounts or advertising SDKs. */
 (()=>{
 'use strict';
-const VERSION='135', $=s=>document.querySelector(s), esc=window.escapeHtml;
-const keys=['bereia:note','bereia:favorites','bereia:favs','bereia:highlights:v1','bereia:verseNotes:v1','bereia:collections:v1','bereia:reading','bereia:lastVerse','bereia:studySession:v1','bereia:completed:v1','bereia:font'];
+const VERSION='136', $=s=>document.querySelector(s), esc=window.escapeHtml;
+const keys=['bereia:personalStudies:v1','bereia:note','bereia:favorites','bereia:favs','bereia:highlights:v1','bereia:verseNotes:v1','bereia:collections:v1','bereia:reading','bereia:lastVerse','bereia:studySession:v1','bereia:completed:v1','bereia:font'];
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
 const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 function download(name,text){const u=URL.createObjectURL(new Blob([text],{type:'application/json'})),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),30000)}
@@ -12,6 +12,7 @@ function validateBackup(input){
  const entries=Object.entries(input.data);if(entries.some(([k,v])=>!keys.includes(k)||typeof v!=='string'||v.length>2000000))throw Error('O backup contém dados inválidos.');
  for(const [k,v] of entries){if(k==='bereia:note')continue;let parsed;try{parsed=JSON.parse(v)}catch{throw Error('Dado inválido: '+k)}
   if(k==='bereia:favorites'&&(!Array.isArray(parsed)||parsed.some(x=>!x||typeof x.book!=='string'||typeof x.text!=='string'||!Number.isInteger(+x.chapter)||+x.chapter<1||!Number.isInteger(+x.verse)||+x.verse<1)))throw Error('Favoritos inválidos.');
+  if(k==='bereia:personalStudies:v1' && (!Array.isArray(parsed)||parsed.some(s=>!s||typeof s.id!=='string'||typeof s.title!=='string'||typeof s.note!=='string'||typeof s.find!=='string'||!s.passage||typeof s.passage.book!=='string'||typeof s.passage.text!=='string'||typeof s.passage.osis!=='string'||!Number.isInteger(s.passage.chapter)||!Number.isInteger(s.passage.verse)||!['kjv','alm1911','almeida-livre','bpm'].includes(s.passage.version))))throw Error('Estudos inválidos.');
   if(k==='bereia:reading'&&(!parsed||!Number.isInteger(parsed.book)||parsed.book<0||parsed.book>(parsed.version==='bpm'?72:65)||!Number.isInteger(+parsed.chapter)||+parsed.chapter<1||!['almeida-livre','alm1911','bpm','kjv'].includes(parsed.version)))throw Error('Preferência de leitura inválida.');
   if(['bereia:lastVerse','bereia:studySession:v1'].includes(k)&&(!parsed||typeof parsed.book!=='string'||!Number.isInteger(+parsed.chapter)||+parsed.chapter<1||!Number.isInteger(+parsed.verse)||+parsed.verse<1))throw Error('Passagem inválida.');
   if(k==='bereia:completed:v1'&&(!Array.isArray(parsed)||parsed.some(x=>typeof x!=='string'||!/^[1-3]?[A-Za-z]+:\d+$/.test(x))))throw Error('Progresso inválido.');

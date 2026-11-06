@@ -6,7 +6,7 @@
  function loadObj(key){try{return JSON.parse(localStorage.getItem(key)||'{}')}catch(e){return {}}}
  function saveObj(key,obj){localStorage.setItem(key,JSON.stringify(obj))}
  function currentMeta(n,el){
-   const bi=Number(document.getElementById('bibleBook')?.value||0),b=typeof bibleBooks!=='undefined'?bibleBooks[bi]:null,ch=Number(document.getElementById('bibleChapter')?.value||0);
+   const bi=Number(document.getElementById('bibleBook')?.value||0),b=readerBooks()[bi],ch=Number(document.getElementById('bibleChapter')?.value||0);
    const text=(el?.querySelector('.verseText,.vt,.verse-text')?.textContent||'').trim();
    return {id:(b?.[0]||bi)+':'+ch+':'+n,bookIndex:bi,book:b?.[1]||'',osis:b?.[0]||'',chapter:ch,verse:Number(n),text,version:document.getElementById('bibleVersion')?.value||''};
  }
@@ -35,6 +35,7 @@
  function updateBar(){
    const bar=ensureBar(),n=selected.size;
    bar.classList.toggle('show',n>0);
+   window.BereiaPersonalStudy?.actions(selected);
    const count=bar.querySelector('#bvaCount');if(count)count.textContent=n+(n===1?' versículo selecionado':' versículos selecionados');
    if(!n)document.getElementById('bereiaColorPalette')?.classList.remove('show');
  }
@@ -91,7 +92,7 @@
    if(typeof toast==='function')toast('Imagem criada');
  }
  function restoreHighlights(){
-   const h=loadObj(STORAGE_HL),bi=Number(document.getElementById('bibleBook')?.value||0),b=typeof bibleBooks!=='undefined'?bibleBooks[bi]:null,ch=Number(document.getElementById('bibleChapter')?.value||0);
+   const h=loadObj(STORAGE_HL),bi=Number(document.getElementById('bibleBook')?.value||0),b=readerBooks()[bi],ch=Number(document.getElementById('bibleChapter')?.value||0);
    document.querySelectorAll('#bibleReader .v[data-verse]').forEach(el=>{const id=(b?.[0]||bi)+':'+ch+':'+Number(el.dataset.verse),color=h[id];if(color)el.setAttribute('data-bereia-highlight',color);else el.removeAttribute('data-bereia-highlight')});
  }
  const oldSelect=window.selectRealVerse;
@@ -107,3 +108,4 @@
  window.BEREIA_VERSE_ACTIONS={selected,clearSelection,restoreHighlights};
  window.addEventListener('load',()=>{ensureBar();setTimeout(restoreHighlights,400);const b=document.getElementById('bereiaBuildBadge');if(b)b.textContent='BEREIA • V47'});
 })();
+
