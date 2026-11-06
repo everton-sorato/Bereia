@@ -21,7 +21,7 @@
  "Tobias":["TOB",14],"Judite":["JDT",16],"Sabedoria":["WIS",19],"Eclesiástico (Sirácida)":["SIR",51],"Baruc":["BAR",6],"1 Macabeus":["1MA",16],"2 Macabeus":["2MA",15],"Adições a Ester":["ESG",16],"Adições a Daniel":["DAG",14]
  };
  const ancient={
- "1 Enoque":"https://sacred-texts.com/bib/boe/","Jubileus":"https://sacred-texts.com/bib/jub/","1 Esdras":"https://ebible.org/eng-web/1ES.htm","Oração de Manassés":"https://ebible.org/eng-web/MAN.htm","Salmo 151":"https://ebible.org/eng-web/PS2.htm","3 Macabeus":"https://ebible.org/eng-web/3MA.htm","4 Macabeus":"https://ebible.org/eng-web/4MA.htm","Salmos de Salomão":"https://sacred-texts.com/bib/"
+ "1 Enoque":ancientReadingUrls["1 Enoque"],"Jubileus":ancientReadingUrls["Jubileus"],"1 Esdras":"https://ebible.org/eng-web/1ES.htm","Oração de Manassés":ancientReadingUrls["Oração de Manassés"],"Salmo 151":"https://ebible.org/eng-web/PS2.htm","3 Macabeus":"https://ebible.org/eng-web/3MA.htm","4 Macabeus":"https://ebible.org/eng-web/4MA.htm","Salmos de Salomão":ancientReadingUrls["Salmos de Salomão"]
  };
  function panel(html){const box=document.getElementById('bereiaStudyPanel');if(!box)return;box.innerHTML=html;box.classList.add('show');box.hidden=false;box.style.setProperty('display','block','important');setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'start'}),30)}
  window.bereiaSetLibrary=function(mode){
@@ -46,3 +46,4 @@
  };
  window.addEventListener('load',()=>{const b=document.getElementById('bereiaBuildBadge');if(b)b.textContent='BEREIA • V34';});
 })();
+

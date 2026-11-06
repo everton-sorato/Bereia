@@ -12,7 +12,7 @@ for url in core:
  if not p.is_file():raise SystemExit('Missing shell asset: '+str(p))
  contents.append(p.read_bytes())
 version=hashlib.sha256(b''.join(contents)).hexdigest()[:12]
-worker="const CACHE='bereia-shell-v133-"+version+"';\nconst CORE="+json.dumps(core)+";\n"+'''const shellURL=new URL('./index.html',self.registration.scope).href;
+worker="const CACHE='bereia-shell-v134-"+version+"';\nconst CORE="+json.dumps(core)+";\n"+'''const shellURL=new URL('./index.html',self.registration.scope).href;
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('bereia-shell-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{

@@ -2,14 +2,14 @@
 (function(){
  const ptCodes={"Tobias":"TOB","Judite":"JDT","Sabedoria":"WIS","Eclesiástico (Sirácida)":"SIR","Baruc":"BAR","1 Macabeus":"1MA","2 Macabeus":"2MA","Adições a Ester":"ESG","Adições a Daniel":"DAG"};
  const ancientLinks={
- "1 Enoque":"https://sacred-texts.com/bib/boe/",
- "Jubileus":"https://sacred-texts.com/bib/jub/",
+ "1 Enoque":ancientReadingUrls["1 Enoque"],
+ "Jubileus":ancientReadingUrls["Jubileus"],
  "1 Esdras":"https://ebible.org/eng-web/1ES.htm",
- "Oração de Manassés":"https://ebible.org/eng-web/MAN.htm",
+ "Oração de Manassés":ancientReadingUrls["Oração de Manassés"],
  "Salmo 151":"https://ebible.org/eng-web/PS2.htm",
  "3 Macabeus":"https://ebible.org/eng-web/3MA.htm",
  "4 Macabeus":"https://ebible.org/eng-web/4MA.htm",
- "Salmos de Salomão":"https://sacred-texts.com/bib/"
+ "Salmos de Salomão":ancientReadingUrls["Salmos de Salomão"]
  };
  function showPanel(html){
   let box=document.getElementById('bereiaStudyPanel');
@@ -62,3 +62,4 @@
  };
  window.addEventListener('load',()=>{const badge=document.getElementById('bereiaBuildBadge');if(badge)badge.textContent='BEREIA • V33'});
 })();
+

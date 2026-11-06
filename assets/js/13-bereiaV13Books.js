@@ -5,9 +5,22 @@ window.BEREIA_CATHOLIC_BOOKS=[
 window.BEREIA_ANCIENT_BOOKS=[
  ["1 Enoque","Canônico na tradição ortodoxa etíope; literatura judaica antiga em outras tradições."],["Jubileus","Recepção canônica na tradição etíope; literatura do Segundo Templo."],["1 Esdras","Recepção varia entre tradições ortodoxas."],["Oração de Manassés","Presente em algumas coleções e tradições."],["Salmo 151","Presente na Septuaginta e em tradições ortodoxas."],["3 Macabeus","Recebido em algumas tradições ortodoxas."],["4 Macabeus","Frequentemente tratado como apêndice em tradições específicas."],["Salmos de Salomão","Literatura judaica antiga; não canônica no protestantismo/catolicismo romano."]
 ];
+const ancientReadingUrls = {
+  "Jubileus": "https://escriturasperdidas.com.br/pt/jubileus/1",
+  "1 Enoque": "https://www.vocenaosabia.com.br/apocrifos/1-enoque/1",
+  "Salmos de Salomão": "https://pt.wikipedia.org/wiki/Salmos_de_Salom%C3%A3o#Salmo_1",
+  "Oração de Manassés": "https://ebible.org/porbrbsl/MAN01.htm"
+};
 function bereiaExtraBooks(mode){
  const a=mode==="catholic"?BEREIA_CATHOLIC_BOOKS:BEREIA_ANCIENT_BOOKS;
- return '<div class="bereia-extra-books">'+a.map((x,i)=>'<button class="bereia-extra-book" onclick="bereiaOpenExtraBook(\''+mode+'\','+i+')">'+x[0]+'<small>'+x[1]+'</small></button>').join("")+'</div>';
+ const cards = a.map(([name, description], index) => {
+   const url = mode === 'catholic' ? null : ancientReadingUrls[name];
+   if (url) {
+     return `<a class="bereia-extra-book" href="${url}" target="_blank" rel="noopener noreferrer">${name}<small>${description}</small><small>Ler em português ↗</small></a>`;
+   }
+   return `<button class="bereia-extra-book" onclick="bereiaOpenExtraBook('${mode}',${index})">${name}<small>${description}</small></button>`;
+ });
+ return '<div class="bereia-extra-books">' + cards.join('') + '</div>';
 }
 function bereiaOpenExtraBook(mode,i){
  const a=mode==="catholic"?BEREIA_CATHOLIC_BOOKS:BEREIA_ANCIENT_BOOKS,x=a[i],box=document.getElementById("bereiaStudyPanel");if(!x||!box)return;
@@ -21,3 +34,4 @@ window.bereiaSetLibrary=function(mode){
  if(mode==="ancient"&&box){box.innerHTML='<h3>Apócrifos e Literatura Bíblica Antiga</h3><p>Selecione uma obra. A recepção canônica é indicada individualmente.</p>'+bereiaExtraBooks("ancient");box.classList.add("show")}
 };
 window.addEventListener("load",()=>{const badge=document.getElementById("bereiaBuildBadge");if(badge)badge.textContent="BEREIA • V13"});
+
