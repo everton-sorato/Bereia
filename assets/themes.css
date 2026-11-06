@@ -49,3 +49,8 @@ html body .b62StoryCard :is(p,a){overflow-wrap:anywhere}
 
 #geography .b54Trail,#geography #b51GeoContent{display:none!important}
 html[data-bereia-theme] body button[aria-pressed="true"]{background:var(--selected-bg)!important;color:var(--selected-text)!important;border-color:var(--gold)!important}
+
+/* On a narrow screen, show the chosen map before the list of places. */
+@media (max-width:700px) {
+  #b56GeoLab .b56Grid > .b56Card:last-child { grid-row:1; }
+}

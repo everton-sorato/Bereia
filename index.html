@@ -170,7 +170,7 @@ body.simpleBibleOpen #bereiaLibrarySwitch,body.simpleBibleOpen #bereiaLicenseCen
 .b62StoryCard[open] .b62StoryName{padding:14px;font-size:20px}
 .b62StoryCard[open] .b62StoryBody{max-width:900px;margin:0 auto;padding:12px 18px 20px}
 @media(max-width:620px){.b62StoryCard[open] summary{grid-template-columns:1fr}.b62StoryCard[open] .b62StoryArt{height:190px;max-width:260px;margin:10px auto 0}.b62StoryCard[open] .b62StoryName{text-align:center;font-size:18px}.b62StoryCard[open] .b62StoryBody{padding:10px 14px 18px}}
-</style><link rel="stylesheet" href="./assets/themes.css?v=132"></head><body>
+</style><link rel="stylesheet" href="./assets/themes.css?v=135"></head><body>
 <section id="bereiaDailyCover" class="bereiaDailyCover" onclick="openDailyArt(event)">
  <div class="bdcShade"></div>
  <div class="bdcContent">
@@ -324,6 +324,16 @@ window.bereiaOpenReference=function(reference){
 <section class="screen" id="me"><div class="eyebrow">Área pessoal</div><h1>Meu BEREIA</h1><div class="grid"><div class="card"><h3>★ Favoritos</h3><p id="favCount">0 passagens salvas</p></div><div class="card"><h3>▰ Marcações</h3><p>Organize textos por cores e temas.</p></div><div class="card"><h3>✓ Planos</h3><p>1 plano em andamento.</p></div></div><h2>Caderno de estudo</h2><textarea class="textarea note" id="note" placeholder="Escreva suas observações..."></textarea><div class="actions"><button class="btn primary" onclick="saveNote()">Salvar anotação</button></div></section>
 
 <section class="screen" id="credits"><div class="backbar"><button class="backbtn" onclick="goBack()">←</button><span class="eyebrow">Transparência</span></div><h1>Créditos e Fontes</h1><p class="lead">Esta área reúne as informações técnicas que não precisam aparecer durante a leitura.</p><div class="grid"><div class="card"><h3>Almeida 1819</h3><p>Edição histórica integrada ao motor de leitura do BEREIA.</p></div><div class="card"><h3>King James 1769</h3><p>Edição histórica em inglês integrada para leitura e comparação.</p></div><div class="card"><h3>Atlas BEREIA</h3><p>Mapas históricos e materiais cartográficos reutilizáveis são identificados individualmente no Atlas com sua respectiva atribuição.</p></div></div><div class="sourceNote">O BEREIA não incorpora traduções ou materiais editoriais protegidos sem uma fonte autorizada para esse uso.</div></section>
+<section class="screen" id="geography">
+ <div class="backbar"><button class="backbtn" onclick="goBack()">←</button><span class="eyebrow">Atlas bíblico • Antigo ao Novo Testamento</span></div>
+ <h1>Geografia</h1>
+ <div id="b51GeoContent"></div>
+</section>
+<section class="screen" id="archaeology">
+ <div class="backbar"><button class="backbtn" onclick="goBack()">←</button><span class="eyebrow">Arqueologia • fontes documentadas</span></div>
+ <h1>Arqueologia</h1>
+ <div id="b51ArchContent"></div>
+</section>
 </main><nav class="bottom" id="mobileNav"></nav><div class="toast" id="toast"></div></div><script src="./assets/js/scripture-store.js?v=132"></script><script src="./assets/js/00-core.js?v=132"></script>
 <div class="dailyArtModal" id="dailyArtModal" onclick="if(event.target===this)closeDailyArt()">
   <div class="dailyArtShell">
@@ -687,17 +697,9 @@ body[data-bereia-build="V46"] #bereiaBuildBadge{border-color:#d8b95f}
 @media(max-width:650px){.b51Grid{grid-template-columns:1fr}#b51MapFrame{height:280px}}
 </style>
 
-<section class="screen" id="geography">
- <div class="backbar"><button class="backbtn" onclick="goBack()">←</button><span class="eyebrow">Atlas bíblico • Antigo ao Novo Testamento</span></div>
- <h1>Geografia</h1>
- <div id="b51GeoContent"></div>
-</section>
 
-<section class="screen" id="archaeology">
- <div class="backbar"><button class="backbtn" onclick="goBack()">←</button><span class="eyebrow">Arqueologia • fontes documentadas</span></div>
- <h1>Arqueologia</h1>
- <div id="b51ArchContent"></div>
-</section>
+
+
 
 <script id="bereiaV51GeoArchaeology" src="./assets/js/51-bereiaV51GeoArchaeology.js?v=132"></script><style id="bereiaV52DirectActionsStyles">
 #b52VerseTools{display:none;margin-top:8px;border-top:1px solid #34392f;padding-top:8px}
@@ -813,5 +815,5 @@ body[data-bereia-build="V46"] #bereiaBuildBadge{border-color:#d8b95f}
 .b57Method{border:1px solid #353c35;border-radius:14px;background:#101511;padding:13px;color:#aeb6af;font:11px/1.6 system-ui}.b57Method strong{color:#e8ca78}
 @media(max-width:720px){.b57Grid{grid-template-columns:1fr}.b57Meta{grid-template-columns:1fr}.b57Img{height:210px}}
 </style>
-<script id="bereiaV57ArchaeologyLab" src="./assets/js/57-bereiaV57ArchaeologyLab.js?v=132"></script><style>.b57Img:has(figure){display:block;height:auto;max-height:none}.b57Img figure{margin:0;padding:12px}.b57Img figure img{width:100%;height:230px;object-fit:contain}.b57Img figcaption{font:12px/1.5 system-ui;padding:8px;overflow-wrap:anywhere}.b57Img a{color:var(--gold)}.b57Btn:disabled{opacity:.6;cursor:wait}</style><script id="bereiaV58WorldBible" src="./assets/js/58-bereiaV58WorldBible.js?v=76"></script><script id="bereiaV59PublicSources" src="./assets/js/59-bereiaV59PublicSources.js?v=71"></script><script id="bereiaV60OpenArchaeology" src="./assets/js/60-bereiaV60OpenArchaeology.js?v=132"></script><script id="bereiaV61StabilityThemes" src="./assets/js/61-bereiaV61StabilityThemes.js?v=132"></script><script id="bereiaV62TopicsStories" src="./assets/js/62-bereiaV62TopicsStories.js?v=78"></script><script src="./assets/js/release.js?v=134"></script><script src="./assets/js/reminder-calendar.js?v=133"></script><script id="bereiaV63ProfessionalExperience" src="./assets/js/63-bereiaV63ProfessionalExperience.js?v=133"></script><script id="bereiaV64OpenResources" src="./assets/js/64-bereiaV64OpenResources.js?v=132"></script><script src="./assets/js/stories-reader.js?v=132"></script></body></html>
+<script id="bereiaV57ArchaeologyLab" src="./assets/js/57-bereiaV57ArchaeologyLab.js?v=132"></script><style>.b57Img:has(figure){display:block;height:auto;max-height:none}.b57Img figure{margin:0;padding:12px}.b57Img figure img{width:100%;height:230px;object-fit:contain}.b57Img figcaption{font:12px/1.5 system-ui;padding:8px;overflow-wrap:anywhere}.b57Img a{color:var(--gold)}.b57Btn:disabled{opacity:.6;cursor:wait}</style><script id="bereiaV58WorldBible" src="./assets/js/58-bereiaV58WorldBible.js?v=76"></script><script id="bereiaV59PublicSources" src="./assets/js/59-bereiaV59PublicSources.js?v=71"></script><script id="bereiaV60OpenArchaeology" src="./assets/js/60-bereiaV60OpenArchaeology.js?v=132"></script><script id="bereiaV61StabilityThemes" src="./assets/js/61-bereiaV61StabilityThemes.js?v=132"></script><script id="bereiaV62TopicsStories" src="./assets/js/62-bereiaV62TopicsStories.js?v=78"></script><script src="./assets/js/release.js?v=135"></script><script src="./assets/js/reminder-calendar.js?v=133"></script><script id="bereiaV63ProfessionalExperience" src="./assets/js/63-bereiaV63ProfessionalExperience.js?v=133"></script><script id="bereiaV64OpenResources" src="./assets/js/64-bereiaV64OpenResources.js?v=132"></script><script src="./assets/js/stories-reader.js?v=132"></script></body></html>
 
