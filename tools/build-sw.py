@@ -12,7 +12,7 @@ for url in core:
  if not p.is_file():raise SystemExit('Missing shell asset: '+str(p))
  contents.append(p.read_bytes())
 version=hashlib.sha256(b''.join(contents)).hexdigest()[:12]
-worker="const CACHE='bereia-shell-v132-"+version+"';\nconst CORE="+json.dumps(core)+";\n"+'''const shellURL=new URL('./index.html',self.registration.scope).href;
+worker="const CACHE='bereia-shell-v133-"+version+"';\nconst CORE="+json.dumps(core)+";\n"+'''const shellURL=new URL('./index.html',self.registration.scope).href;
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('bereia-shell-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{
@@ -23,14 +23,15 @@ self.addEventListener('fetch',e=>{
    const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),4500);
    try{const response=await fetch(e.request,{signal:controller.signal});if(response.ok)return response;throw Error('Page unavailable')}
    catch{
-    const exact=await caches.match(e.request,{ignoreSearch:true});if(exact)return exact;
+    const cache=await caches.open(CACHE);
+    const exact=await cache.match(e.request,{ignoreSearch:true});if(exact)return exact;
     const scope=new URL(self.registration.scope),isApp=url.pathname===scope.pathname||url.pathname===scope.pathname+'index.html';
-    if(isApp){const shell=await caches.match(shellURL);if(shell)return shell}
+    if(isApp){const shell=await cache.match(shellURL);if(shell)return shell}
     return new Response('Página indisponível sem conexão. Abra o BEREIA pela tela inicial.',{status:503,headers:{'Content-Type':'text/plain; charset=utf-8'}});
    }finally{clearTimeout(timer)}
   })());return;
  }
- e.respondWith(caches.match(e.request).then(hit=>hit||fetch(e.request)));
+ e.respondWith(caches.open(CACHE).then(cache=>cache.match(e.request)).then(hit=>hit||fetch(e.request)));
 });
 '''
 (root/'sw.js').write_text(worker)

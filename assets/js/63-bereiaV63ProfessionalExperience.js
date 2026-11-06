@@ -142,7 +142,7 @@ function makeHomeCard(){
 function ensureSettingsPanel(){
  const settings=document.getElementById('settings');if(!settings||document.getElementById('bereiaPrayerPanel'))return;
  const panel=document.createElement('section');panel.id='bereiaPrayerPanel';panel.className='releasePanel bereiaPrayerPanel';
- panel.innerHTML='<h2>Lembretes e mensagens</h2><p>Escolha um horário para receber uma mensagem curta de oração, leitura ou gratidão.</p><label><input id="prayerReminderEnabled" type="checkbox"> Ativar lembrete neste dispositivo</label><div class="prayerPanelRow"><label for="prayerReminderTime">Horário<input id="prayerReminderTime" type="time" value="19:00"></label><label for="prayerReminderPractice">Tipo de mensagem<select id="prayerReminderPractice"><option value="prayer">Oração</option><option value="reading">Leitura bíblica</option><option value="gratitude">Gratidão</option><option value="pause">Pausa e reflexão</option></select></label></div><p><strong>Quais dias?</strong></p><div class="prayerPanelDays">'+dayNames.map((name,i)=>'<label><input type="checkbox" data-prayer-day="'+i+'"> '+name+'</label>').join('')+'</div><div class="prayerPanelButtons"><button type="button" id="prayerReminderSave">Salvar lembrete</button><button type="button" class="secondary" id="prayerNotificationEnable">Permitir notificações neste aparelho</button></div><p id="prayerReminderStatus" role="status" aria-live="polite"></p><p class="prayerPanelHelp">Cada navegador/aparelho guarda suas próprias preferências, e o horário segue o fuso local deste dispositivo ('+localTimeZone()+'). O lembrete local aparece enquanto o BEREIA está aberto ou quando você voltar ao app. Avisos com o app totalmente fechado exigem notificações push e um serviço de envio.</p>';
+ panel.innerHTML='<h2>Lembretes e mensagens</h2><p>Escolha um horário para receber uma mensagem curta de oração, leitura ou gratidão.</p><label><input id="prayerReminderEnabled" type="checkbox"> Ativar lembrete neste dispositivo</label><div class="prayerPanelRow"><label for="prayerReminderTime">Horário<input id="prayerReminderTime" type="time" value="19:00"></label><label for="prayerReminderPractice">Tipo de mensagem<select id="prayerReminderPractice"><option value="prayer">Oração</option><option value="reading">Leitura bíblica</option><option value="gratitude">Gratidão</option><option value="pause">Pausa e reflexão</option></select></label></div><p><strong>Quais dias?</strong></p><div class="prayerPanelDays">'+dayNames.map((name,i)=>'<label><input type="checkbox" data-prayer-day="'+i+'"> '+name+'</label>').join('')+'</div><div class="prayerPanelButtons"><button type="button" id="prayerReminderSave">Salvar lembrete</button><button type="button" class="secondary" id="prayerNotificationEnable">Permitir notificações neste aparelho</button></div><p id="prayerReminderStatus" role="status" aria-live="polite"></p><p class="prayerPanelHelp">Cada navegador/aparelho guarda suas próprias preferências, e o horário segue o fuso local deste dispositivo ('+localTimeZone()+'). O lembrete local aparece enquanto o BEREIA está aberto ou quando você voltar ao app. Para receber avisos com o BEREIA fechado, exporte o horário para a sua agenda.</p>';
  const first=settings.querySelector('.releasePanel');if(first)first.insertAdjacentElement('afterend',panel);else settings.append(panel);
  const c=cfg();
  panel.querySelector('#prayerReminderEnabled').checked=!!c.enabled;
@@ -156,6 +156,34 @@ function ensureSettingsPanel(){
   if(enabled&&!days.length){status.textContent='Escolha ao menos um dia para ativar o lembrete.';return}
   const next={enabled,time:panel.querySelector('#prayerReminderTime').value||'19:00',practice:panel.querySelector('#prayerReminderPractice').value,days,notifications:cfg().notifications};
   saveCfg(next);status.textContent=enabled?'Lembrete salvo às '+next.time+' · '+(days.length===7?'todos os dias':days.map(d=>dayNames[d]).join(', '))+' · hora local ('+localTimeZone()+').':'Lembrete desativado neste navegador.';showPrayerSaved(enabled,next.time,days);
+ });
+ const exportButton = document.createElement('button');
+ exportButton.type = 'button';
+ exportButton.className = 'secondary';
+ exportButton.textContent = 'Exportar para agenda';
+ panel.querySelector('.prayerPanelButtons').append(exportButton);
+ exportButton.addEventListener('click', () => {
+   const status = panel.querySelector('#prayerReminderStatus');
+   try {
+     const time = panel.querySelector('#prayerReminderTime').value;
+     const days = Array.from(panel.querySelectorAll('[data-prayer-day]:checked'), input => Number(input.dataset.prayerDay));
+     const prompt = prompts[panel.querySelector('#prayerReminderPractice').value];
+     let uid = localStorage.getItem('bereia:calendarUid');
+     if (!uid) {
+       uid = crypto.randomUUID() + '@bereia';
+       localStorage.setItem('bereia:calendarUid', uid);
+     }
+     const content = BereiaReminderCalendar.build({time, days, uid, title: prompt.title, description: prompt.text + ' ' + prompt.ref});
+     const url = URL.createObjectURL(new Blob([content], {type: 'text/calendar;charset=utf-8'}));
+     const link = document.createElement('a');
+     link.href = url;
+     link.download = 'lembrete-bereia.ics';
+     link.click();
+     setTimeout(() => URL.revokeObjectURL(url), 60000);
+     status.textContent = 'Abra ou importe lembrete-bereia.ics na sua agenda, confirme os dias e ative o aviso. Para alterar ou excluir o evento depois, use a agenda.';
+   } catch (error) {
+     status.textContent = error.message;
+   }
  });
  panel.querySelector('#prayerNotificationEnable').addEventListener('click',async()=>{
   const status=panel.querySelector('#prayerReminderStatus');
@@ -240,3 +268,4 @@ function init(){
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })(); 
+
