@@ -2,22 +2,25 @@
 const mainNav=[['home','⌂','Início'],['bible','▤','Bíblia'],['study','⌕','Estudar'],['discover','✦','Descobrir'],['me','◉','Meu BEREIA']];const extra=[['compare','⇄','Comparar'],['originals','א','Originais'],['library','▦','Biblioteca'],['canons','📜','Cânones'],['timeline','⌛','Cronologia'],['geography','🌍','Geografia'],['mission','✧','Missão'],['credits','ⓘ','Créditos']];
 function renderNav(){desktopNav.innerHTML=mainNav.map(n=>`<button data-go="${n[0]}"><span>${n[1]}</span>${n[2]}</button>`).join('')+'<div class="sep"></div>'+extra.map(n=>`<button data-go="${n[0]}"><span>${n[1]}</span>${n[2]}</button>`).join('');mobileNav.innerHTML=mainNav.map(n=>`<button data-go="${n[0]}"><span>${n[1]}</span>${n[2]}</button>`).join('');document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));setActive('home')}
 let navHistory=[];
+const screenScroll = new Map();
 function currentScreen(){return document.body.classList.contains('simpleBibleOpen')?(document.querySelector('.screen.active')?.id||'home'):'home'}
 function go(id,remember=true){
  const aliases={maps:'geography',atlas:'geography',search:'discover',plans:'mission'};id=aliases[id]||id;
  const target=document.getElementById(id);if(id!=='home'&&!target?.classList.contains('screen'))return false;
- const cur=currentScreen();if(remember&&cur!==id)navHistory.push(cur);
+ const cur=currentScreen();
+ if(cur!==id)screenScroll.set(cur,window.scrollY || 0);
+ if(remember&&cur!==id)navHistory.push(cur);
  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
  if(id!=='home')target.classList.add('active');
  document.body.classList.toggle('simpleBibleOpen',id!=='home');setActive(id);
  if(id==='study')renderStudyVerse();if(id==='originals')renderOriginals();
  if(id==='bible'&&cur!=='bible'&&!currentVerses.length){const seq=chapterLoadSequence;setTimeout(()=>{if(seq===chapterLoadSequence&&currentScreen()==='bible'&&!currentVerses.length)loadChapter(false)},0)}
- if(location.hash!=='#'+id)history.pushState(history.state,'','#'+id);
- scrollTo({top:0,behavior:'auto'});
+ if(remember&&location.hash!=='#'+id)history.pushState(history.state,'','#'+id);
+ scrollTo({top:id==='bible'?(screenScroll.get(id)||0):0,behavior:'auto'});
  document.dispatchEvent(new CustomEvent('bereia:screenchange',{detail:{id}}));return true;
 }
-function goBack(){go(navHistory.pop()||'home',false)}
-window.addEventListener('popstate',()=>{go(location.hash.slice(1)||'home',false)});
+function goBack(){if(navHistory.length){history.back()}else{go('home')}}
+window.addEventListener('popstate',()=>{navHistory.pop();go(location.hash.slice(1)||'home',false)});
 
 function setActive(id){document.querySelectorAll('[data-go]').forEach(b=>b.classList.toggle('active',b.dataset.go===id))}
 const study={Observação:'O que o texto realmente diz? Identifique palavras repetidas, personagens, ações, contrastes, conectivos e estrutura antes de concluir o significado.',Contexto:'Leia os parágrafos anteriores e posteriores. Depois considere autor, destinatários, gênero literário e situação histórica.',Referências:'Conecte a passagem a textos paralelos e temas relacionados. Esta área será alimentada pelo índice de referências cruzadas do Bible Engine.',História:'Consulte o cenário histórico e cultural apenas quando ele ajudar a compreender o texto, mantendo a distinção entre Escritura e reconstrução histórica.',Interpretações:'Organize interpretações documentadas por tradição/fonte, mostrando convergências e divergências sem apresentar opinião como se fosse o próprio texto.',Aplicação:'Depois da observação e interpretação, registre princípios e possíveis aplicações pessoais, comunitárias e missionais.'};

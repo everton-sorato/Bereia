@@ -1,7 +1,7 @@
 /* BEREIA 1.0 preparation — V80. No tracking, accounts or advertising SDKs. */
 (()=>{
 'use strict';
-const VERSION='136', $=s=>document.querySelector(s), esc=window.escapeHtml;
+const VERSION='137', $=s=>document.querySelector(s), esc=window.escapeHtml;
 const keys=['bereia:personalStudies:v1','bereia:note','bereia:favorites','bereia:favs','bereia:highlights:v1','bereia:verseNotes:v1','bereia:collections:v1','bereia:reading','bereia:lastVerse','bereia:studySession:v1','bereia:completed:v1','bereia:font'];
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
 const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
@@ -30,7 +30,7 @@ let downloadController=null;
 function offlineOptions(){
  const version=$('#offlineVersion').value,books=readerBooks(version);
  $('#offlineBook').innerHTML='<option value="all">Bíblia inteira — '+books.length+' livros</option>'+books.map(b=>`<option value="${b[0]}">${esc(b[1])}</option>`).join('');
- document.addEventListener('bereia:chapterloaded',offlineInventory);offlineInventory();
+ offlineInventory();
 }
 async function offlineDownload(){
  if(downloadController)return;
@@ -46,7 +46,7 @@ async function offlineDownload(){
   }
   status.textContent=controller.signal.aborted?'Download pausado. Toque em baixar para continuar do que já foi salvo.':`${count} capítulos disponíveis nesta seleção. Você já pode lê-los sem conexão.`;
  }catch(e){status.textContent=controller.signal.aborted?'Download pausado. Os capítulos concluídos foram mantidos.':e.name==='QuotaExceededError'?'Não há espaço para concluir o download. Os capítulos já salvos foram mantidos.':(e.message||'Falha no download.')+' Os capítulos concluídos foram mantidos; tente novamente.'}
- finally{downloadController=null;$('#offlineDownload').disabled=false;$('#offlineVersion').disabled=false;$('#offlineBook').disabled=false;$('#offlineCancel').hidden=true;offlineInventory()}
+ finally{downloadController=null;$('#offlineDownload').disabled=false;$('#offlineVersion').disabled=false;$('#offlineBook').disabled=false;$('#offlineCancel').hidden=true;offlineInventory();readerOfflineStatus()}
 }
 async function offlineInventory(){
  const el=$('#offlineInventory');if(!el)return;
@@ -57,6 +57,35 @@ async function offlineInventory(){
   el.textContent=`${versionLabel(version)}: ${all.length} capítulos salvos; ${complete.length} de ${books.length} livros completos. Imagens, mapas e fontes externas podem precisar de internet.`;
  }catch{el.textContent='Armazenamento offline indisponível neste navegador.'}
 }
+let readerInventoryRequest=0;
+async function readerOfflineStatus(){
+ const request=++readerInventoryRequest;
+ const version=bibleVersion.value,book=readerBooks(version)[Number(bibleBook.value)];
+ if(!book)return;
+ let panel=$('#readerOfflinePanel');
+ if(!panel){
+  panel=document.createElement('div');panel.id='readerOfflinePanel';panel.className='releasePanel';
+  const label=document.createElement('p');label.id='readerOfflineStatus';label.setAttribute('role','status');
+  const button=document.createElement('button');button.className='btn';button.textContent='Baixar livro';
+  button.onclick=()=>{
+   if(downloadController){go('settings');return;}
+   $('#offlineVersion').value=bibleVersion.value;offlineOptions();
+   $('#offlineBook').value=readerBooks(bibleVersion.value)[Number(bibleBook.value)][0];
+   go('settings');offlineDownload();
+  };
+  panel.append(label,button);$('#bibleReader').before(panel);
+ }
+ try{
+  const entries=await BereiaScripture.entries();
+  if(request!==readerInventoryRequest)return;
+  const chapters=new Set(entries.filter(e=>e.key.startsWith(version+':'+book[0]+':')&&validVerses(e.verses)).map(e=>Number(e.key.split(':')[2])).filter(ch=>ch>=1&&ch<=book[2]));
+  const complete=chapters.size===book[2];
+  $('#readerOfflineStatus').textContent=book[1]+' · '+(complete?'Disponível offline':chapters.size+' de '+book[2]+' capítulos salvos')+' · '+versionLabel(version);
+  panel.querySelector('button').hidden=complete;
+ }catch{if(request===readerInventoryRequest)$('#readerOfflineStatus').textContent='Não foi possível conferir os capítulos salvos neste dispositivo.'}
+}
+document.addEventListener('bereia:chapterloaded',()=>{offlineInventory();readerOfflineStatus()});
+document.addEventListener('bereia:screenchange',e=>{if(e.detail.id==='bible')readerOfflineStatus()});
 let fullSearchIndex=[];
 async function searchWholeBible(){
  if(!$('#searchInput').value.trim())return toast('Digite uma palavra ou referência primeiro.');
