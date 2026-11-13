@@ -1,7 +1,7 @@
 /* BEREIA 1.0 preparation — V80. No tracking, accounts or advertising SDKs. */
 (()=>{
 'use strict';
-const VERSION='137', $=s=>document.querySelector(s), esc=window.escapeHtml;
+const VERSION='140', $=s=>document.querySelector(s), esc=window.escapeHtml;
 const keys=['bereia:personalStudies:v1','bereia:note','bereia:favorites','bereia:favs','bereia:highlights:v1','bereia:verseNotes:v1','bereia:collections:v1','bereia:reading','bereia:lastVerse','bereia:studySession:v1','bereia:completed:v1','bereia:font'];
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
 const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
@@ -28,64 +28,124 @@ window.BEREIA_RELEASE={backup,validateBackup,restore};
 const dbCall=(mode,action)=>BereiaScripture.dbCall(mode,action);
 let downloadController=null;
 function offlineOptions(){
- const version=$('#offlineVersion').value,books=readerBooks(version);
- $('#offlineBook').innerHTML='<option value="all">Bíblia inteira — '+books.length+' livros</option>'+books.map(b=>`<option value="${b[0]}">${esc(b[1])}</option>`).join('');
+ const books=readerBooks($('#offlineVersion').value);
+ $('#offlineScope').textContent='Bíblia inteira · '+books.length+' livros · '+books.reduce((sum,book)=>sum+book[2],0)+' capítulos';
+ $('#offlineStatus').textContent='';
+ $('#offlineInventory').textContent='Conferindo esta tradução no dispositivo…';
+ $('#offlineInventory').hidden=false;
+ $('#offlineDownload').disabled=true;
+ $('#offlineDownload').textContent='Conferindo tradução…';
+ $('#offlineProgress').hidden=true;
  offlineInventory();
 }
 async function offlineDownload(){
  if(downloadController)return;
- const status=$('#offlineStatus'),version=$('#offlineVersion').value,selection=$('#offlineBook').value;
- const books=readerBooks(version).filter(b=>selection==='all'||b[0]===selection),total=books.reduce((n,b)=>n+b[2],0);
- const controller=downloadController=new AbortController();let count=0;
- $('#offlineDownload').disabled=true;$('#offlineVersion').disabled=true;$('#offlineBook').disabled=true;$('#offlineCancel').hidden=false;
- const progress=$('#offlineProgress');progress.hidden=false;progress.max=total;progress.value=0;
+ const status=$('#offlineStatus'),version=$('#offlineVersion').value;
+ const books=readerBooks(version);
+ const controller=downloadController=new AbortController();
+ const button=$('#offlineDownload'),progress=$('#offlineProgress');
+ button.disabled=true;
+ button.textContent='Baixando tradução…';
+ $('#offlineVersion').disabled=true;
+ $('#offlineInventory').hidden=true;
+ $('#offlineCancel').hidden=false;
+ status.textContent='Conferindo os capítulos já salvos de '+versionLabel(version)+'…';
  try{
-  for(const book of books){
-   if(controller.signal.aborted)break;
-   await BereiaScripture.downloadBook(version,book,{signal:controller.signal,onProgress:(done)=>{progress.value=count+done;status.textContent=`${book[1]}: ${done} de ${book[2]} capítulos • ${count+done} de ${total} no total.`}});count+=book[2];
-  }
-  status.textContent=controller.signal.aborted?'Download pausado. Toque em baixar para continuar do que já foi salvo.':`${count} capítulos disponíveis nesta seleção. Você já pode lê-los sem conexão.`;
- }catch(e){status.textContent=controller.signal.aborted?'Download pausado. Os capítulos concluídos foram mantidos.':e.name==='QuotaExceededError'?'Não há espaço para concluir o download. Os capítulos já salvos foram mantidos.':(e.message||'Falha no download.')+' Os capítulos concluídos foram mantidos; tente novamente.'}
- finally{downloadController=null;$('#offlineDownload').disabled=false;$('#offlineVersion').disabled=false;$('#offlineBook').disabled=false;$('#offlineCancel').hidden=true;offlineInventory();readerOfflineStatus()}
+  const result=await BereiaScripture.downloadTranslation(version,books,{
+   signal:controller.signal,
+   onProgress:state=>{
+    progress.hidden=false;
+    progress.max=state.totalChapters;
+    progress.value=state.savedChapters;
+    const percent=Math.floor(state.savedChapters/state.totalChapters*100);
+    status.textContent=versionLabel(version)+' · '+percent+'% · '+state.savedChapters+' de '+state.totalChapters+' capítulos salvos · '+state.completeBooks+' de '+state.totalBooks+' livros completos'+(state.book?' · '+state.book:'.');
+   }
+  });
+  status.textContent=versionLabel(version)+' baixada por completo. '+result.totalBooks+' livros e '+result.totalChapters+' capítulos disponíveis sem internet neste dispositivo.';
+ }catch(error){
+  status.textContent=controller.signal.aborted
+   ? 'Download pausado. Toque em continuar para baixar os capítulos restantes.'
+   : error.name==='QuotaExceededError'
+    ? 'Não há espaço para concluir o download. Os capítulos já salvos foram mantidos.'
+    : (error.message||'Falha no download.')+' Os capítulos já salvos foram mantidos. Toque em continuar para tentar novamente.';
+ }finally{
+  downloadController=null;
+  $('#offlineVersion').disabled=false;
+  $('#offlineCancel').hidden=true;
+  offlineInventory();
+  readerOfflineStatus();
+ }
 }
+let offlineInventoryRequest=0;
 async function offlineInventory(){
- const el=$('#offlineInventory');if(!el)return;
+ const el=$('#offlineInventory');
+ if(!el)return;
+ const request=++offlineInventoryRequest,version=$('#offlineVersion').value;
  try{
-  const version=$('#offlineVersion').value,books=readerBooks(version),entries=await BereiaScripture.entries(),all=entries.filter(x=>x.key.startsWith(version+':')&&validVerses(x.verses));
-  const counts=new Map();for(const x of all){const [,osis,ch]=x.key.split(':');if(!counts.has(osis))counts.set(osis,new Set());counts.get(osis).add(+ch)}
-  const complete=books.filter(b=>Array.from({length:b[2]},(_,i)=>i+1).every(ch=>counts.get(b[0])?.has(ch)));
-  el.textContent=`${versionLabel(version)}: ${all.length} capítulos salvos; ${complete.length} de ${books.length} livros completos. Imagens, mapas e fontes externas podem precisar de internet.`;
- }catch{el.textContent='Armazenamento offline indisponível neste navegador.'}
+  const state=await BereiaScripture.translationInventory(version,readerBooks(version));
+  if(request!==offlineInventoryRequest || version!==$('#offlineVersion').value || downloadController)return;
+  const complete=state.savedChapters===state.totalChapters;
+  el.hidden=false;
+  el.textContent=versionLabel(version)+' · '+state.completeBooks+' de '+state.totalBooks+' livros completos · '+state.savedChapters+' de '+state.totalChapters+' capítulos salvos.';
+  const button=$('#offlineDownload');
+  button.disabled=complete;
+  button.textContent=complete?'Tradução disponível offline':state.savedChapters?'Continuar download da Bíblia inteira':'Baixar Bíblia inteira';
+  const progress=$('#offlineProgress');
+  progress.hidden=!state.savedChapters;
+  progress.max=state.totalChapters;
+  progress.value=state.savedChapters;
+ }catch{
+  if(request!==offlineInventoryRequest || downloadController)return;
+  el.hidden=false;
+  el.textContent='Armazenamento offline indisponível neste navegador. Tente reabrir o aplicativo.';
+  $('#offlineDownload').disabled=false;
+  $('#offlineDownload').textContent='Tentar baixar Bíblia inteira';
+ }
 }
 let readerInventoryRequest=0;
 async function readerOfflineStatus(){
  const request=++readerInventoryRequest;
- const version=bibleVersion.value,book=readerBooks(version)[Number(bibleBook.value)];
- if(!book)return;
+ const version=bibleVersion.value;
  let panel=$('#readerOfflinePanel');
  if(!panel){
-  panel=document.createElement('div');panel.id='readerOfflinePanel';panel.className='releasePanel';
-  const label=document.createElement('p');label.id='readerOfflineStatus';label.setAttribute('role','status');
-  const button=document.createElement('button');button.className='btn';button.textContent='Baixar livro';
+  panel=document.createElement('div');
+  panel.id='readerOfflinePanel';
+  panel.className='releasePanel';
+  const label=document.createElement('p');
+  label.id='readerOfflineStatus';
+  label.setAttribute('role','status');
+  const button=document.createElement('button');
+  button.type='button';
+  button.className='btn';
+  button.textContent='Baixar Bíblia inteira';
   button.onclick=()=>{
    if(downloadController){go('settings');return;}
-   $('#offlineVersion').value=bibleVersion.value;offlineOptions();
-   $('#offlineBook').value=readerBooks(bibleVersion.value)[Number(bibleBook.value)][0];
-   go('settings');offlineDownload();
+   $('#offlineVersion').value=bibleVersion.value;
+   offlineOptions();
+   go('settings');
+   offlineDownload();
   };
-  panel.append(label,button);$('#bibleReader').before(panel);
+  panel.append(label,button);
+  $('#bibleReader').before(panel);
  }
  try{
-  const entries=await BereiaScripture.entries();
+  const state=await BereiaScripture.translationInventory(version,readerBooks(version));
   if(request!==readerInventoryRequest)return;
-  const chapters=new Set(entries.filter(e=>e.key.startsWith(version+':'+book[0]+':')&&validVerses(e.verses)).map(e=>Number(e.key.split(':')[2])).filter(ch=>ch>=1&&ch<=book[2]));
-  const complete=chapters.size===book[2];
-  $('#readerOfflineStatus').textContent=book[1]+' · '+(complete?'Disponível offline':chapters.size+' de '+book[2]+' capítulos salvos')+' · '+versionLabel(version);
-  panel.querySelector('button').hidden=complete;
- }catch{if(request===readerInventoryRequest)$('#readerOfflineStatus').textContent='Não foi possível conferir os capítulos salvos neste dispositivo.'}
+  const complete=state.savedChapters===state.totalChapters;
+  $('#readerOfflineStatus').textContent=versionLabel(version)+' · '+(complete?'Bíblia inteira disponível offline':state.savedChapters+' de '+state.totalChapters+' capítulos salvos')+' · '+state.totalBooks+' livros';
+  const button=panel.querySelector('button');
+  button.hidden=complete && !downloadController;
+  button.textContent=downloadController?'Acompanhar download':state.savedChapters?'Continuar download da Bíblia inteira':'Baixar Bíblia inteira';
+ }catch{
+  if(request===readerInventoryRequest)$('#readerOfflineStatus').textContent='Não foi possível conferir a tradução salva neste dispositivo.';
+ }
 }
 document.addEventListener('bereia:chapterloaded',()=>{offlineInventory();readerOfflineStatus()});
-document.addEventListener('bereia:screenchange',e=>{if(e.detail.id==='bible')readerOfflineStatus()});
+document.addEventListener('bereia:screenchange',e=>{
+ if(e.detail.id==='bible')readerOfflineStatus();
+ if(e.detail.id==='settings')offlineInventory();
+});
+bibleVersion.addEventListener('change',readerOfflineStatus);
 let fullSearchIndex=[];
 async function searchWholeBible(){
  if(!$('#searchInput').value.trim())return toast('Digite uma palavra ou referência primeiro.');
@@ -104,8 +164,10 @@ function personal(){
  const n=$('#favCount');if(n)n.textContent=favs.length+' passagens salvas';
 }
 function settings(){
- const section=document.createElement('section');section.className='screen';section.id='settings';section.innerHTML=`<h1>Ajustes e seus dados</h1><p>Gratuito e sem anúncios. BEREIA ${VERSION}.</p><div class="releasePanel"><h2>Aparência</h2><p>Escolha o visual que combina com o ambiente. A preferência fica salva neste dispositivo.</p><label for="appTheme">Tema do aplicativo</label><select id="appTheme" aria-label="Tema do aplicativo"><option value="original">Atual — escuro e dourado</option><option value="light">Claro</option><option value="tech">Tecnológico — azul e ciano</option></select></div><div class="releasePanel"><h2>Leitura</h2><label for="readerFont">Tamanho do texto bíblico</label><select id="readerFont"><option value="18">Padrão</option><option value="22">Grande</option><option value="26">Muito grande</option></select></div><div class="releasePanel"><h2>Backup do caderno</h2><p>Salve favoritos, anotações, marcações e progresso em um arquivo. Guarde-o em local seguro: ele contém seus textos pessoais. Trocar de navegador ou limpar os dados pode apagar suas anotações.</p><button class="btn" id="exportBackup">Baixar backup</button><label class="btn" for="importBackup">Escolher backup para restaurar</label><input id="importBackup" type="file" accept="application/json,.json"><p id="backupStatus" role="status"></p><button class="btn" id="restoreBackup" hidden>Confirmar restauração dos dados do arquivo</button></div><div class="releasePanel"><h2>Leitura sem internet</h2><p>Baixe um livro ou uma edição completa. O download precisa de internet e espaço no dispositivo. Os capítulos já abertos no leitor também podem estar no cache.</p><label for="offlineVersion">Edição</label><select id="offlineVersion"><option value="almeida-livre">Bíblia Livre (Almeida 1819)</option><option value="alm1911">Almeida Revista e Corrigida 1911</option><option value="kjv">King James 1769</option><option value="bpm">Bíblia Portuguesa Mundial — 73 livros</option></select><label for="offlineBook">Conteúdo</label><select id="offlineBook"><option value="all">Bíblia inteira — 66 livros</option>${bibleBooks.map((b,i)=>`<option value="${i}">${b[1]}</option>`).join('')}</select><button class="btn primary" id="offlineDownload">Baixar para este dispositivo</button><button class="btn" id="offlineCancel" hidden>Pausar download</button><progress id="offlineProgress" hidden aria-label="Progresso do download"></progress><p id="offlineStatus" role="status" aria-live="polite"></p><p id="offlineInventory"></p></div><div class="releasePanel"><h2>Privacidade e ajuda</h2><a href="./privacidade.html">Política de privacidade</a> · <a href="./suporte.html">Ajuda e suporte</a><p>Você controla os dados guardados neste navegador.</p><button class="btn" id="eraseData">Apagar meus dados locais</button><p id="eraseStatus" role="status"></p><button class="btn" id="confirmErase" hidden>Confirmar exclusão local</button></div>`;
+ const section=document.createElement('section');section.className='screen';section.id='settings';section.innerHTML=`<h1>Ajustes e seus dados</h1><p>Gratuito e sem anúncios. BEREIA ${VERSION}.</p><div class="releasePanel"><h2>Aparência</h2><p>Escolha o visual que combina com o ambiente. A preferência fica salva neste dispositivo.</p><label for="appTheme">Tema do aplicativo</label><select id="appTheme" aria-label="Tema do aplicativo"><option value="original">Atual — escuro e dourado</option><option value="light">Claro</option><option value="tech">Tecnológico — azul e ciano</option></select></div><div class="releasePanel"><h2>Leitura</h2><label for="readerFont">Tamanho do texto bíblico</label><select id="readerFont"><option value="18">Padrão</option><option value="22">Grande</option><option value="26">Muito grande</option></select></div><div class="releasePanel"><h2>Backup do caderno</h2><p>Salve favoritos, anotações, marcações e progresso em um arquivo. Guarde-o em local seguro: ele contém seus textos pessoais. Trocar de navegador ou limpar os dados pode apagar suas anotações.</p><button class="btn" id="exportBackup">Baixar backup</button><label class="btn" for="importBackup">Escolher backup para restaurar</label><input id="importBackup" type="file" accept="application/json,.json"><p id="backupStatus" role="status"></p><button class="btn" id="restoreBackup" hidden>Confirmar restauração dos dados do arquivo</button></div><div class="releasePanel" id="offlinePanel"><h2>Baixar Bíblia por tradução</h2><p>Escolha uma tradução para guardar a Bíblia inteira neste dispositivo. Mantenha o BEREIA aberto durante o download. Você pode pausar e continuar depois.</p><label for="offlineVersion">Tradução</label><select id="offlineVersion"><option value="almeida-livre">Bíblia Livre (Almeida 1819)</option><option value="alm1911">Almeida Revista e Corrigida 1911</option><option value="kjv">King James 1769</option><option value="bpm">Bíblia Portuguesa Mundial — 73 livros</option></select><p id="offlineScope"></p><button class="btn primary" id="offlineDownload">Baixar Bíblia inteira</button><button class="btn" id="offlineCancel" hidden>Pausar download</button><progress id="offlineProgress" hidden aria-label="Progresso do download"></progress><p id="offlineStatus" role="status" aria-live="polite"></p><p id="offlineInventory"></p><p>Os textos ficam disponíveis offline. Imagens, mapas e fontes externas podem precisar de internet.</p></div><div class="releasePanel"><h2>Privacidade e ajuda</h2><a href="./privacidade.html">Política de privacidade</a> · <a href="./suporte.html">Ajuda e suporte</a><p>Você controla os dados guardados neste navegador.</p><button class="btn" id="eraseData">Apagar meus dados locais</button><p id="eraseStatus" role="status"></p><button class="btn" id="confirmErase" hidden>Confirmar exclusão local</button></div>`;
  $('main').append(section);
+ section.insertBefore($('#offlinePanel'),section.querySelector('.releasePanel'));
+ $('#offlineVersion').value=bibleVersion.value;
  const link=document.createElement('button');link.className='btn';link.textContent='Ajustes, offline e backup';link.onclick=()=>go('settings');$('#me').prepend(link);
  const homeLink=link.cloneNode(true);homeLink.onclick=()=>go('settings');$('#bereiaStudyTools')?.append(homeLink);
  $('#readerFont').value=localStorage.getItem('bereia:font')||'18';function font(){document.documentElement.style.setProperty('--reader-size',$('#readerFont').value+'px')}font();$('#readerFont').onchange=()=>{localStorage.setItem('bereia:font',$('#readerFont').value);font()};const themePicker=$('#appTheme');if(themePicker){themePicker.value=window.BereiaThemes?.get()||'original';themePicker.addEventListener('change',()=>window.BereiaThemes?.set(themePicker.value))}

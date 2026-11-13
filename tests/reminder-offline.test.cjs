@@ -59,6 +59,7 @@ test('restarted worker serves downloaded shell and local assets with network una
     return pending;
   }
   assert.match(await (await read('?app=1','navigate')).text(), /id="bibleReader"/);
-  assert.match(await (await read('assets/js/scripture-store.js?v=132','cors')).text(), /BereiaScriptureFactory/);
+  const scriptureURL=fs.readFileSync(path.join(root,'index.html'),'utf8').match(/src="\.\/(assets\/js\/scripture-store\.js[^\"]*)"/)[1];
+  assert.match(await (await read(scriptureURL,'cors')).text(), /BereiaScriptureFactory/);
   assert.equal((await read('ausente','navigate')).status,503);
 });

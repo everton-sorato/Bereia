@@ -63,7 +63,9 @@
   async function downloadBook(version,book,{signal,onProgress=()=>{}}={}){
    const [osis,name,total]=book,chapters=[];
    for(let ch=1;ch<=total;ch++)chapters.push(await saved(version,osis,ch));
-   if(chapters.every(valid)){onProgress(total,total);return total}
+   let completed=chapters.filter(valid).length;
+   onProgress(completed,total);
+   if(completed===total)return total;
    if(!online())throw Error('Conecte-se para baixar '+name+'.');
    if(signal?.aborted)throw new DOMException('Download interrompido','AbortError');
    // Whole books are atomic: incomplete responses never replace a saved book.
@@ -80,14 +82,49 @@
    }
    for(let ch=1;ch<=total;ch++){
     if(signal?.aborted)throw new DOMException('Download interrompido','AbortError');
-    if(!valid(chapters[ch-1]))chapters[ch-1]=await network(version,osis,ch,{signal});
+    if(valid(chapters[ch-1]))continue;
+    chapters[ch-1]=await network(version,osis,ch,{signal});
     if(!valid(chapters[ch-1]))throw Error('Capítulo incompleto: '+name+' '+ch);
     // Preserve each validated chapter for resuming an interrupted download.
-    await storage.put(key(version,osis,ch),chapters[ch-1]);onProgress(ch,total);
+    await storage.put(key(version,osis,ch),chapters[ch-1]);completed++;onProgress(completed,total);
    }
    return total;
   }
-  return {normalize,valid,key,json,load,saved,downloadBook,entries:storage.entries,dbCall:storage.call,setNetwork:fn=>{network=fn}};
+  async function translationInventory(version,books){
+   const counts=new Map(books.map(book=>[book[0],new Set()]));
+   const limits=new Map(books.map(book=>[book[0],book[2]]));
+   for(const entry of await storage.entries()){
+    const [edition,osis,chapter]=entry.key.split(':');
+    const number=Number(chapter);
+    if(edition===version && counts.has(osis) && Number.isInteger(number) && number>=1 && number<=limits.get(osis) && valid(entry.verses)){
+     counts.get(osis).add(number);
+    }
+   }
+   const savedByBook=new Map(books.map(book=>[book[0],counts.get(book[0]).size]));
+   return {
+    savedByBook,
+    savedChapters:[...savedByBook.values()].reduce((sum,count)=>sum+count,0),
+    totalChapters:books.reduce((sum,book)=>sum+book[2],0),
+    completeBooks:books.filter(book=>savedByBook.get(book[0])===book[2]).length,
+    totalBooks:books.length
+   };
+  }
+  async function downloadTranslation(version,books,{signal,onProgress=()=>{}}={}){
+   const progress=await translationInventory(version,books);
+   onProgress({...progress,book:null});
+   for(const book of books){
+    if(signal?.aborted)throw new DOMException('Download interrompido','AbortError');
+    await downloadBook(version,book,{signal,onProgress:done=>{
+     const previous=progress.savedByBook.get(book[0]);
+     progress.savedChapters+=done-previous;
+     progress.savedByBook.set(book[0],done);
+     if(previous<book[2] && done===book[2])progress.completeBooks++;
+     onProgress({...progress,book:book[1]});
+    }});
+   }
+   return progress;
+  }
+  return {normalize,valid,key,json,load,saved,downloadBook,downloadTranslation,translationInventory,entries:storage.entries,dbCall:storage.call,setNetwork:fn=>{network=fn}};
  }
  root.BereiaScriptureFactory=create;
  root.BereiaScripture=create();
