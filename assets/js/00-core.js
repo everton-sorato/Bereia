@@ -45,6 +45,22 @@ function readerBooks(version=bibleVersion?.value){
  return [...canon.slice(0,39),...bpmCatholicBooks,...canon.slice(39)];
 }
 let activeReaderBooks=bibleBooks,currentVerses=[],selectedVerse=null;
+function applyReaderLayout(value){
+ const layout=value==="classic"?"classic":"current";
+ document.getElementById("bibleReader")?.classList.toggle("layout-classic",layout==="classic");
+ const control=document.getElementById("readerLayout");
+ if(control&&control.value!==layout)control.value=layout;
+ try{localStorage.setItem("bereia:reader-layout",layout)}catch{}
+}
+function restoreReaderLayout(){
+ const control=document.getElementById("readerLayout");
+ if(!control)return;
+ let saved="current";
+ try{saved=localStorage.getItem("bereia:reader-layout")==="classic"?"classic":"current"}catch{}
+ control.value=saved;
+ document.getElementById("bibleReader")?.classList.toggle("layout-classic",saved==="classic");
+}
+restoreReaderLayout();
 function renderBookOptions(selected=0){activeReaderBooks=readerBooks();const oldCount=bibleVersion.value==='bpm'?39+bpmCatholicBooks.length:39;bibleBook.innerHTML='<optgroup label="Antigo Testamento">'+activeReaderBooks.slice(0,oldCount).map((b,i)=>`<option value="${i}">${b[1]}</option>`).join('')+'</optgroup><optgroup label="Novo Testamento">'+activeReaderBooks.slice(oldCount).map((b,i)=>`<option value="${oldCount+i}">${b[1]}</option>`).join('')+'</optgroup>';bibleBook.value=String(Math.max(0,Math.min(selected,activeReaderBooks.length-1)))}
 function initBible(loadNow=false){let saved={};try{saved=JSON.parse(localStorage.getItem('bereia:reading')||'{}')}catch(e){};bibleVersion.value=saved.version||'almeida-livre';syncBibleSourceNote(bibleVersion.value);const books=readerBooks();activeReaderBooks=books;const stableOsis=saved.osis||(bibleBooks[Number.isInteger(saved.book)?saved.book:-1]?.[0]);const savedIndex=stableOsis?books.findIndex(b=>b[0]===stableOsis):-1;renderBookOptions(savedIndex>=0?savedIndex:(Number.isInteger(saved.book)&&saved.version===bibleVersion.value?saved.book:42));renderChapterOptions(saved.chapter||1);if(loadNow)loadChapter(false)}
 function versionChanged(preferredOsis=null,chapter=1,loadNow=true){const previous=activeReaderBooks[+bibleBook.value]?.[0];activeReaderBooks=readerBooks();const osis=preferredOsis||previous;const index=osis?activeReaderBooks.findIndex(b=>b[0]===osis):-1;renderBookOptions(index>=0?index:0);syncBibleSourceNote(bibleVersion.value);renderChapterOptions(chapter);if(loadNow)loadChapter(true)}
