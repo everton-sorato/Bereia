@@ -86,7 +86,7 @@ const ALM1911_SPELLING=[
  ["fallou","falou"],["fallar","falar"],["fallam","falam"],["Christo","Cristo"],["christãos","cristãos"],
  ["baptismo","batismo"],["baptizado","batizado"],["baptizada","batizada"],["baptizados","batizados"],["baptizadas","batizadas"],
  ["propheta","profeta"],["prophetas","profetas"],["prophecia","profecia"],["céo","céu"],["céos","céus"],
- ["Moysés","Moisés"],["Egypto","Egito"],["á","à"]
+ ["especie","espécie"],["especies","espécies"],["reptil","réptil"],["reptis","répteis"],["balêa","baleia"],["balêas","baleias"],["fructificae","frutificai"],["multiplicae","multiplicai"],["herva","erva"],["hervas","ervas"],["arvore","árvore"],["arvores","árvores"],["femea","fêmea"],["femeas","fêmeas"],["azas","asas"],["similhança","semelhança"],["cousa","coisa"],["cousas","coisas"],["dous","dois"],["vôem","voem"],["ser-vos-ha","ser-vos-á"],["sujeitae-a","sujeitai-a"],["dominae","dominai"],["Moysés","Moisés"],["Egypto","Egito"],["á","à"]
 ];
 function modernizeAlm1911Text(value){
  let text=String(value??"");
