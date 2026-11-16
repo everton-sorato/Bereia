@@ -91,14 +91,12 @@ const ALM1911_SPELLING=[
 function modernizeAlm1911Text(value){
  let text=String(value??"");
  for(const [from,to] of ALM1911_SPELLING){
-  const escaped=from.replace(/[.*+?^${}()|[\]\\]/g,"\\BereiaScripture.setNetwork(fetchChapterNetwork);
-async function fetchChapterFromSources(version,osis,ch){return (await BereiaScripture.load(version,osis,ch)).verses}
-function versionLabel(version){return ({'almeida-livre':'Bíblia Livre (Almeida 1819)',alm1911:'Almeida Revista e Corrigida 1911',bpm:'Bíblia Portuguesa Mundial (BPM)',kjv:'King James 1769'})[version]||version}");
+  const escaped=from.split("").map(ch=>"[](){}.*+?^$|\\-".includes(ch)?"\\"+ch:ch).join("");
   const pattern=new RegExp("(^|[^\\p{L}\\p{N}])"+escaped+"(?=$|[^\\p{L}\\p{N}])","giu");
   text=text.replace(pattern,(whole,prefix)=>{
    const word=whole.slice(prefix.length);
    let changed=to;
-   if(word===word.toUpperCase())changed=to.toLocaleUpperCase("pt-BR");
+   if(word===word.toLocaleUpperCase("pt-BR"))changed=to.toLocaleUpperCase("pt-BR");
    else if(word[0]===word[0].toLocaleUpperCase("pt-BR"))changed=to[0].toLocaleUpperCase("pt-BR")+to.slice(1);
    return prefix+changed;
   });
