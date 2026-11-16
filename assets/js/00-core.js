@@ -108,7 +108,7 @@ function modernizeAlm1911Text(value){
  let text=String(value??"");
  for(const [from,to] of ALM1911_SPELLING){
   const escaped=from.split("").map(ch=>"[](){}.*+?^$|\\-".includes(ch)?"\\"+ch:ch).join("");
-  const pattern=new RegExp("(^|[^\\p{L}\\p{N}])"+escaped+"(?=$|[^\\p{L}\\p{N}])","giu");
+  const pattern=new RegExp("(^|[^A-Za-zÀ-ÖØ-öø-ÿ0-9])"+escaped+"(?=$|[^A-Za-zÀ-ÖØ-öø-ÿ0-9])","gi");
   text=text.replace(pattern,(whole,prefix)=>{
    const word=whole.slice(prefix.length);
    let changed=to;
