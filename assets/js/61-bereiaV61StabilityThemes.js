@@ -34,6 +34,7 @@ function addThemeToggle(){
  document.body.append(button);
 }
 addThemeToggle();
+apply(valid(saved)?saved:'original',false);
 
 const css=`
 :root[data-bereia-theme="light"]{--bg:#f4f3ef;--panel:#fff;--panel2:#eceae4;--line:#d8d5cc;--text:#242620;--muted:#666960;--gold:#8b681e;--gold2:#a98a49;--green:#39734e;--danger:#a54343;color-scheme:light}
