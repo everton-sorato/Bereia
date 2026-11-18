@@ -56,7 +56,7 @@ const css=`
 .bereiaThemeToggle svg{width:22px;height:22px}
 .bereiaThemeToggle:hover{transform:translateY(-1px);filter:brightness(1.08)}
 .bereiaThemeToggle:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
-@media(max-width:900px){.main{padding-top:72px!important}}
+.main{padding-top:72px!important}
 `;
 if(!document.getElementById('bereiaThemeStyles')){const style=document.createElement('style');style.id='bereiaThemeStyles';style.textContent=css;document.head.append(style)}
 
