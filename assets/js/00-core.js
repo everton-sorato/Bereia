@@ -103,7 +103,7 @@ const ALM1911_CORRECTIONS=[
  ["fructificae","frutificai"],["multiplicae","multiplicai"],["herva","erva"],["hervas","ervas"],
  ["arvore","árvore"],["arvores","árvores"],["femea","fêmea"],["femeas","fêmeas"],["azas","asas"],
  ["similhança","semelhança"],["cousa","coisa"],["cousas","coisas"],["dous","dois"],["vôem","voem"],
- ["ser-vos-ha","ser-vos-á"],["sujeitae-a","sujeitai-a"],["dominae","dominai"],["Moysés","Moisés"],["Egypto","Egito"]
+ ["ser-vos-ha","ser-vos-á"],["sujeitae-a","sujeitai-a"],["dominae","dominai"],["Moysés","Moisés"],["Egypto","Egito"],
  ["fructifera","frutífera"],
  ["fructifero","frutífero"],
  ["fructiferas","frutíferas"],
