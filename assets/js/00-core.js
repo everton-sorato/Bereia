@@ -86,15 +86,48 @@ async function fetchChapterNetwork(version,osis,ch,{signal}={}){
  const verses=normalizeChapter(data.chapters?.[ch-1]);if(!validVerses(verses))throw Error('A fonte não retornou o capítulo solicitado.');return verses;
 }
 BereiaScripture.setNetwork(fetchChapterNetwork);
-// A ARC 1911 é exibida exatamente como recebida da fonte textual, com a grafia original.
-function presentVerses(version,verses){return verses}
+// Corrige grafias históricas da ARC 1911 para o português brasileiro atual,
+// sem alterar a redação, o conteúdo ou a ordem dos versículos.
+const ALM1911_CORRECTIONS=[
+ ["principio","princípio"],["creou","criou"],["creada","criada"],["creado","criado"],["creadas","criadas"],["creados","criados"],
+ ["creatura","criatura"],["creaturas","criaturas"],["fórma","forma"],["fórmas","formas"],
+ ["vasia","vazia"],["vasias","vazias"],["abysmo","abismo"],["abysmos","abismos"],
+ ["espirito","espírito"],["espiritos","espíritos"],["aguas","águas"],["secca","seca"],["seccas","secas"],
+ ["logar","lugar"],["logares","lugares"],["appareça","apareça"],["appareçam","apareçam"],
+ ["apparecer","aparecer"],["appareceu","apareceu"],["apparecerá","aparecerá"],["apparecerão","aparecerão"],
+ ["elle","ele"],["elles","eles"],["ella","ela"],["ellas","elas"],["fallei","falei"],["fallecer","falecer"],["falleceu","faleceu"],
+ ["fallou","falou"],["fallar","falar"],["fallam","falam"],["Christo","Cristo"],["christãos","cristãos"],
+ ["baptismo","batismo"],["baptizado","batizado"],["baptizada","batizada"],["baptizados","batizados"],["baptizadas","batizadas"],
+ ["propheta","profeta"],["prophetas","profetas"],["prophecia","profecia"],["céo","céu"],["céos","céus"],
+ ["especie","espécie"],["especies","espécies"],["reptil","réptil"],["reptis","répteis"],["balêa","baleia"],["balêas","baleias"],
+ ["fructificae","frutificai"],["multiplicae","multiplicai"],["herva","erva"],["hervas","ervas"],
+ ["arvore","árvore"],["arvores","árvores"],["femea","fêmea"],["femeas","fêmeas"],["azas","asas"],
+ ["similhança","semelhança"],["cousa","coisa"],["cousas","coisas"],["dous","dois"],["vôem","voem"],
+ ["ser-vos-ha","ser-vos-á"],["sujeitae-a","sujeitai-a"],["dominae","dominai"],["Moysés","Moisés"],["Egypto","Egito"]
+];
+function correctAlm1911Text(value){
+ let text=String(value??"");
+ for(const [from,to] of ALM1911_CORRECTIONS){
+  const escaped=from.split("").map(ch=>"[](){}.*+?^$|\\\\-".includes(ch)?"\\\\"+ch:ch).join("");
+  const pattern=new RegExp("(^|[^A-Za-zÀ-ÖØ-öø-ÿ0-9])"+escaped+"(?=$|[^A-Za-zÀ-ÖØ-öø-ÿ0-9])","gi");
+  text=text.replace(pattern,(whole,prefix)=>{
+   const word=whole.slice(prefix.length);
+   let changed=to;
+   if(word===word.toLocaleUpperCase("pt-BR"))changed=to.toLocaleUpperCase("pt-BR");
+   else if(word[0]===word[0].toLocaleUpperCase("pt-BR"))changed=to[0].toLocaleUpperCase("pt-BR")+to.slice(1);
+   return prefix+changed;
+  });
+ }
+ return text;
+}
+function presentVerses(version,verses){return version==="alm1911"?verses.map(v=>({...v,text:correctAlm1911Text(v.text)})):verses}
 async function fetchChapterFromSources(version,osis,ch){return presentVerses(version,(await BereiaScripture.load(version,osis,ch)).verses)}
-function versionLabel(version){return ({'almeida-livre':'Bíblia Livre (Almeida 1819)',alm1911:'Almeida Revista e Corrigida 1911 — grafia original',bpm:'Bíblia Portuguesa Mundial (BPM)',kjv:'King James 1769'})[version]||version}
+function versionLabel(version){return ({'almeida-livre':'Bíblia Livre (Almeida 1819)',alm1911:'Almeida Revista e Corrigida 1911 — ortografia corrigida',bpm:'Bíblia Portuguesa Mundial (BPM)',kjv:'King James 1769'})[version]||version}
 function syncBibleSourceNote(version){
  const note=document.getElementById('readerSourceNote');if(!note)return;
  const notes={
   'almeida-livre':'<b>Bíblia Livre (Almeida 1819):</b> © 2018 Diego Santos, Mario Sérgio e Marco Teles. Atualização da tradução de João Ferreira de Almeida de 1819. <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Texto sem edição servido pela API Midvash / bible-data. <a href="https://sites.google.com/site/biblialivre/" target="_blank" rel="noopener">Fonte da edição</a>.',
-  alm1911:'<b>Almeida Revista e Corrigida 1911:</b> edição em domínio público, exibida na grafia original da edição. Fonte textual: API Midvash.',
+  alm1911:'<b>Almeida Revista e Corrigida 1911:</b> edição em domínio público com correções ortográficas para o português brasileiro. A redação e o conteúdo dos versículos são preservados. Fonte textual: API Midvash.',
   bpm:'<b>Bíblia Portuguesa Mundial (BPM):</b> domínio público e ainda em revisão. O catálogo apresenta os 73 livros do cânon católico: os sete deuterocanônicos e os acréscimos de Ester e Daniel dentro desses livros. Textos: <a href="https://ebible.org/porbrbsl/" target="_blank" rel="noopener noreferrer">eBible.org</a> e <a href="https://bible.helloao.org/" target="_blank" rel="noopener noreferrer">Free Use Bible API</a>.',
   kjv:'<b>King James Version 1769:</b> edição em inglês, em domínio público. Texto servido pela API Midvash.'
  };
