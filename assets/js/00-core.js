@@ -108,7 +108,7 @@ const ALM1911_CORRECTIONS=[
 function correctAlm1911Text(value){
  let text=String(value??"");
  for(const [from,to] of ALM1911_CORRECTIONS){
-  const escaped=from.split("").map(ch=>"[](){}.*+?^$|\\\\-".includes(ch)?"\\\\"+ch:ch).join("");
+  const escaped=from.replace(/-/g,"\\-");
   const pattern=new RegExp("(^|[^A-Za-zÀ-ÖØ-öø-ÿ0-9])"+escaped+"(?=$|[^A-Za-zÀ-ÖØ-öø-ÿ0-9])","gi");
   text=text.replace(pattern,(whole,prefix)=>{
    const word=whole.slice(prefix.length);
