@@ -10,10 +10,30 @@ function apply(name,persist=true){
  document.documentElement.style.colorScheme=key==='light'?'light':'dark';const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content=key==='light'?'#f4f3ef':key==='tech'?'#07111b':'#151a16';
  if(persist)localStorage.setItem('bereia:theme',key);
  document.querySelectorAll('#appTheme').forEach(s=>{if(s.value!==key)s.value=key});
+ const toggle=document.getElementById('bereiaThemeToggle');
+ if(toggle){
+  const isLight=key==='light';
+  toggle.innerHTML=isLight
+   ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.3A8.4 8.4 0 0 1 8.7 3.8 8.5 8.5 0 1 0 20.2 15.3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+   : '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  toggle.setAttribute('aria-label',isLight?'Ativar tema escuro':'Ativar tema claro');
+  toggle.title=isLight?'Ativar tema escuro':'Ativar tema claro';
+ }
  return key;
 }
 window.BereiaThemes={get:()=>valid(localStorage.getItem('bereia:theme'))?localStorage.getItem('bereia:theme'):'original',set:apply,labels:{...themes}};
 apply(valid(saved)?saved:'original',false);
+
+function addThemeToggle(){
+ if(document.getElementById('bereiaThemeToggle'))return;
+ const button=document.createElement('button');
+ button.id='bereiaThemeToggle';
+ button.className='bereiaThemeToggle';
+ button.type='button';
+ button.addEventListener('click',()=>apply(document.documentElement.dataset.bereiaTheme==='light'?'original':'light'));
+ document.body.append(button);
+}
+addThemeToggle();
 
 const css=`
 :root[data-bereia-theme="light"]{--bg:#f4f3ef;--panel:#fff;--panel2:#eceae4;--line:#d8d5cc;--text:#242620;--muted:#666960;--gold:#8b681e;--gold2:#a98a49;--green:#39734e;--danger:#a54343;color-scheme:light}
@@ -31,6 +51,11 @@ const css=`
 :root[data-bereia-theme="tech"] .v,:root[data-bereia-theme="tech"] .btn,:root[data-bereia-theme="tech"] .select,:root[data-bereia-theme="tech"] .search,:root[data-bereia-theme="tech"] .input,:root[data-bereia-theme="tech"] .textarea,:root[data-bereia-theme="tech"] .chip,:root[data-bereia-theme="tech"] .tab{background:#102434!important;color:#e5f5fb;border-color:#28516a}
 :root[data-bereia-theme="tech"] .v.selected,:root[data-bereia-theme="tech"] .chip.active,:root[data-bereia-theme="tech"] .btn.primary{background:#55d5ed!important;color:#04131b!important;border-color:#55d5ed}
 #appTheme{display:block;width:100%;max-width:420px;margin-top:10px;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:inherit}
+.bereiaThemeToggle{position:fixed;top:12px;right:14px;z-index:1000;width:48px;height:48px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;background:var(--panel);color:var(--gold);box-shadow:0 4px 16px #0003;cursor:pointer}
+.bereiaThemeToggle svg{width:22px;height:22px}
+.bereiaThemeToggle:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.bereiaThemeToggle:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+@media(max-width:900px){.main{padding-top:72px!important}}
 `;
 if(!document.getElementById('bereiaThemeStyles')){const style=document.createElement('style');style.id='bereiaThemeStyles';style.textContent=css;document.head.append(style)}
 
