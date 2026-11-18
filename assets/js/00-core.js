@@ -89,6 +89,7 @@ BereiaScripture.setNetwork(fetchChapterNetwork);
 // Corrige grafias históricas da ARC 1911 para o português brasileiro atual,
 // sem alterar a redação, o conteúdo ou a ordem dos versículos.
 const ALM1911_CORRECTIONS=[
+ ["á","à"],["ás","às"],
  ["principio","princípio"],["creou","criou"],["creada","criada"],["creado","criado"],["creadas","criadas"],["creados","criados"],
  ["creatura","criatura"],["creaturas","criaturas"],["fórma","forma"],["fórmas","formas"],
  ["vasia","vazia"],["vasias","vazias"],["abysmo","abismo"],["abysmos","abismos"],
@@ -124,8 +125,7 @@ const ALM1911_CORRECTIONS=[
  ["estrellas","estrelas"],
  ["poz","pôs"],
  ["ha","há"],
- ["á","à"],
- ["ás","às"],
+
  ["d’um","dum"],
  ["d’uma","duma"],
  ["n’um","num"],
@@ -146,7 +146,7 @@ const ALM1911_CORRECTIONS=[
  ["d'ella","dela"],
  ["d'elles","deles"],
  ["d'ellas","delas"],
- ["n'elle","nele"],
+ ["n'elle","nele"],["n'ela","nela"],
  ["n'ella","nela"],
  ["n'elles","neles"],
  ["n'ellas","nelas"],
